@@ -223,7 +223,83 @@ public class Main {
 				}
 				playersBattlefield[i].printBattlefield();
 			}
-			//schuss
 		}
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//Genereller Spielablauf
+		int PlayerToAttack;
+		int whichKindOfShipToAttack; //Das eigene Schiff
+		int whichShipIdToAttack; //Das eigene Schiff
+		int i,j;
+		for(i = 0 ; i < howManyPlayers ; i++) {
+			System.out.println("Player " + player[i].getName());
+			
+			System.out.println("Which player do you want to attack?");
+			for(j = 0 ; j < howManyPlayers ; j++) {
+				System.out.println(player[j].getName() + "[" + (j+1) + "]");
+			}
+			PlayerToAttack = readInt();
+			
+			System.out.println("With which ship do you want to attack?");
+			
+			System.out.println("Destroyer [1]");
+			System.out.println("Frigate [2]");
+			System.out.println("Corvette [3]");
+			System.out.println("Submarine [4]");
+			whichKindOfShipToAttack = readInt()-1;
+			
+			switch(whichKindOfShipToAttack){ 
+	        case 0: 
+	            for(j = 0 ; j < destroyer[i].length ; j++) {
+	            	System.out.println("Destroyer " + (j+1) + "/" + destroyer[i].length + ": [" + (j+1) + "]");
+	            }
+	            break; 
+	        case 1: 
+	        	for(j = 0 ; j < frigate[i].length ; j++) {
+	            	System.out.println("Frigate " + (j+1) + "/" + frigate[i].length + ": [" + (j+1) + "]");
+	            } 
+	            break; 
+	        case 2: 
+	        	for(j = 0 ; j < corvette[i].length ; j++) {
+	            	System.out.println("Corvette " + (j+1) + "/" + corvette[i].length + ": [" + (j+1) + "]");
+	            }
+	            break; 
+	        case 3: 
+	        	for(j = 0 ; j < submarine[i].length ; j++) {
+	            	System.out.println("Submarine " + (j+1) + "/" + submarine[i].length + ": [" + (j+1) + "]");
+	            } 
+	            break; 
+	        default: 
+	            System.out.println("ERR"); 
+	        } 
+			whichShipIdToAttack = readInt()-1;
+			
+			System.out.print("\t\tX: ");
+			xCord = readInt();
+			System.out.print("\t\tY: ");
+			yCord = readInt();
+			if(playersBattlefield[PlayerToAttack].isShipThere(xCord, yCord)) {
+				switch(whichKindOfShipToAttack){ 
+		        case 0: 
+					playersBattlefield[PlayerToAttack].shootShip(destroyer[i][whichShipIdToAttack], xCord, yCord);
+		            break; 
+		        case 1: 
+					playersBattlefield[PlayerToAttack].shootShip(frigate[i][whichShipIdToAttack], xCord, yCord); 
+		            break; 
+		        case 2: 
+					playersBattlefield[PlayerToAttack].shootShip(corvette[i][whichShipIdToAttack], xCord, yCord);
+		            break; 
+		        case 3: 
+					playersBattlefield[PlayerToAttack].shootShip(submarine[i][whichShipIdToAttack], xCord, yCord);
+		            break; 
+		        default: 
+		            System.out.println("ERR"); 
+		        } 
+			} else {
+				System.out.println("There is no ship.");
+			}
+			
+		}
+		System.out.println("FERTIG");
+		
 	}
 }

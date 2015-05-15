@@ -101,6 +101,7 @@ public class Battlefield {
 		
 		if(respawn >= 1) {
 			battlefield[xCord][yCord].setHit(true);
+			myShip.setShipRespawn(respawn-1);
 			
 		} else {
 			System.out.println("You have to wait.");
@@ -276,7 +277,7 @@ public class Battlefield {
 		return hasNeighbours;
 	}
 	
-	///Wichtig für shoot
+	///Wichtig fuer shoot
 	public boolean isShipThere(int x, int y) {
 		String sign = battlefield[y][x].getSign();
 		if(sign.equals("[C]") | sign.equals("[D]") | sign.equals("[F]") | sign.equals("[S]")) {
