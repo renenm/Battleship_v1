@@ -231,80 +231,192 @@ public class Main {
 		}
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		//Genereller Spielablauf
-		int PlayerToAttack;
-		int whichKindOfShipToAttack; //Das eigene Schiff
-		int whichShipIdToAttack; //Das eigene Schiff
+		final int HOWMANYPLAYERS_FINAL = howManyPlayers;
+		int round = 0;
+		int selection = 0;
+		int whichPlayerToAttack = 0;
+		int whichShipToAttack = 0;
 		int i,j;
-		for(i = 0 ; i < howManyPlayers ; i++) {
-			System.out.println("Player " + player[i].getName());
-			
-			System.out.println("Which player do you want to attack?");
-			for(j = 0 ; j < howManyPlayers ; j++) {
-				System.out.println(player[j].getName() + "[" + (j+1) + "]");
-			}
-			PlayerToAttack = readInt();
-			
-			System.out.println("With which ship do you want to attack?");
-			
-			System.out.println("Destroyer [1]");
-			System.out.println("Frigate [2]");
-			System.out.println("Corvette [3]");
-			System.out.println("Submarine [4]");
-			whichKindOfShipToAttack = readInt()-1;
-			
-			switch(whichKindOfShipToAttack){ 
-	        case 0: 
-	            for(j = 0 ; j < destroyer[i].length ; j++) {
-	            	System.out.println("Destroyer " + (j+1) + "/" + destroyer[i].length + ": [" + (j+1) + "]");
-	            }
-	            break; 
-	        case 1: 
-	        	for(j = 0 ; j < frigate[i].length ; j++) {
-	            	System.out.println("Frigate " + (j+1) + "/" + frigate[i].length + ": [" + (j+1) + "]");
-	            } 
-	            break; 
-	        case 2: 
-	        	for(j = 0 ; j < corvette[i].length ; j++) {
-	            	System.out.println("Corvette " + (j+1) + "/" + corvette[i].length + ": [" + (j+1) + "]");
-	            }
-	            break; 
-	        case 3: 
-	        	for(j = 0 ; j < submarine[i].length ; j++) {
-	            	System.out.println("Submarine " + (j+1) + "/" + submarine[i].length + ": [" + (j+1) + "]");
-	            } 
-	            break; 
-	        default: 
-	            System.out.println("ERR"); 
-	        } 
-			whichShipIdToAttack = readInt()-1;
-			
-			System.out.print("\t\tX: ");
-			xCord = readInt();
-			System.out.print("\t\tY: ");
-			yCord = readInt();
-			if(playersBattlefield[PlayerToAttack].isShipThere(xCord, yCord)) {
-				switch(whichKindOfShipToAttack){ 
-		        case 0: 
-					playersBattlefield[PlayerToAttack].shootShip(destroyer[i][whichShipIdToAttack], xCord, yCord);
-		            break; 
-		        case 1: 
-					playersBattlefield[PlayerToAttack].shootShip(frigate[i][whichShipIdToAttack], xCord, yCord); 
-		            break; 
-		        case 2: 
-					playersBattlefield[PlayerToAttack].shootShip(corvette[i][whichShipIdToAttack], xCord, yCord);
-		            break; 
-		        case 3: 
-					playersBattlefield[PlayerToAttack].shootShip(submarine[i][whichShipIdToAttack], xCord, yCord);
-		            break; 
-		        default: 
-		            System.out.println("ERR"); 
-		        } 
-			} else {
-				System.out.println("There is no ship.");
-			}
-			
+		boolean readyForNextRound = false;
+		boolean shipIsChoosen = false;
+		boolean playerIsDead = true;
+		while(howManyPlayers >= 1) { //Der Counter wird beim Sterben eines Players um einen runtergezählt
+
+			System.out.println("___ROUND " + (round+1) + "___");
+			round++;
+			for(i = 0 ; i < howManyPlayers ; i++) {
+				readyForNextRound = false;
+				playerIsDead = true;
+				shipIsChoosen = false;
+				while(!readyForNextRound) {
+					
+					System.out.println("---" + player[i].getName() + "---");
+					System.out.println("Please choose one of the following options:");
+					System.out.println("[1] - View battlefields from the enemys (or the own)");
+					System.out.println("[2] - View own ships");
+					System.out.println("[3] - Attack!");
+					System.out.print("Please choose: ");
+					selection = readInt()-1;
+					switch(selection) { 
+				        case 0: //View Battlefields
+				        	System.out.println("Which battlefield do you want to see?");
+				        	for(j = 0 ; j < HOWMANYPLAYERS_FINAL ; j++) {
+				        		System.out.println("[" + (j+1) + "] - Player " + player[j].getName());
+				        	}
+				        	System.out.print("Please choose: ");
+				        	selection = readInt()-1;
+				        	System.out.println("Battlefield of " + player[selection].getName());
+				        	playersBattlefield[selection].printEnemyBattlefield();
+				            break; 
+				        case 1: //View own ships
+				        	System.out.println("Destroyer:");
+				        	for(j = 0 ; j < destroyer[i].length ; j++) {
+				        		System.out.println("\tDestroyer " + (j+1) + "/" + destroyer[i].length);
+				        		System.out.println("\t\tRespawn in: " + destroyer[i][j].getShipRespawn() + "/3");
+				        		System.out.println("\t\tShip sunk?: " + destroyer[i][j].isDead());
+				        		System.out.println("\t\tSize: " + destroyer[i][j].getShipSize());
+				        		System.out.println("\t\tTarget radius: " + destroyer[i][j].getShipTargetRadius());
+				        		System.out.println("");
+				        	}
+				        	System.out.println("Frigate:");
+				        	for(j = 0 ; j < frigate[i].length ; j++) {
+				        		System.out.println("\tFrigate " + (j+1) + "/" + frigate[i].length);
+				        		System.out.println("\t\tRespawn in: " + frigate[i][j].getShipRespawn() + "/2");
+				        		System.out.println("\t\tShip sunk?: " + frigate[i][j].isDead());
+				        		System.out.println("\t\tSize: " + frigate[i][j].getShipSize());
+				        		System.out.println("\t\tTarget radius: " + frigate[i][j].getShipTargetRadius());
+				        		System.out.println("");
+				        	}
+				        	System.out.println("Corvette:");
+				        	for(j = 0 ; j < corvette[i].length ; j++) {
+				        		System.out.println("\tCorvette " + (j+1) + "/" + corvette[i].length);
+				        		System.out.println("\t\tRespawn in: " + corvette[i][j].getShipRespawn() + "/1");
+				        		System.out.println("\t\tShip sunk?: " + corvette[i][j].isDead());
+				        		System.out.println("\t\tSize: " + corvette[i][j].getShipSize());
+				        		System.out.println("\t\tTarget radius: " + corvette[i][j].getShipTargetRadius());
+				        		System.out.println("");
+				        	}
+				        	System.out.println("Submarine:");
+				        	for(j = 0 ; j < submarine[i].length ; j++) {
+				        		System.out.println("\tSubmarine " + (j+1) + "/" + submarine[i].length);
+				        		System.out.println("\t\tRespawn in: " + submarine[i][j].getShipRespawn() + "/1");
+				        		System.out.println("\t\tShip sunk?: " + submarine[i][j].isDead());
+				        		System.out.println("\t\tSize: " + submarine[i][j].getShipSize());
+				        		System.out.println("\t\tTarget radius: " + submarine[i][j].getShipTargetRadius());
+				        		System.out.println("");
+				        	}
+				            break; 
+				        case 2: //Attack
+				        	while(playerIsDead) {
+				        		System.out.println("Which player do you want to attack?");
+					        	for(j = 0 ; j < HOWMANYPLAYERS_FINAL ; j++) {
+					        		System.out.println("\t[" + (j+1) + "] - Player " + player[j].getName() + " | dead: " + player[j].isDead());
+					        	}
+					        	System.out.print("Please choose: ");
+					        	whichPlayerToAttack = readInt()-1;
+					        	if(player[whichPlayerToAttack].isDead() == true) {
+					        		System.out.println("The player has lost the game. Choose another player.");
+					        		playerIsDead = true;
+					        	} else {
+					        		playerIsDead = false;
+					        	}
+				        	}
+				        	
+				        	while(!shipIsChoosen) {
+					        	System.out.print("With which ship do you want to attack?");
+					        	System.out.println("\t[1] - Destroyer");
+					        	System.out.println("\t[2] - Frigate");
+					        	System.out.println("\t[3] - Corvette");
+					        	System.out.println("\t[4] - Submarine");
+					        	System.out.print("Please choose: ");
+					        	selection = readInt()-1;
+					        
+					        	switch(selection) { 
+							        case 0: 
+							            for(j = 0 ; j < destroyer[i].length ; j++) {
+							            	System.out.println("[" + (j+1) + "] - Destroyer " + (j+1) + "/" + destroyer[i].length);
+							            }
+							            System.out.print("Please choose: ");
+							            whichShipToAttack = readInt()-1;
+							            if(destroyer[i][whichShipToAttack].isDead() == false && destroyer[i][whichShipToAttack].isReady() == true) {
+							            	System.out.print("X: ");
+							            	xCord = readInt();
+							            	System.out.print("Y: ");
+							            	yCord = readInt();
+							            	playersBattlefield[whichPlayerToAttack].shootShip(destroyer[i][whichShipToAttack], xCord, yCord);
+							            	readyForNextRound = true;
+							            	shipIsChoosen = true;
+							            } else {
+							            	System.out.println("Your ship is dead or has to respawn. Choose another ship");
+							            }
+							            break; 
+							        case 1: 
+							        	for(j = 0 ; j < frigate[i].length ; j++) {
+							        		System.out.println("[" + (j+1) + "] - Frigate " + (j+1) + "/" + frigate[i].length);
+							            } 
+							        	System.out.print("Please choose: ");
+							            whichShipToAttack = readInt()-1;
+							            if(frigate[i][whichShipToAttack].isDead() == false && frigate[i][whichShipToAttack].isReady() == true) {
+							            	System.out.print("X: ");
+							            	xCord = readInt();
+							            	System.out.print("Y: ");
+							            	yCord = readInt();
+							            	playersBattlefield[whichPlayerToAttack].shootShip(frigate[i][whichShipToAttack], xCord, yCord);
+							            	readyForNextRound = true;
+							            	shipIsChoosen = true;
+							            } else {
+							            	System.out.println("Your ship is dead or has to respawn. Choose another ship");
+							            }
+							            break; 
+							        case 2: 
+							        	for(j = 0 ; j < corvette[i].length ; j++) {
+							        		System.out.println("[" + (j+1) + "] - Corvette " + (j+1) + "/" + corvette[i].length);
+							            }
+							        	System.out.print("Please choose: ");
+							            whichShipToAttack = readInt()-1;
+							            if(corvette[i][whichShipToAttack].isDead() == false && corvette[i][whichShipToAttack].isReady() == true) {
+							            	System.out.print("X: ");
+							            	xCord = readInt();
+							            	System.out.print("Y: ");
+							            	yCord = readInt();
+							            	playersBattlefield[whichPlayerToAttack].shootShip(corvette[i][whichShipToAttack], xCord, yCord);
+							            	readyForNextRound = true;
+							            	shipIsChoosen = true;
+							            } else {
+							            	System.out.println("Your ship is dead or has to respawn. Choose another ship");
+							            }
+							            break; 
+							        case 3: 
+							        	for(j = 0 ; j < submarine[i].length ; j++) {
+							        		System.out.println("[" + (j+1) + "] - Submarine " + (j+1) + "/" + submarine[i].length);
+							            } 
+							        	System.out.print("Please choose: ");
+							            whichShipToAttack = readInt()-1;
+							            if(submarine[i][whichShipToAttack].isDead() == false && submarine[i][whichShipToAttack].isReady() == true) {
+							            	System.out.print("X: ");
+							            	xCord = readInt();
+							            	System.out.print("Y: ");
+							            	yCord = readInt();
+							            	playersBattlefield[whichPlayerToAttack].shootShip(submarine[i][whichShipToAttack], xCord, yCord);
+							            	readyForNextRound = true;
+							            	shipIsChoosen = true;
+							            } else {
+							            	System.out.println("Your ship is dead or has to respawn. Choose another ship");
+							            }
+							            break; 
+							        default: 
+							            System.out.println("Glitcharea - Make yourself scarce!"); 
+							    }	   
+				        	}
+				        	break;
+				        default: 
+				            System.out.println("Glitcharea - Make yourself scarce!"); 
+					} 
+				}
+				
+			} //Eine Runde
 		}
-		System.out.println("FERTIG");
+		System.out.println("Game is over.");
 		
 	}
 }

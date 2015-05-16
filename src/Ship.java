@@ -10,9 +10,10 @@ public class Ship {
 	protected int yCord;
 	protected boolean isHorizontal;
 	protected boolean isDead;
+	protected boolean isReady;
 	
 	//Konstruktor für ein Shiff
-	public Ship(int shipId, int shipBelongsToPlayer, int shipSize, int shipRespawn, int shipTargetRadius, String shipSymbol, int xCord, int yCord, boolean isHorizontal, boolean isDead) {
+	public Ship(int shipId, int shipBelongsToPlayer, int shipSize, int shipRespawn, int shipTargetRadius, String shipSymbol, int xCord, int yCord, boolean isHorizontal, boolean isDead, boolean isReady) {
 		this.shipId = shipId;
 		this.shipBelongsToPlayer = shipBelongsToPlayer;
 		this.shipSize = shipSize;
@@ -23,6 +24,7 @@ public class Ship {
 		this.yCord = yCord;
 		this.isHorizontal = isHorizontal;
 		this.isDead = isDead;
+		this.isReady = isReady;
 	}
 	
 	//Getter und Setter für die Attribute eines Schiffes
@@ -106,6 +108,16 @@ public class Ship {
 	public void setDead(boolean isDead) {
 		this.isDead = isDead;
 	}
+
+	public boolean isReady() {
+		return isReady;
+	}
+
+	public void setReady(boolean isReady) {
+		this.isReady = isReady;
+	}
+	
+	
 	
 	
 	
