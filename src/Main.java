@@ -24,7 +24,7 @@ public class Main {
 			vorbereitung();
 		} else if("no".equals(mode)) {
 			//SaveGame laden
-			SaveGame.saveManage();
+			Memory.control();
 		} else {
 			System.out.println("\tPlease type in 'yes' or 'no'");
 			gameMode();
@@ -116,6 +116,11 @@ public class Main {
 			player[i] = new Player(scan.next(), i);
 			playersBattlefield[i] = new Battlefield(fieldsize, i);
 		}
+		
+		Memory.saveGame("savegame.txt", fieldsize,howManyPlayers, howManyCorvettes, howManyDestroyer, howManyFrigates, howManySubmarines, 
+				playersBattlefield, player, corvette, destroyer, frigate, submarine);
+		System.out.println("saving complete");
+
 		
 		/* Ab hier werden die Schiffe in die jeweiligen Spielfelder plaziert.
 		 * Jedes Objektarray von playersBattlefield braucht zwei Informationen als Arrayübergabe:
