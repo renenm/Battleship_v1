@@ -116,9 +116,8 @@ public class Main {
 			player[i] = new Player(scan.next(), i);
 			playersBattlefield[i] = new Battlefield(fieldsize, i);
 		}
-		
-		Memory.saveGame("savegame.txt", fieldsize,howManyPlayers, howManyCorvettes, howManyDestroyer, howManyFrigates, howManySubmarines, 
-				playersBattlefield, player, corvette, destroyer, frigate, submarine);
+		System.out.println("saving in savegame.txt");
+		Memory.saveGameNew("savegame.txt", playersBattlefield, player, corvette, destroyer, frigate, submarine);
 		System.out.println("saving complete");
 
 		
@@ -532,6 +531,9 @@ public class Main {
 				} else { //Aktueller Player ist tot, wird also übersprungen
 					//readyForNextRound = true;
 				}
+				System.out.println("saving in savegame.txt");
+				Memory.saveGameNew("savegame.txt", playersBattlefield, player, corvette, destroyer, frigate, submarine);
+				System.out.println("saving complete");
 			} //Eine Runde
 		}
 		System.out.println("Game is over");
