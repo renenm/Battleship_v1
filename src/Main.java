@@ -2,6 +2,9 @@ import java.util.* ;
 
 public class Main {
 	public static void main(String args[]) throws Exception {
+		
+		
+		
 		//Begrüßungstext
 		helloMessage();
 		
@@ -11,7 +14,7 @@ public class Main {
 	
 	public static void helloMessage() {
 		System.out.print("/// BATTLESHIP v0.1 \\\\\\");
-		System.out.print("\n-----------------------\n\n");
+		System.out.print("\n-----------------------\n");
 	}
 	
 	public static void gameMode() throws Exception {
@@ -40,20 +43,41 @@ public class Main {
 		try {    
 			num = scan.nextInt();
 			if(!(num >= 0)) { 
-				System.out.println("Error: Please enter a positive number:" );
+				System.out.println("\t\tPlease enter a positive number:" );
 				num = readInt();
 			}	
 		} catch ( InputMismatchException ex) { 
-				System.out.println("Error: Please enter a number:" );
+				System.out.println("\t\tPlease enter a number:" );
 				num = readInt();
 			} 
 		return num;
-	}	
+	}
+	
+	public static int readInt(int min, int max) {
+		@SuppressWarnings("resource")
+		Scanner scan = new Scanner( System.in);
+		int num = -1;
+		try {    
+			num = scan.nextInt();
+			if(!(num >= min && num <= max)) { 
+				System.out.print("Please enter a number between " + min + " and " + max + ": ");
+				num = readInt(min, max);
+			}	
+		} catch ( InputMismatchException ex) { 
+				System.out.println("\t\tPlease enter a number between X AND Y:" );
+				num = readInt(min, max);
+			} 
+		return num;
+	}
 		
 	public static void vorbereitung() throws Exception {
-		System.out.print("\n");
+		System.out.print("\n\n");
 		System.out.print("Manoeuvre preparation");
-		System.out.print("\n-----------------------\n\n");
+		System.out.print("\n-----------------------\n");
+		
+		//Textstrings
+		String err0 = "The ships must have at least one field between them.";
+		String err1 = "Choose coordinates inside the battlefield.";
 		
 		//Variablen initialiseren
 		int howManyPlayers;
@@ -81,21 +105,21 @@ public class Main {
 				System.out.print("Please insert a minimum of 2: ");
 				fieldsize = readInt();
 			}
-		System.out.println("How many...");
+		System.out.println("\nHow many...");
 		System.out.print("\tDestroyer(5 fields): ");
-			howManyDestroyer = readInt();
+			howManyDestroyer = readInt(); //1,10 muss da noch als Parameter später rein
 		System.out.print("\tFrigates(4 fields): ");
 			howManyFrigates = readInt();
 		System.out.print("\tCorvettes(3 fields): ");
 			howManyCorvettes = readInt();
 		System.out.print("\tSubmarines(2 fields): ");
 			howManySubmarines = readInt();
-		System.out.print("How many players(2-6)?: ");
+		System.out.print("\nHow many players(2-6)?: ");
 			howManyPlayers = readInt();
 		
 		//Nummer der Spieler zwischen 2 und 6
 		while(!(howManyPlayers < 7 && howManyPlayers > 1)) {
-			System.out.print("Please insert a number from 2 to 6: ");
+			System.out.print("\tPlease insert a number from 2 to 6: ");
 			howManyPlayers = readInt();
 		}
 		
@@ -116,11 +140,12 @@ public class Main {
 			player[i] = new Player(scan.next(), i);
 			playersBattlefield[i] = new Battlefield(fieldsize, i);
 		}
+		System.out.println("\n-----------------------\n");
 		
 		Memory.saveGame("savegame.txt", fieldsize,howManyPlayers, howManyCorvettes, howManyDestroyer, howManyFrigates, howManySubmarines, 
 				playersBattlefield, player, corvette, destroyer, frigate, submarine);
 		System.out.println("saving complete");
-
+		System.out.print("\n-----------------------\n");
 		
 		/* Ab hier werden die Schiffe in die jeweiligen Spielfelder plaziert.
 		 * Jedes Objektarray von playersBattlefield braucht zwei Informationen als Arrayübergabe:
@@ -130,6 +155,8 @@ public class Main {
 		 * Wenn die Schleife zB 2x durchläuft (i = 2), dann gilt das für den dritten Spieler (0,1,2)!!!!
 		 */
 		for(int i = 0 ; i < howManyPlayers ; i++) { //i = SpielderID, J = SchiffID
+			playersBattlefield[i].printBattlefield();
+			System.out.println("");
 			System.out.print(player[i].getName() + ", please enter the coordinates of your ships:");
 			playersBattlefield[i] = new Battlefield(fieldsize, i);
 			
@@ -141,6 +168,7 @@ public class Main {
 				System.out.print("\t\tY: ");
 				yCord = readInt();
 				isHorizontal = Battlefield.isHorizontal();
+				System.out.print("\n");
 				destroyer[i][j] = new Destroyer(i, xCord, yCord, isHorizontal);
 				
 				if(playersBattlefield[i].hasPlace(destroyer[i][j]) == true ) {
@@ -148,14 +176,15 @@ public class Main {
 						playersBattlefield[i].placeShip(destroyer[i][j]);
 					} else {
 						j--;
-						System.out.println("Error: The ships must have at least one field between them.");
+						System.out.println("\t\t" + err0);
 					}
 				} else {
 					j--;
-					System.out.println("Error: Choose coordinates INSIDE the battlefield.");
+					System.out.println("\t\t" + err1);
 				}
 				playersBattlefield[i].printBattlefield();
 			}
+
 			
 			///FRIGATE
 			for(int j = 0 ; j < howManyFrigates ; j++) {
@@ -165,6 +194,7 @@ public class Main {
 				System.out.print("\t\tY: ");
 				yCord = readInt();
 				isHorizontal = Battlefield.isHorizontal();
+				System.out.print("\n");
 				frigate[i][j] = new Frigate(i, xCord, yCord, isHorizontal);
 
 				if(playersBattlefield[i].hasPlace(frigate[i][j]) == true ) {
@@ -172,11 +202,11 @@ public class Main {
 						playersBattlefield[i].placeShip(frigate[i][j]);
 					} else {
 						j--;
-						System.out.println("Error: The ships must have at least one field between them.");
+						System.out.println("\t\t" + err0);
 					}
 				} else {
 					j--;
-					System.out.println("Error: Choose coordinates INSIDE the battlefield.");
+					System.out.println("\t\t" + err1);
 				}
 				playersBattlefield[i].printBattlefield();
 			}
@@ -188,7 +218,8 @@ public class Main {
 				xCord = readInt();
 				System.out.print("\t\tY: ");
 				yCord = readInt();
-				isHorizontal = Battlefield.isHorizontal(); //new
+				isHorizontal = Battlefield.isHorizontal();
+				System.out.print("\n");
 				corvette[i][j] = new Corvette(i, xCord, yCord, isHorizontal);
 				
 				if(playersBattlefield[i].hasPlace(corvette[i][j]) == true ) {
@@ -196,11 +227,11 @@ public class Main {
 						playersBattlefield[i].placeShip(corvette[i][j]);
 					} else {
 						j--;
-						System.out.println("Error: The ships must have at least one field between them.");
+						System.out.println("\t\t" + err0);
 					}
 				} else {
 					j--;
-					System.out.println("Error: Choose coordinates INSIDE the battlefield.");
+					System.out.println("\t\t" + err1);
 				}
 				playersBattlefield[i].printBattlefield();
 			}
@@ -213,6 +244,7 @@ public class Main {
 				System.out.print("\t\tY: ");
 				yCord = readInt();
 				isHorizontal = Battlefield.isHorizontal();
+				System.out.print("\n");
 				submarine[i][j] = new Submarine(i, xCord, yCord, isHorizontal);
 
 				if(playersBattlefield[i].hasPlace(submarine[i][j]) == true ) {
@@ -220,15 +252,17 @@ public class Main {
 						playersBattlefield[i].placeShip(submarine[i][j]);
 					} else {
 						j--;
-						System.out.println("Error: The ships must have at least one field between them.");
+						System.out.println("\t\t" + err0);
 					}
 				} else {
 					j--;
-					System.out.println("Error: Choose coordinates INSIDE the battlefield.");
+					System.out.println(err1);
 				}
 				playersBattlefield[i].printBattlefield();
 			}
+			System.out.println("\n----------------------- NEXT PLAYER\n");
 		}
+		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGet ready...\n");
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		//Genereller Spielablauf
 		final int HOWMANYPLAYERS_FINAL = howManyPlayers;
@@ -337,7 +371,6 @@ public class Main {
 	        	
 	        	if(allSubmarinesDead && allFrigatesDead && allDestroyerDead && allCorvettesDead) {
 	        		player[i].setDead(true);
-	        		howManyPlayers--;
 	        	}
 				
 				if(player[i].isDead() == false) {
@@ -347,7 +380,7 @@ public class Main {
 					shipIsChoosen = false;
 					while(!readyForNextRound) {
 						
-						System.out.println("---" + player[i].getName() + "---");
+						System.out.println("\n\n---" + player[i].getName() + "---");
 
 		        		
 						System.out.println("Please choose one of the following options:");
@@ -355,7 +388,7 @@ public class Main {
 						System.out.println("[2] - View own ships");
 						System.out.println("[3] - Attack!");
 						System.out.print("Please choose: ");
-						selection = readInt()-1;
+						selection = readInt(1,3)-1;
 						switch(selection) { 
 					        case 0: //View Battlefields
 					        	System.out.println("Which battlefield do you want to see?");
@@ -363,7 +396,7 @@ public class Main {
 					        		System.out.println("[" + (j+1) + "] - Player " + player[j].getName());
 					        	}
 					        	System.out.print("Please choose: ");
-					        	selection = readInt()-1;
+					        	selection = readInt(1,howManyPlayers)-1;
 					        	System.out.println("Battlefield of " + player[selection].getName());
 					        	playersBattlefield[selection].printEnemyBattlefield();
 					            break; 
@@ -428,7 +461,7 @@ public class Main {
 						        		System.out.println("\t[" + (j+1) + "] - Player " + player[j].getName() + " | dead: " + player[j].isDead());
 						        	}
 						        	System.out.print("Please choose: ");
-						        	whichPlayerToAttack = readInt()-1;
+						        	whichPlayerToAttack = readInt(1, howManyPlayers)-1;
 						        	if(player[whichPlayerToAttack].isDead() == true) {
 						        		System.out.println("The player has lost the game. Choose another player.");
 						        		playerIsDead = true;
@@ -444,7 +477,7 @@ public class Main {
 						        	System.out.println("\t[3] - Corvette");
 						        	System.out.println("\t[4] - Submarine");
 						        	System.out.print("Please choose: ");
-						        	selection = readInt()-1;
+						        	selection = readInt(1,4)-1;
 						        
 						        	switch(selection) { 
 								        case 0: 
@@ -452,7 +485,7 @@ public class Main {
 								            	System.out.println("[" + (j+1) + "] - Destroyer " + (j+1) + "/" + destroyer[i].length);
 								            }
 								            System.out.print("Please choose: ");
-								            whichShipToAttack = readInt()-1;
+								            whichShipToAttack = readInt(1, destroyer[i].length)-1;
 								            if(destroyer[i][whichShipToAttack].isDead() == false && destroyer[i][whichShipToAttack].isReady() == true) {
 								            	System.out.print("X: ");
 								            	xCord = readInt();
@@ -470,12 +503,12 @@ public class Main {
 								        		System.out.println("[" + (j+1) + "] - Frigate " + (j+1) + "/" + frigate[i].length);
 								            } 
 								        	System.out.print("Please choose: ");
-								            whichShipToAttack = readInt()-1;
+								            whichShipToAttack = readInt(1, frigate[i].length)-1;
 								            if(frigate[i][whichShipToAttack].isDead() == false && frigate[i][whichShipToAttack].isReady() == true) {
 								            	System.out.print("X: ");
-								            	xCord = readInt();
+								            	xCord = readInt(1,fieldsize);
 								            	System.out.print("Y: ");
-								            	yCord = readInt();
+								            	yCord = readInt(1,fieldsize);
 								            	playersBattlefield[whichPlayerToAttack].shootShip(frigate[i][whichShipToAttack], xCord, yCord);
 								            	readyForNextRound = true;
 								            	shipIsChoosen = true;
@@ -488,12 +521,12 @@ public class Main {
 								        		System.out.println("[" + (j+1) + "] - Corvette " + (j+1) + "/" + corvette[i].length);
 								            }
 								        	System.out.print("Please choose: ");
-								            whichShipToAttack = readInt()-1;
+								            whichShipToAttack = readInt(1, corvette[i].length)-1;
 								            if(corvette[i][whichShipToAttack].isDead() == false && corvette[i][whichShipToAttack].isReady() == true) {
 								            	System.out.print("X: ");
-								            	xCord = readInt();
+								            	xCord = readInt(1, fieldsize);
 								            	System.out.print("Y: ");
-								            	yCord = readInt();
+								            	yCord = readInt(1, fieldsize);
 								            	playersBattlefield[whichPlayerToAttack].shootShip(corvette[i][whichShipToAttack], xCord, yCord);
 								            	readyForNextRound = true;
 								            	shipIsChoosen = true;
@@ -506,12 +539,12 @@ public class Main {
 								        		System.out.println("[" + (j+1) + "] - Submarine " + (j+1) + "/" + submarine[i].length);
 								            } 
 								        	System.out.print("Please choose: ");
-								            whichShipToAttack = readInt()-1;
+								            whichShipToAttack = readInt(1,submarine[i].length)-1;
 								            if(submarine[i][whichShipToAttack].isDead() == false && submarine[i][whichShipToAttack].isReady() == true) {
 								            	System.out.print("X: ");
-								            	xCord = readInt();
+								            	xCord = readInt(1, fieldsize);
 								            	System.out.print("Y: ");
-								            	yCord = readInt();
+								            	yCord = readInt(1, fieldsize);
 								            	playersBattlefield[whichPlayerToAttack].shootShip(submarine[i][whichShipToAttack], xCord, yCord);
 								            	readyForNextRound = true;
 								            	shipIsChoosen = true;
@@ -530,12 +563,12 @@ public class Main {
 						} 
 					}
 				} else { //Aktueller Player ist tot, wird also übersprungen
-					//readyForNextRound = true;
+					howManyPlayers--;
 				}
 			} //Eine Runde
 		}
 		System.out.println("Game is over");
-		System.out.println("\tWinner: " + possibleWinner);
+		System.out.println("Winner: " + possibleWinner);
 		
 	}
 }

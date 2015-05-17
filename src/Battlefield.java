@@ -90,7 +90,6 @@ public class Battlefield {
 		} else if("hori".equals(orientation)) {
 			return true;
 		} else {
-			System.out.print("\t\tPlease type vert or hori");
 			isHorizontal();
 		}
 		return true;
@@ -129,7 +128,7 @@ public class Battlefield {
 		}
 	}
 	
-	public void shootShip(Ship myShip, int xCord, int yCord) {
+	public void shootShip(Ship myShip, int xCord, int yCord) throws Exception {
 		myShip.setReady(false);
 		myShip.setShipRespawn(0);
 		//if(myShip.isReady()) {
