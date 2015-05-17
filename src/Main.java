@@ -3,8 +3,6 @@ import java.util.* ;
 public class Main {
 	public static void main(String args[]) throws Exception {
 		
-		
-		
 		//Begrüßungstext
 		helloMessage();
 		
@@ -142,10 +140,17 @@ public class Main {
 		}
 		System.out.println("\n-----------------------\n");
 		
+		////
 		Memory.saveGame("savegame.txt", fieldsize,howManyPlayers, howManyCorvettes, howManyDestroyer, howManyFrigates, howManySubmarines, 
 				playersBattlefield, player, corvette, destroyer, frigate, submarine);
+		
+		System.out.println("saving in savegame.txt");
+		Memory.saveGameNew("savegame.txt", playersBattlefield, player, corvette, destroyer, frigate, submarine);
+		
 		System.out.println("saving complete");
 		System.out.print("\n-----------------------\n");
+		////
+		
 		
 		/* Ab hier werden die Schiffe in die jeweiligen Spielfelder plaziert.
 		 * Jedes Objektarray von playersBattlefield braucht zwei Informationen als Arrayübergabe:
@@ -169,7 +174,7 @@ public class Main {
 				yCord = readInt();
 				isHorizontal = Battlefield.isHorizontal();
 				System.out.print("\n");
-				destroyer[i][j] = new Destroyer(i, xCord, yCord, isHorizontal);
+				destroyer[i][j] = new Destroyer(i, xCord, yCord, isHorizontal, fieldsize);
 				
 				if(playersBattlefield[i].hasPlace(destroyer[i][j]) == true ) {
 					if(playersBattlefield[i].hasNeighbours(destroyer[i][j]) == false) {
@@ -195,7 +200,7 @@ public class Main {
 				yCord = readInt();
 				isHorizontal = Battlefield.isHorizontal();
 				System.out.print("\n");
-				frigate[i][j] = new Frigate(i, xCord, yCord, isHorizontal);
+				frigate[i][j] = new Frigate(i, xCord, yCord, isHorizontal, fieldsize);
 
 				if(playersBattlefield[i].hasPlace(frigate[i][j]) == true ) {
 					if(playersBattlefield[i].hasNeighbours(frigate[i][j]) == false) {
@@ -220,7 +225,7 @@ public class Main {
 				yCord = readInt();
 				isHorizontal = Battlefield.isHorizontal();
 				System.out.print("\n");
-				corvette[i][j] = new Corvette(i, xCord, yCord, isHorizontal);
+				corvette[i][j] = new Corvette(i, xCord, yCord, isHorizontal, fieldsize);
 				
 				if(playersBattlefield[i].hasPlace(corvette[i][j]) == true ) {
 					if(playersBattlefield[i].hasNeighbours(corvette[i][j]) == false) {
@@ -245,7 +250,7 @@ public class Main {
 				yCord = readInt();
 				isHorizontal = Battlefield.isHorizontal();
 				System.out.print("\n");
-				submarine[i][j] = new Submarine(i, xCord, yCord, isHorizontal);
+				submarine[i][j] = new Submarine(i, xCord, yCord, isHorizontal, fieldsize);
 
 				if(playersBattlefield[i].hasPlace(submarine[i][j]) == true ) {
 					if(playersBattlefield[i].hasNeighbours(submarine[i][j]) == false) {
@@ -344,6 +349,7 @@ public class Main {
         			}
         			if(deadShips == corvette[i].length) {
         				allCorvettesDead = true;
+        				howManyPlayers--;
         			}
 	        	}
 	        	///
@@ -372,6 +378,10 @@ public class Main {
 	        	if(allSubmarinesDead && allFrigatesDead && allDestroyerDead && allCorvettesDead) {
 	        		player[i].setDead(true);
 	        	}
+	        	
+	        	if(allSubmarinesDead) {
+	        		player[i].setDead(true);
+	        	}
 				
 				if(player[i].isDead() == false) {
 					possibleWinner = player[i].getName();
@@ -398,7 +408,12 @@ public class Main {
 					        	System.out.print("Please choose: ");
 					        	selection = readInt(1,howManyPlayers)-1;
 					        	System.out.println("Battlefield of " + player[selection].getName());
-					        	playersBattlefield[selection].printEnemyBattlefield();
+					        	if (player[i].getPlayerId() == (selection)) {
+					        		playersBattlefield[selection].printBattlefield();
+					        	} else {
+						        	playersBattlefield[selection].printEnemyBattlefield();
+						        	//Zeigt das eigene Spielfeld an
+					        	}
 					            break; 
 					        case 1: //View own ships
 					        	System.out.println("Destroyer:");
@@ -471,7 +486,7 @@ public class Main {
 					        	}
 					        	
 					        	while(!shipIsChoosen) {
-						        	System.out.print("With which ship do you want to attack?");
+						        	System.out.print("With which ship do you want to attack?\n");
 						        	System.out.println("\t[1] - Destroyer");
 						        	System.out.println("\t[2] - Frigate");
 						        	System.out.println("\t[3] - Corvette");
@@ -565,10 +580,13 @@ public class Main {
 				} else { //Aktueller Player ist tot, wird also übersprungen
 					howManyPlayers--;
 				}
+				//System.out.println("saving in savegame.txt");
+				Memory.saveGameNew("savegame.txt", playersBattlefield, player, corvette, destroyer, frigate, submarine);
+				System.out.println("\nsaving...");
 			} //Eine Runde
 		}
 		System.out.println("Game is over");
 		System.out.println("Winner: " + possibleWinner);
-		
 	}
+	
 }

@@ -1,32 +1,13 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 
 public class Memory {
-	
-	//Information during Game
-	static int howManyPlayers;
-	static int fieldsize;
-	static int howManyCorvettes;
-	static int howManyDestroyer;
-	static int howManyFrigates;
-	static int howManySubmarines;
-		
-	static int fsLoc = 0;
-	static int pLoc = 1;
-	static int cLoc = 2;
-	static int dLoc = 3;
-	static int fLoc = 4;
-	static int sLoc = 5;
-	
-	//Information from save File
-	static int[] save = {fsLoc, pLoc, cLoc, dLoc, fLoc, sLoc};
-		
-	
-	
+
 	public static void control() {
 		System.out.println("");
 		System.out.print("Loading Savegame");
@@ -35,9 +16,54 @@ public class Memory {
 		loadGame("savegame.txt");
 	}
 	
+	public static void saveGameNew(String filePath, Battlefield[] playersBattlefield, Player[] player, Corvette[][] corvette, 
+			Destroyer[][] destroyer, Frigate[][] frigate, Submarine[][] submarine) {
+		
+		FileWriter fw;
+	    try {
+	    	//Savedatei bestimmen    	
+	    	fw = new FileWriter("savegame.dat");
+	    	//Zu schreibender Inhalt
+	    	fw.write("File\n");
+	    	fw.write("arrPlayer\n");
+	    	for (int i = 0; i < player.length; i++) {
+	    		fw.write(player[i].getName() + "\n");
+	    		fw.write(player[i].getPlayerId() + "\n");
+	    		fw.write(player[i].isDead() + "\n");
+	    	}
+	    	fw.write("arrBattlefield\n");
+	    	for (int i = 0; i < playersBattlefield.length; i++) {
+		    	  fw.write(playersBattlefield[i].getFieldsize() + "\n");
+		          fw.write(playersBattlefield[i].getBelongsToPlayer() + "\n");
+		       // fw.write(playersBattlefield[i].Field[][] getBattlefield() + "\n");
+	    	}
+		      /*
+		      fw.write("arrDestroyer\n");
+		      for (int i = 0; i < destroyer.length; i++) {
+		    	  fw.write(destroyer[i].getShipId() + "\n");
+		          fw.write(destroyer[i].getBattlefield() + "\n");
+		          fw.write(destroyer[i].getShipRespawn() + "\n");
+		        }
+		        */
+	    	fw.close();
+	    } catch (IOException e) {
+	    	System.out.println("Error");
+	    	e.printStackTrace();
+	    }
+	}
+	
 	public static void loadGame(String filePath) {
 		File inputFile;
 		BufferedReader inputReader;
+		
+		int[] save = {1, 2, 3, 4, 5, 6};
+
+		int howManyPlayers;
+		int fieldsize;
+		int howManyCorvettes;
+		int howManyDestroyer;
+		int howManyFrigates;
+		int howManySubmarines;
 		
 		try {
 			inputFile = new File(filePath);
@@ -47,12 +73,12 @@ public class Memory {
 				save[i] = Integer.parseInt(inputReader.readLine());
 			}
 			//Lesen aus Datei
-			fieldsize = save[fsLoc];
-			howManyPlayers = save[pLoc];
-			howManyCorvettes = save[cLoc];
-			howManyDestroyer = save[dLoc];
-			howManyFrigates = save[fLoc];
-			howManySubmarines = save[sLoc];
+			fieldsize = save[0];
+			howManyPlayers = save[1];
+			howManyCorvettes = save[2];
+			howManyDestroyer = save[3];
+			howManyFrigates = save[4];
+			howManySubmarines = save[5];
 			
 			//Datum vom Savegame
 			Calendar cal = Calendar.getInstance();
@@ -71,6 +97,8 @@ public class Memory {
 	public static void saveGame(String filePath, int fieldsize, int howManyPlayers, int howManyCorvettes, int howManyDestroyer, int howManyFrigates, int howManySubmarines, 
 	Battlefield[] playersBattlefield, Player[] player, Corvette[][] corvette, Destroyer[][] destroyer, 	Frigate[][] frigate, Submarine[][] submarine) {
 		
+		int[] save = {1, 2, 3, 4, 5, 6};
+		
 		File outputFile;
 		BufferedWriter outputWriter;
 		
@@ -78,22 +106,17 @@ public class Memory {
 			outputFile = new File(filePath);
 			outputWriter = new BufferedWriter(new FileWriter(outputFile));
 			
-			System.out.println("class memory: saving in savegame.txt");
-			
-			save[fsLoc] = fieldsize;
-			save[pLoc] = howManyPlayers;
-			save[cLoc] = howManyCorvettes;
-			save[dLoc] = howManyDestroyer;
-			save[fLoc] = howManyFrigates;
-			save[sLoc] = howManySubmarines;
-			
+			save[0] = fieldsize;
+			save[1] = howManyPlayers;
+			save[2] = howManyCorvettes;
+			save[3] = howManyDestroyer;
+			save[4] = howManyFrigates;
+			save[5] = howManySubmarines;
 			
 			for(int i = 0; i < save.length; i++) {
 				outputWriter.write(Integer.toString(save[i]) + "\n");
 			}
-		
 			outputWriter.close();
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

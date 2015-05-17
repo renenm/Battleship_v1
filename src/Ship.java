@@ -11,9 +11,10 @@ public class Ship {
 	protected boolean isHorizontal;
 	protected boolean isDead;
 	protected boolean isReady;
+	protected int fieldsize;
 	
 	//Konstruktor für ein Shiff
-	public Ship(int shipId, int shipBelongsToPlayer, int shipSize, int shipRespawn, int shipTargetRadius, String shipSymbol, int xCord, int yCord, boolean isHorizontal, boolean isDead, boolean isReady) {
+	public Ship(int shipId, int shipBelongsToPlayer, int shipSize, int shipRespawn, int shipTargetRadius, String shipSymbol, int xCord, int yCord, boolean isHorizontal, boolean isDead, boolean isReady, int fieldsize) {
 		this.shipId = shipId;
 		this.shipBelongsToPlayer = shipBelongsToPlayer;
 		this.shipSize = shipSize;
@@ -25,6 +26,7 @@ public class Ship {
 		this.isHorizontal = isHorizontal;
 		this.isDead = isDead;
 		this.isReady = isReady;
+		this.fieldsize = fieldsize;
 	}
 	
 	//Getter und Setter für die Attribute eines Schiffes
@@ -115,6 +117,14 @@ public class Ship {
 
 	public void setReady(boolean isReady) {
 		this.isReady = isReady;
+	}
+
+	public int getFieldsize() {
+		return fieldsize;
+	}
+
+	public void setFieldsize(int fieldsize) {
+		this.fieldsize = fieldsize;
 	}
 	
 	
