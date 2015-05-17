@@ -364,7 +364,12 @@ public class Main {
 					        	System.out.print("Please choose: ");
 					        	selection = readInt()-1;
 					        	System.out.println("Battlefield of " + player[selection].getName());
-					        	playersBattlefield[selection].printEnemyBattlefield();
+					        	if (player[i].getPlayerId() == (selection)) {
+					        		playersBattlefield[selection].printBattlefield();
+					        	} else {
+						        	playersBattlefield[selection].printEnemyBattlefield();
+						        	//Zeigt das eigene Spielfeld an
+					        	}
 					            break; 
 					        case 1: //View own ships
 					        	System.out.println("Destroyer:");
