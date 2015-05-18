@@ -40,7 +40,7 @@ public class Main {
 		int num = -1;
 		try {    
 			num = scan.nextInt();
-			if(!(num >= 0)) { 
+			if(!(num > 0)) { 
 				System.out.println("\t\tPlease enter a positive number:" );
 				num = readInt();
 			}	
@@ -297,6 +297,7 @@ public class Main {
 				//SHIPSRELOAD
 				deadShips = 0;
 	        	for(j = 0 ; j < destroyer[i].length ; j++) {
+	        		possibleWinner = player[i].getName();
         			if(destroyer[i][j].getShipRespawn() >= 3) {
         				destroyer[i][j].setShipRespawn(3);
         				destroyer[i][j].setReady(true);
@@ -379,12 +380,15 @@ public class Main {
 	        		player[i].setDead(true);
 	        	}
 	        	
+	        	if(allDestroyerDead) {
+	        		player[i].setDead(true);
+	        	}
+	        	
 	        	if(allSubmarinesDead) {
 	        		player[i].setDead(true);
 	        	}
 				
 				if(player[i].isDead() == false) {
-					possibleWinner = player[i].getName();
 					readyForNextRound = false;
 					playerIsDead = true;
 					shipIsChoosen = false;
@@ -408,12 +412,10 @@ public class Main {
 					        	System.out.print("Please choose: ");
 					        	selection = readInt(1,howManyPlayers)-1;
 					        	System.out.println("Battlefield of " + player[selection].getName());
-					        	if (player[i].getPlayerId() == (selection)) {
-					        		playersBattlefield[selection].printBattlefield();
-					        	} else {
-						        	playersBattlefield[selection].printEnemyBattlefield();
-						        	//Zeigt das eigene Spielfeld an
-					        	}
+					        	
+					        		playersBattlefield[selection].printEnemyBattlefield();
+					        	
+					        	
 					            break; 
 					        case 1: //View own ships
 					        	System.out.println("Destroyer:");

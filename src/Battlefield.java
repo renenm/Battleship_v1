@@ -38,7 +38,29 @@ public class Battlefield {
 			System.out.println();
 		}
 	}
-	
+
+	//Ausgabe Battlefield Gegnersicht
+		public void printEnemyBattlefield() {
+			for (int x = 0; x < battlefield.length; x++) {
+				for (int y = 0; y < battlefield[x].length; y++) {
+					
+
+					battlefield[0][y].setSign("[" + y + "]");
+					battlefield[x][0].setSign("[" + x + "]");
+					battlefield[0][0].setSign("[ ]");
+					
+					if(battlefield[x][y].isHit()) {
+						System.out.print("[H]" + " ");
+					} else {
+						System.out.print("[ ]" + " ");
+					}
+					
+					
+				}
+				System.out.println();
+			}
+		}
+		
 	//Ausgabe Active-Fields
 	public void printActive() {
 		for (int x = 0; x < battlefield.length; x++) {
@@ -139,438 +161,513 @@ public class Battlefield {
 			//AB HIER WIRD AUCH DER RADIUS BESCHOSSEN
 			if(myShip.getShipSymbol().equals("D")) { //FÜR DEN RADIUS DES DESTROYER
 				//1. Reihe (v.l.n.r)
-				if(battlefield[yCord - 2][xCord + 2].getSign().equals("[D]") || battlefield[yCord - 2][xCord + 2].getSign().equals("[F]") || battlefield[yCord - 2][xCord + 2].getSign().equals("[C]") || battlefield[yCord - 2][xCord + 2].getSign().equals("[S]")) {
-					battlefield[yCord - 2][xCord + 2].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord - 1][xCord + 2].getSign().equals("[D]") || battlefield[yCord - 1][xCord + 2].getSign().equals("[F]") || battlefield[yCord - 1][xCord + 2].getSign().equals("[C]") || battlefield[yCord - 1][xCord + 2].getSign().equals("[S]")) {
-					battlefield[yCord - 1][xCord + 2].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord - 0][xCord + 2].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 2].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 2].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 2].getSign().equals("[S]")) {
-					battlefield[yCord - 0][xCord + 2].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord + 1][xCord + 2].getSign().equals("[D]") || battlefield[yCord + 1][xCord + 2].getSign().equals("[F]") || battlefield[yCord + 1][xCord + 2].getSign().equals("[C]") || battlefield[yCord + 1][xCord + 2].getSign().equals("[S]")) {
-					battlefield[yCord + 1][xCord + 2].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord + 2][xCord + 2].getSign().equals("[D]") || battlefield[yCord + 2][xCord + 2].getSign().equals("[F]") || battlefield[yCord + 2][xCord + 2].getSign().equals("[C]") || battlefield[yCord + 2][xCord + 2].getSign().equals("[S]")) {
-					battlefield[yCord + 2][xCord + 2].setHit(true); System.out.print("Hit! ");
-				}
-				//2. Reihe (v.l.n.r)
-				if(battlefield[yCord - 2][xCord + 1].getSign().equals("[D]") || battlefield[yCord - 2][xCord + 1].getSign().equals("[F]") || battlefield[yCord - 2][xCord + 1].getSign().equals("[C]") || battlefield[yCord - 2][xCord + 1].getSign().equals("[S]")) {
-					battlefield[yCord - 2][xCord + 1].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord - 1][xCord + 1].getSign().equals("[D]") || battlefield[yCord - 1][xCord + 1].getSign().equals("[F]") || battlefield[yCord - 1][xCord + 1].getSign().equals("[C]") || battlefield[yCord - 1][xCord + 1].getSign().equals("[S]")) {
-					battlefield[yCord - 1][xCord + 1].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord - 0][xCord + 1].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 1].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 1].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 1].getSign().equals("[S]")) {
-					battlefield[yCord - 0][xCord + 1].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord + 1][xCord + 1].getSign().equals("[D]") || battlefield[yCord + 1][xCord + 1].getSign().equals("[F]") || battlefield[yCord + 1][xCord + 1].getSign().equals("[C]") || battlefield[yCord + 1][xCord + 1].getSign().equals("[S]")) {
-					battlefield[yCord + 1][xCord + 1].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord + 2][xCord + 1].getSign().equals("[D]") || battlefield[yCord + 2][xCord + 1].getSign().equals("[F]") || battlefield[yCord + 2][xCord + 1].getSign().equals("[C]") || battlefield[yCord + 2][xCord + 1].getSign().equals("[S]")) {
-					battlefield[yCord + 2][xCord + 1].setHit(true); System.out.print("Hit! ");
-				}
-				//3. Reihe (v.l.n.r)
-				if(battlefield[yCord - 2][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 2][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 2][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 2][xCord + 0].getSign().equals("[S]")) {
-					battlefield[yCord - 2][xCord + 0].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord - 1][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 1][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 1][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 1][xCord + 0].getSign().equals("[S]")) {
-					battlefield[yCord - 1][xCord + 0].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord - 0][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[S]")) {
-					battlefield[yCord - 0][xCord + 0].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord + 1][xCord + 0].getSign().equals("[D]") || battlefield[yCord + 1][xCord + 0].getSign().equals("[F]") || battlefield[yCord + 1][xCord + 0].getSign().equals("[C]") || battlefield[yCord + 1][xCord + 0].getSign().equals("[S]")) {
-					battlefield[yCord + 1][xCord + 0].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord + 2][xCord + 0].getSign().equals("[D]") || battlefield[yCord + 2][xCord + 0].getSign().equals("[F]") || battlefield[yCord + 2][xCord + 0].getSign().equals("[C]") || battlefield[yCord + 2][xCord + 0].getSign().equals("[S]")) {
-					battlefield[yCord + 2][xCord + 0].setHit(true); System.out.print("Hit! ");
-				}
-				//4. Reihe (v.l.n.r)
-				if(battlefield[yCord - 2][xCord - 1].getSign().equals("[D]") || battlefield[yCord - 2][xCord - 1].getSign().equals("[F]") || battlefield[yCord - 2][xCord - 1].getSign().equals("[C]") || battlefield[yCord - 2][xCord - 1].getSign().equals("[S]")) {
-					battlefield[yCord - 2][xCord - 1].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord - 1][xCord - 1].getSign().equals("[D]") || battlefield[yCord - 1][xCord - 1].getSign().equals("[F]") || battlefield[yCord - 1][xCord - 1].getSign().equals("[C]") || battlefield[yCord - 1][xCord - 1].getSign().equals("[S]")) {
-					battlefield[yCord - 1][xCord - 1].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord - 0][xCord - 1].getSign().equals("[D]") || battlefield[yCord - 0][xCord - 1].getSign().equals("[F]") || battlefield[yCord - 0][xCord - 1].getSign().equals("[C]") || battlefield[yCord - 0][xCord - 1].getSign().equals("[S]")) {
-					battlefield[yCord - 0][xCord - 1].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord + 1][xCord - 1].getSign().equals("[D]") || battlefield[yCord + 1][xCord - 1].getSign().equals("[F]") || battlefield[yCord + 1][xCord - 1].getSign().equals("[C]") || battlefield[yCord + 1][xCord - 1].getSign().equals("[S]")) {
-					battlefield[yCord + 1][xCord - 1].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord + 2][xCord - 1].getSign().equals("[D]") || battlefield[yCord + 2][xCord - 1].getSign().equals("[F]") || battlefield[yCord + 2][xCord - 1].getSign().equals("[C]") || battlefield[yCord + 2][xCord - 1].getSign().equals("[S]")) {
-					battlefield[yCord + 2][xCord - 1].setHit(true); System.out.print("Hit! ");
-				}
-				//5. Reihe (v.l.n.r)
-				if(battlefield[yCord - 2][xCord - 2].getSign().equals("[D]") || battlefield[yCord - 2][xCord - 2].getSign().equals("[F]") || battlefield[yCord - 2][xCord - 2].getSign().equals("[C]") || battlefield[yCord - 2][xCord - 2].getSign().equals("[S]")) {
-					battlefield[yCord - 2][xCord - 2].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord - 1][xCord - 2].getSign().equals("[D]") || battlefield[yCord - 1][xCord - 2].getSign().equals("[F]") || battlefield[yCord - 1][xCord - 2].getSign().equals("[C]") || battlefield[yCord - 1][xCord - 2].getSign().equals("[S]")) {
-					battlefield[yCord - 1][xCord - 2].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord - 0][xCord - 2].getSign().equals("[D]") || battlefield[yCord - 0][xCord - 2].getSign().equals("[F]") || battlefield[yCord - 0][xCord - 2].getSign().equals("[C]") || battlefield[yCord - 0][xCord - 2].getSign().equals("[S]")) {
-					battlefield[yCord - 0][xCord - 2].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord + 1][xCord - 2].getSign().equals("[D]") || battlefield[yCord + 1][xCord - 2].getSign().equals("[F]") || battlefield[yCord + 1][xCord - 2].getSign().equals("[C]") || battlefield[yCord + 1][xCord - 2].getSign().equals("[S]")) {
-					battlefield[yCord + 1][xCord - 2].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord + 2][xCord - 2].getSign().equals("[D]") || battlefield[yCord + 2][xCord - 2].getSign().equals("[F]") || battlefield[yCord + 2][xCord - 2].getSign().equals("[C]") || battlefield[yCord + 2][xCord - 2].getSign().equals("[S]")) {
-					battlefield[yCord + 2][xCord - 2].setHit(true); System.out.print("Hit! ");
-				}
+				try {
+					if(battlefield[yCord - 2][xCord + 2].getSign().equals("[D]") || battlefield[yCord - 2][xCord + 2].getSign().equals("[F]") || battlefield[yCord - 2][xCord + 2].getSign().equals("[C]") || battlefield[yCord - 2][xCord + 2].getSign().equals("[S]")) {
+						battlefield[yCord - 2][xCord + 2].setHit(true); System.out.print("Hit! ");
+					}
+				} catch(Exception a1) { System.out.println("Fail! "); }
+				
+				try {
+					if(battlefield[yCord - 1][xCord + 2].getSign().equals("[D]") || battlefield[yCord - 1][xCord + 2].getSign().equals("[F]") || battlefield[yCord - 1][xCord + 2].getSign().equals("[C]") || battlefield[yCord - 1][xCord + 2].getSign().equals("[S]")) {
+						battlefield[yCord - 1][xCord + 2].setHit(true); System.out.print("Hit! ");
+					}
+				} catch(Exception a1) { System.out.println("Fail! "); }
+					
+				try {	
+					if(battlefield[yCord - 0][xCord + 2].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 2].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 2].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 2].getSign().equals("[S]")) {
+						battlefield[yCord - 0][xCord + 2].setHit(true); System.out.print("Hit! ");
+					}
+				} catch(Exception a1) { System.out.println("Fail! "); }
+				
+				try {
+					if(battlefield[yCord + 1][xCord + 2].getSign().equals("[D]") || battlefield[yCord + 1][xCord + 2].getSign().equals("[F]") || battlefield[yCord + 1][xCord + 2].getSign().equals("[C]") || battlefield[yCord + 1][xCord + 2].getSign().equals("[S]")) {
+						battlefield[yCord + 1][xCord + 2].setHit(true); System.out.print("Hit! ");
+					}
+				} catch(Exception a1) { System.out.println("Fail! "); }
+					
+				try {
+					if(battlefield[yCord + 2][xCord + 2].getSign().equals("[D]") || battlefield[yCord + 2][xCord + 2].getSign().equals("[F]") || battlefield[yCord + 2][xCord + 2].getSign().equals("[C]") || battlefield[yCord + 2][xCord + 2].getSign().equals("[S]")) {
+						battlefield[yCord + 2][xCord + 2].setHit(true); System.out.print("Hit! ");
+					}
+				} catch(Exception a1) { System.out.println("Fail! "); }
+					//2. Reihe (v.l.n.r)
+					try {
+						if(battlefield[yCord - 2][xCord + 1].getSign().equals("[D]") || battlefield[yCord - 2][xCord + 1].getSign().equals("[F]") || battlefield[yCord - 2][xCord + 1].getSign().equals("[C]") || battlefield[yCord - 2][xCord + 1].getSign().equals("[S]")) {
+							battlefield[yCord - 2][xCord + 1].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
+					try {
+						if(battlefield[yCord - 1][xCord + 1].getSign().equals("[D]") || battlefield[yCord - 1][xCord + 1].getSign().equals("[F]") || battlefield[yCord - 1][xCord + 1].getSign().equals("[C]") || battlefield[yCord - 1][xCord + 1].getSign().equals("[S]")) {
+							battlefield[yCord - 1][xCord + 1].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
+					try {
+						if(battlefield[yCord - 0][xCord + 1].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 1].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 1].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 1].getSign().equals("[S]")) {
+							battlefield[yCord - 0][xCord + 1].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
+					try {
+						if(battlefield[yCord + 1][xCord + 1].getSign().equals("[D]") || battlefield[yCord + 1][xCord + 1].getSign().equals("[F]") || battlefield[yCord + 1][xCord + 1].getSign().equals("[C]") || battlefield[yCord + 1][xCord + 1].getSign().equals("[S]")) {
+							battlefield[yCord + 1][xCord + 1].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
+					try {
+						if(battlefield[yCord + 2][xCord + 1].getSign().equals("[D]") || battlefield[yCord + 2][xCord + 1].getSign().equals("[F]") || battlefield[yCord + 2][xCord + 1].getSign().equals("[C]") || battlefield[yCord + 2][xCord + 1].getSign().equals("[S]")) {
+							battlefield[yCord + 2][xCord + 1].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
+					try {
+						//3. Reihe (v.l.n.r)
+						if(battlefield[yCord - 2][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 2][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 2][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 2][xCord + 0].getSign().equals("[S]")) {
+							battlefield[yCord - 2][xCord + 0].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
+					try {
+						if(battlefield[yCord - 1][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 1][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 1][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 1][xCord + 0].getSign().equals("[S]")) {
+							battlefield[yCord - 1][xCord + 0].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
+					try {
+						if(battlefield[yCord - 0][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[S]")) {
+							battlefield[yCord - 0][xCord + 0].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
+					try {
+						if(battlefield[yCord + 1][xCord + 0].getSign().equals("[D]") || battlefield[yCord + 1][xCord + 0].getSign().equals("[F]") || battlefield[yCord + 1][xCord + 0].getSign().equals("[C]") || battlefield[yCord + 1][xCord + 0].getSign().equals("[S]")) {
+							battlefield[yCord + 1][xCord + 0].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
+					try {
+						if(battlefield[yCord + 2][xCord + 0].getSign().equals("[D]") || battlefield[yCord + 2][xCord + 0].getSign().equals("[F]") || battlefield[yCord + 2][xCord + 0].getSign().equals("[C]") || battlefield[yCord + 2][xCord + 0].getSign().equals("[S]")) {
+							battlefield[yCord + 2][xCord + 0].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
+					//4. Reihe (v.l.n.r
+					try {
+						if(battlefield[yCord - 2][xCord - 1].getSign().equals("[D]") || battlefield[yCord - 2][xCord - 1].getSign().equals("[F]") || battlefield[yCord - 2][xCord - 1].getSign().equals("[C]") || battlefield[yCord - 2][xCord - 1].getSign().equals("[S]")) {
+							battlefield[yCord - 2][xCord - 1].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
+					try {
+						if(battlefield[yCord - 1][xCord - 1].getSign().equals("[D]") || battlefield[yCord - 1][xCord - 1].getSign().equals("[F]") || battlefield[yCord - 1][xCord - 1].getSign().equals("[C]") || battlefield[yCord - 1][xCord - 1].getSign().equals("[S]")) {
+							battlefield[yCord - 1][xCord - 1].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
+					try {
+						if(battlefield[yCord - 0][xCord - 1].getSign().equals("[D]") || battlefield[yCord - 0][xCord - 1].getSign().equals("[F]") || battlefield[yCord - 0][xCord - 1].getSign().equals("[C]") || battlefield[yCord - 0][xCord - 1].getSign().equals("[S]")) {
+							battlefield[yCord - 0][xCord - 1].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
+					try {
+						if(battlefield[yCord + 1][xCord - 1].getSign().equals("[D]") || battlefield[yCord + 1][xCord - 1].getSign().equals("[F]") || battlefield[yCord + 1][xCord - 1].getSign().equals("[C]") || battlefield[yCord + 1][xCord - 1].getSign().equals("[S]")) {
+							battlefield[yCord + 1][xCord - 1].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
+					try {
+						if(battlefield[yCord + 2][xCord - 1].getSign().equals("[D]") || battlefield[yCord + 2][xCord - 1].getSign().equals("[F]") || battlefield[yCord + 2][xCord - 1].getSign().equals("[C]") || battlefield[yCord + 2][xCord - 1].getSign().equals("[S]")) {
+							battlefield[yCord + 2][xCord - 1].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
+						//5. Reihe (v.l.n.r)
+					try {
+						if(battlefield[yCord - 2][xCord - 2].getSign().equals("[D]") || battlefield[yCord - 2][xCord - 2].getSign().equals("[F]") || battlefield[yCord - 2][xCord - 2].getSign().equals("[C]") || battlefield[yCord - 2][xCord - 2].getSign().equals("[S]")) {
+							battlefield[yCord - 2][xCord - 2].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
+					try {
+						if(battlefield[yCord - 1][xCord - 2].getSign().equals("[D]") || battlefield[yCord - 1][xCord - 2].getSign().equals("[F]") || battlefield[yCord - 1][xCord - 2].getSign().equals("[C]") || battlefield[yCord - 1][xCord - 2].getSign().equals("[S]")) {
+							battlefield[yCord - 1][xCord - 2].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
+					try {
+						if(battlefield[yCord - 0][xCord - 2].getSign().equals("[D]") || battlefield[yCord - 0][xCord - 2].getSign().equals("[F]") || battlefield[yCord - 0][xCord - 2].getSign().equals("[C]") || battlefield[yCord - 0][xCord - 2].getSign().equals("[S]")) {
+							battlefield[yCord - 0][xCord - 2].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
+					try {
+						if(battlefield[yCord + 1][xCord - 2].getSign().equals("[D]") || battlefield[yCord + 1][xCord - 2].getSign().equals("[F]") || battlefield[yCord + 1][xCord - 2].getSign().equals("[C]") || battlefield[yCord + 1][xCord - 2].getSign().equals("[S]")) {
+							battlefield[yCord + 1][xCord - 2].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
+					try {
+						if(battlefield[yCord + 2][xCord - 2].getSign().equals("[D]") || battlefield[yCord + 2][xCord - 2].getSign().equals("[F]") || battlefield[yCord + 2][xCord - 2].getSign().equals("[C]") || battlefield[yCord + 2][xCord - 2].getSign().equals("[S]")) {
+							battlefield[yCord + 2][xCord - 2].setHit(true); System.out.print("Hit! ");
+						}
+					} catch(Exception a1) { System.out.println("Fail! "); }
 			}
 			if(myShip.getShipSymbol().equals("F")) { //FÜR DEN RADIUS DER FRIGATE
 				//2. Reihe (v.l.n.r)
-				if(battlefield[yCord - 1][xCord + 1].getSign().equals("[D]") || battlefield[yCord - 1][xCord + 1].getSign().equals("[F]") || battlefield[yCord - 1][xCord + 1].getSign().equals("[C]") || battlefield[yCord - 1][xCord + 1].getSign().equals("[S]")) {
-					battlefield[yCord - 1][xCord + 1].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord - 0][xCord + 1].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 1].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 1].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 1].getSign().equals("[S]")) {
-					battlefield[yCord - 0][xCord + 1].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord + 1][xCord + 1].getSign().equals("[D]") || battlefield[yCord + 1][xCord + 1].getSign().equals("[F]") || battlefield[yCord + 1][xCord + 1].getSign().equals("[C]") || battlefield[yCord + 1][xCord + 1].getSign().equals("[S]")) {
-					battlefield[yCord + 1][xCord + 1].setHit(true); System.out.print("Hit! ");
-				}
-				//3. Reihe (v.l.n.r)
-				if(battlefield[yCord - 1][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 1][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 1][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 1][xCord + 0].getSign().equals("[S]")) {
-					battlefield[yCord - 1][xCord + 0].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord - 0][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[S]")) {
-					battlefield[yCord - 0][xCord + 0].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord + 1][xCord + 0].getSign().equals("[D]") || battlefield[yCord + 1][xCord + 0].getSign().equals("[F]") || battlefield[yCord + 1][xCord + 0].getSign().equals("[C]") || battlefield[yCord + 1][xCord + 0].getSign().equals("[S]")) {
-					battlefield[yCord + 1][xCord + 0].setHit(true); System.out.print("Hit! ");
-				}
-				//4. Reihe (v.l.n.r)
-				if(battlefield[yCord - 1][xCord - 1].getSign().equals("[D]") || battlefield[yCord - 1][xCord - 1].getSign().equals("[F]") || battlefield[yCord - 1][xCord - 1].getSign().equals("[C]") || battlefield[yCord - 1][xCord - 1].getSign().equals("[S]")) {
-					battlefield[yCord - 1][xCord - 1].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord - 0][xCord - 1].getSign().equals("[D]") || battlefield[yCord - 0][xCord - 1].getSign().equals("[F]") || battlefield[yCord - 0][xCord - 1].getSign().equals("[C]") || battlefield[yCord - 0][xCord - 1].getSign().equals("[S]")) {
-					battlefield[yCord - 0][xCord - 1].setHit(true); System.out.print("Hit! ");
-				}
-				if(battlefield[yCord + 1][xCord - 1].getSign().equals("[D]") || battlefield[yCord + 1][xCord - 1].getSign().equals("[F]") || battlefield[yCord + 1][xCord - 1].getSign().equals("[C]") || battlefield[yCord + 1][xCord - 1].getSign().equals("[S]")) {
-					battlefield[yCord + 1][xCord - 1].setHit(true); System.out.print("Hit! ");
-				}
+				try {
+					if(battlefield[yCord - 1][xCord + 1].getSign().equals("[D]") || battlefield[yCord - 1][xCord + 1].getSign().equals("[F]") || battlefield[yCord - 1][xCord + 1].getSign().equals("[C]") || battlefield[yCord - 1][xCord + 1].getSign().equals("[S]")) {
+						battlefield[yCord - 1][xCord + 1].setHit(true); System.out.print("Hit! ");
+					}
+				} catch(Exception a1) { System.out.println("Fail! "); }
+				try {
+					if(battlefield[yCord - 0][xCord + 1].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 1].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 1].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 1].getSign().equals("[S]")) {
+						battlefield[yCord - 0][xCord + 1].setHit(true); System.out.print("Hit! ");
+					}
+				} catch(Exception a1) { System.out.println("Fail! "); }
+				try {
+					if(battlefield[yCord + 1][xCord + 1].getSign().equals("[D]") || battlefield[yCord + 1][xCord + 1].getSign().equals("[F]") || battlefield[yCord + 1][xCord + 1].getSign().equals("[C]") || battlefield[yCord + 1][xCord + 1].getSign().equals("[S]")) {
+						battlefield[yCord + 1][xCord + 1].setHit(true); System.out.print("Hit! ");
+					}
+				} catch(Exception a1) { System.out.println("Fail! "); }
+					//3. Reihe (v.l.n.r)
+				try {
+					if(battlefield[yCord - 1][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 1][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 1][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 1][xCord + 0].getSign().equals("[S]")) {
+						battlefield[yCord - 1][xCord + 0].setHit(true); System.out.print("Hit! ");
+					}
+				} catch(Exception a1) { System.out.println("Fail! "); }
+				try {
+					if(battlefield[yCord - 0][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[S]")) {
+						battlefield[yCord - 0][xCord + 0].setHit(true); System.out.print("Hit! ");
+					}
+				} catch(Exception a1) { System.out.println("Fail! "); }
+				try {
+					if(battlefield[yCord + 1][xCord + 0].getSign().equals("[D]") || battlefield[yCord + 1][xCord + 0].getSign().equals("[F]") || battlefield[yCord + 1][xCord + 0].getSign().equals("[C]") || battlefield[yCord + 1][xCord + 0].getSign().equals("[S]")) {
+						battlefield[yCord + 1][xCord + 0].setHit(true); System.out.print("Hit! ");
+					}
+				} catch(Exception a1) { System.out.println("Fail! "); }
+					//4. Reihe (v.l.n.r)
+				try {
+					if(battlefield[yCord - 1][xCord - 1].getSign().equals("[D]") || battlefield[yCord - 1][xCord - 1].getSign().equals("[F]") || battlefield[yCord - 1][xCord - 1].getSign().equals("[C]") || battlefield[yCord - 1][xCord - 1].getSign().equals("[S]")) {
+						battlefield[yCord - 1][xCord - 1].setHit(true); System.out.print("Hit! ");
+					}
+				} catch(Exception a1) { System.out.println("Fail! "); }
+				try {
+					if(battlefield[yCord - 0][xCord - 1].getSign().equals("[D]") || battlefield[yCord - 0][xCord - 1].getSign().equals("[F]") || battlefield[yCord - 0][xCord - 1].getSign().equals("[C]") || battlefield[yCord - 0][xCord - 1].getSign().equals("[S]")) {
+						battlefield[yCord - 0][xCord - 1].setHit(true); System.out.print("Hit! ");
+					}
+				} catch(Exception a1) { System.out.println("Fail! "); }
+				try {
+					if(battlefield[yCord + 1][xCord - 1].getSign().equals("[D]") || battlefield[yCord + 1][xCord - 1].getSign().equals("[F]") || battlefield[yCord + 1][xCord - 1].getSign().equals("[C]") || battlefield[yCord + 1][xCord - 1].getSign().equals("[S]")) {
+						battlefield[yCord + 1][xCord - 1].setHit(true); System.out.print("Hit! ");
+					}
+				} catch(Exception a1) { System.out.println("Fail! "); }
 			}
 			if(myShip.getShipSymbol().equals("C")) { //FÜR DEN RADIUS DER CORVETTE	
-				//3. Reihe (v.l.n.r)
-				if(battlefield[yCord - 0][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[S]")) {
-					battlefield[yCord - 0][xCord + 0].setHit(true); System.out.print("Hit! ");
-				}
+				try {
+					//3. Reihe (v.l.n.r)
+					if(battlefield[yCord - 0][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[S]")) {
+						battlefield[yCord - 0][xCord + 0].setHit(true); System.out.print("Hit! ");
+					}
+				} catch(Exception a1) { System.out.println("Fail! "); }
 			}
 			if(myShip.getShipSymbol().equals("S")) { //FÜR DEN RADIUS DER SUBMARINE
 				//3. Reihe (v.l.n.r)
-				if(battlefield[yCord - 0][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[S]")) {
-					battlefield[yCord - 0][xCord + 0].setHit(true); System.out.print("Hit! ");
-				}
+				try {
+					if(battlefield[yCord - 0][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[S]")) {
+						battlefield[yCord - 0][xCord + 0].setHit(true); System.out.print("Hit! ");
+					}
+				} catch(Exception a1) { System.out.println("Fail! "); }
 			}
 			
 			//SCHIFFE STERBEN HIER - RIP
 			
-			//DELETE ME
-			myShip.setDead(true);
-			//DELETE ME
-			
-			/*
 			if(!myShip.isHorizontal) {
 				///DESTROYER + BEREICH
-				if(battlefield[xCord - 0][yCord].equals("[D]")) {
-					if(battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit() && battlefield[xCord + 3][yCord].isHit() && battlefield[xCord + 4][yCord].isHit() && battlefield[xCord + 5][yCord].isHit()) {
-						myShip.setDead(true);
+				try {
+					if(!battlefield[xCord - 0][yCord].equals("[D]")) {
+						if(battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit() && battlefield[xCord + 3][yCord].isHit() && battlefield[xCord + 4][yCord].isHit() && battlefield[xCord + 5][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord - 1][yCord].equals("[D]")) {
-					if(battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit() && battlefield[xCord + 3][yCord].isHit() && battlefield[xCord + 4][yCord].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord - 1][yCord].equals("[D]")) {
+						if(battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit() && battlefield[xCord + 3][yCord].isHit() && battlefield[xCord + 4][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord - 2][yCord].equals("[D]")) {
-					if(battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit() && battlefield[xCord + 3][yCord].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord - 2][yCord].equals("[D]")) {
+						if(battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit() && battlefield[xCord + 3][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord - 3][yCord].equals("[D]")) {
-					if(battlefield[xCord - 2][yCord].isHit() && battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord - 3][yCord].equals("[D]")) {
+						if(battlefield[xCord - 2][yCord].isHit() && battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord - 4][yCord].equals("[D]")) {
-					if(battlefield[xCord - 3][yCord].isHit() && battlefield[xCord - 2][yCord].isHit() && battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord - 4][yCord].equals("[D]")) {
+						if(battlefield[xCord - 3][yCord].isHit() && battlefield[xCord - 2][yCord].isHit() && battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				///DESTROYER - BEREICH
-				if(battlefield[xCord + 0][yCord].equals("[D]")) {
-					if(battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 2][yCord].isHit() && battlefield[xCord - 3][yCord].isHit() && battlefield[xCord - 4][yCord].isHit() && battlefield[xCord - 5][yCord].isHit()) {
-						myShip.setDead(true);
+					///DESTROYER - BEREICH
+					if(!battlefield[xCord + 0][yCord].equals("[D]")) {
+						if(battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 2][yCord].isHit() && battlefield[xCord - 3][yCord].isHit() && battlefield[xCord - 4][yCord].isHit() && battlefield[xCord - 5][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord + 1][yCord].equals("[D]")) {
-					if(battlefield[xCord - 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 2][yCord].isHit() && battlefield[xCord - 3][yCord].isHit() && battlefield[xCord - 4][yCord].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord + 1][yCord].equals("[D]")) {
+						if(battlefield[xCord - 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 2][yCord].isHit() && battlefield[xCord - 3][yCord].isHit() && battlefield[xCord - 4][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord + 2][yCord].equals("[D]")) {
-					if(battlefield[xCord + 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 2][yCord].isHit() && battlefield[xCord - 3][yCord].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord + 2][yCord].equals("[D]")) {
+						if(battlefield[xCord + 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 2][yCord].isHit() && battlefield[xCord - 3][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord + 3][yCord].equals("[D]")) {
-					if(battlefield[xCord + 2][yCord].isHit() && battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 2][yCord].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord + 3][yCord].equals("[D]")) {
+						if(battlefield[xCord + 2][yCord].isHit() && battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 2][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord + 4][yCord].equals("[D]")) {
-					if(battlefield[xCord + 3][yCord].isHit() && battlefield[xCord + 2][yCord].isHit() && battlefield[xCord + 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord + 4][yCord].equals("[D]")) {
+						if(battlefield[xCord + 3][yCord].isHit() && battlefield[xCord + 2][yCord].isHit() && battlefield[xCord + 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				///Frigate + BEREICH
-				if(battlefield[xCord - 0][yCord].equals("[F]")) {
-					if(battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit() && battlefield[xCord + 3][yCord].isHit() && battlefield[xCord + 4][yCord].isHit()) {
-						myShip.setDead(true);
+					///Frigate + BEREICH
+					if(!battlefield[xCord - 0][yCord].equals("[F]")) {
+						if(battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit() && battlefield[xCord + 3][yCord].isHit() && battlefield[xCord + 4][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord - 1][yCord].equals("[F]")) {
-					if(battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit() && battlefield[xCord + 3][yCord].isHit()){
-						myShip.setDead(true);
+					if(!battlefield[xCord - 1][yCord].equals("[F]")) {
+						if(battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit() && battlefield[xCord + 3][yCord].isHit()){
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord - 2][yCord].equals("[F]")) {
-					if(battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord - 2][yCord].equals("[F]")) {
+						if(battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord - 3][yCord].equals("[F]")) {
-					if(battlefield[xCord - 2][yCord].isHit() && battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord - 3][yCord].equals("[F]")) {
+						if(battlefield[xCord - 2][yCord].isHit() && battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				///Frigate - BEREICH
-				if(battlefield[xCord + 0][yCord].equals("[F]")) {
-					if(battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 2][yCord].isHit() && battlefield[xCord - 3][yCord].isHit() && battlefield[xCord - 4][yCord].isHit()) {
-						myShip.setDead(true);
+					///Frigate - BEREICH
+					if(!battlefield[xCord + 0][yCord].equals("[F]")) {
+						if(battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 2][yCord].isHit() && battlefield[xCord - 3][yCord].isHit() && battlefield[xCord - 4][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord + 1][yCord].equals("[F]")) {
-					if(battlefield[xCord - 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 2][yCord].isHit() && battlefield[xCord - 3][yCord].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord + 1][yCord].equals("[F]")) {
+						if(battlefield[xCord - 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 2][yCord].isHit() && battlefield[xCord - 3][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord + 2][yCord].equals("[F]")) {
-					if(battlefield[xCord + 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 2][yCord].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord + 2][yCord].equals("[F]")) {
+						if(battlefield[xCord + 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 2][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord + 3][yCord].equals("[F]")) {
-					if(battlefield[xCord + 2][yCord].isHit() && battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord + 3][yCord].equals("[F]")) {
+						if(battlefield[xCord + 2][yCord].isHit() && battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				///Corvette + BEREICH
-				if(battlefield[xCord - 0][yCord].equals("[C]")) {
-					if(battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit() && battlefield[xCord + 3][yCord].isHit()) {
-						myShip.setDead(true);
+					///Corvette + BEREICH
+					if(!battlefield[xCord - 0][yCord].equals("[C]")) {
+						if(battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit() && battlefield[xCord + 3][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord - 1][yCord].equals("[C]")) {
-					if(battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit()){
-						myShip.setDead(true);
+					if(!battlefield[xCord - 1][yCord].equals("[C]")) {
+						if(battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit()){
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord - 2][yCord].equals("[C]")) {
-					if(battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord - 2][yCord].equals("[C]")) {
+						if(battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				///Corvette - BEREICH
-				if(battlefield[xCord + 0][yCord].equals("[C]")) {
-					if(battlefield[xCord -1 ][yCord].isHit() && battlefield[xCord - 2][yCord].isHit() && battlefield[xCord - 3][yCord].isHit()) {
-						myShip.setDead(true);
+					///Corvette - BEREICH
+					if(!battlefield[xCord + 0][yCord].equals("[C]")) {
+						if(battlefield[xCord -1 ][yCord].isHit() && battlefield[xCord - 2][yCord].isHit() && battlefield[xCord - 3][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord + 1][yCord].equals("[C]")) {
-					if(battlefield[xCord - 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 2][yCord].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord + 1][yCord].equals("[C]")) {
+						if(battlefield[xCord - 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 2][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord + 2][yCord].equals("[C]")) {
-					if(battlefield[xCord + 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord + 2][yCord].equals("[C]")) {
+						if(battlefield[xCord + 1][yCord].isHit() && battlefield[xCord - 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				///Submarine + BEREICH
-				if(battlefield[xCord - 0][yCord].equals("[S]")) {
-					if(battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit()) {
-						myShip.setDead(true);
+					///Submarine + BEREICH
+					if(!battlefield[xCord - 0][yCord].equals("[S]")) {
+						if(battlefield[xCord + 1][yCord].isHit() && battlefield[xCord + 2][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord - 1][yCord].equals("[S]")) {
-					if(battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit()){
-						myShip.setDead(true);
+					if(!battlefield[xCord - 1][yCord].equals("[S]")) {
+						if(battlefield[xCord - 0][yCord].isHit() && battlefield[xCord + 1][yCord].isHit()){
+							myShip.setDead(true);
+						}
 					}
-				}
-				///Submarine - BEREICH
-				if(battlefield[xCord + 0][yCord].equals("[S]")) {
-					if(battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 2][yCord].isHit()) {
-						myShip.setDead(true);
+					///Submarine - BEREICH
+					if(!battlefield[xCord + 0][yCord].equals("[S]")) {
+						if(battlefield[xCord - 1][yCord].isHit() && battlefield[xCord - 2][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord + 1][yCord].equals("[S]")) {
-					if(battlefield[xCord - 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord + 1][yCord].equals("[S]")) {
+						if(battlefield[xCord - 0][yCord].isHit() && battlefield[xCord - 1][yCord].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
+				} catch(Exception a1) {  }
 			} else { //VERTIKAL!!!
 				///DESTROYER + BEREICH
-				if(battlefield[xCord][yCord - 0].equals("[D]")) {
-					if(battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit() && battlefield[xCord][yCord + 3].isHit() && battlefield[xCord][yCord + 4].isHit() && battlefield[xCord][yCord + 5].isHit()) {
-						myShip.setDead(true);
+				try {
+					if(!battlefield[xCord][yCord - 0].equals("[D]")) {
+						if(battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit() && battlefield[xCord][yCord + 3].isHit() && battlefield[xCord][yCord + 4].isHit() && battlefield[xCord][yCord + 5].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord - 1].equals("[D]")) {
-					if(battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit() && battlefield[xCord][yCord + 3].isHit() && battlefield[xCord][yCord + 4].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord - 1].equals("[D]")) {
+						if(battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit() && battlefield[xCord][yCord + 3].isHit() && battlefield[xCord][yCord + 4].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord - 2].equals("[D]")) {
-					if(battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit() && battlefield[xCord][yCord + 3].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord - 2].equals("[D]")) {
+						if(battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit() && battlefield[xCord][yCord + 3].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord - 3].equals("[D]")) {
-					if(battlefield[xCord][yCord - 2].isHit() && battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord - 3].equals("[D]")) {
+						if(battlefield[xCord][yCord - 2].isHit() && battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord - 4].equals("[D]")) {
-					if(battlefield[xCord][yCord - 3].isHit() && battlefield[xCord][yCord - 2].isHit() && battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord - 4].equals("[D]")) {
+						if(battlefield[xCord][yCord - 3].isHit() && battlefield[xCord][yCord - 2].isHit() && battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				///DESTROYER - BEREICH
-				if(battlefield[xCord][yCord + 0].equals("[D]")) {
-					if(battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit() && battlefield[xCord][yCord - 3].isHit() && battlefield[xCord][yCord - 4].isHit() && battlefield[xCord][yCord - 5].isHit()) {
-						myShip.setDead(true);
+					///DESTROYER - BEREICH
+					if(!battlefield[xCord][yCord + 0].equals("[D]")) {
+						if(battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit() && battlefield[xCord][yCord - 3].isHit() && battlefield[xCord][yCord - 4].isHit() && battlefield[xCord][yCord - 5].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord + 1].equals("[D]")) {
-					if(battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit() && battlefield[xCord][yCord - 3].isHit() && battlefield[xCord][yCord - 4].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord + 1].equals("[D]")) {
+						if(battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit() && battlefield[xCord][yCord - 3].isHit() && battlefield[xCord][yCord - 4].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord + 2].equals("[D]")) {
-					if(battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit() && battlefield[xCord][yCord - 3].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord + 2].equals("[D]")) {
+						if(battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit() && battlefield[xCord][yCord - 3].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord + 3].equals("[D]")) {
-					if(battlefield[xCord][yCord + 2].isHit() && battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 0].isHit() && battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord + 3].equals("[D]")) {
+						if(battlefield[xCord][yCord + 2].isHit() && battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 0].isHit() && battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord + 4].equals("[D]")) {
-					if(battlefield[xCord][yCord + 3].isHit() && battlefield[xCord][yCord + 2].isHit() && battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord - 1].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord + 4].equals("[D]")) {
+						if(battlefield[xCord][yCord + 3].isHit() && battlefield[xCord][yCord + 2].isHit() && battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord - 1].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				///Frigate + BEREICH
-				if(battlefield[xCord][yCord - 0].equals("[F]")) {
-					if(battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit() && battlefield[xCord][yCord + 3].isHit() && battlefield[xCord][yCord + 4].isHit()) {
-						myShip.setDead(true);
+					///Frigate + BEREICH
+					if(!battlefield[xCord][yCord - 0].equals("[F]")) {
+						if(battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit() && battlefield[xCord][yCord + 3].isHit() && battlefield[xCord][yCord + 4].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord - 1].equals("[F]")) {
-					if(battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit() && battlefield[xCord][yCord + 3].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord - 1].equals("[F]")) {
+						if(battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit() && battlefield[xCord][yCord + 3].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord - 2].equals("[F]")) {
-					if(battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord - 2].equals("[F]")) {
+						if(battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord - 3].equals("[F]")) {
-					if(battlefield[xCord][yCord - 2].isHit() && battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord - 3].equals("[F]")) {
+						if(battlefield[xCord][yCord - 2].isHit() && battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				///Frigate - BEREICH
-				if(battlefield[xCord][yCord + 0].equals("[F]")) {
-					if(battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit() && battlefield[xCord][yCord - 3].isHit() && battlefield[xCord][yCord - 4].isHit()) {
-						myShip.setDead(true);
+					///Frigate - BEREICH
+					if(!battlefield[xCord][yCord + 0].equals("[F]")) {
+						if(battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit() && battlefield[xCord][yCord - 3].isHit() && battlefield[xCord][yCord - 4].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord + 1].equals("[F]")) {
-					if(battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit() && battlefield[xCord][yCord - 3].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord + 1].equals("[F]")) {
+						if(battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit() && battlefield[xCord][yCord - 3].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord + 2].equals("[F]")) {
-					if(battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord + 2].equals("[F]")) {
+						if(battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord + 3].equals("[F]")) {
-					if(battlefield[xCord][yCord + 2].isHit() && battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 0].isHit() && battlefield[xCord][yCord - 1].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord + 3].equals("[F]")) {
+						if(battlefield[xCord][yCord + 2].isHit() && battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 0].isHit() && battlefield[xCord][yCord - 1].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				///Corvette + BEREICH
-				if(battlefield[xCord][yCord - 0].equals("[C]")) {
-					if(battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit() && battlefield[xCord][yCord + 3].isHit()) {
-						myShip.setDead(true);
+					///Corvette + BEREICH
+					if(!battlefield[xCord][yCord - 0].equals("[C]")) {
+						if(battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit() && battlefield[xCord][yCord + 3].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord - 1].equals("[C]")) {
-					if(battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit()){
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord - 1].equals("[C]")) {
+						if(battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit()){
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord - 2].equals("[C]")) {
-					if(battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord - 2].equals("[C]")) {
+						if(battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				///Corvette - BEREICH
-				if(battlefield[xCord][yCord + 0].equals("[C]")) {
-					if(battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit() && battlefield[xCord][yCord - 3].isHit()) {
-						myShip.setDead(true);
+					///Corvette - BEREICH
+					if(!battlefield[xCord][yCord + 0].equals("[C]")) {
+						if(battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit() && battlefield[xCord][yCord - 3].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord + 1].equals("[C]")) {
-					if(battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord + 1].equals("[C]")) {
+						if(battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord + 2].equals("[C]")) {
-					if(battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord - 1].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord + 2].equals("[C]")) {
+						if(battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord - 1].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				///Submarine + BEREICH
-				if(battlefield[xCord][yCord - 0].equals("[S]")) {
-					if(battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit()) {
-						myShip.setDead(true);
+					///Submarine + BEREICH
+					if(!battlefield[xCord][yCord - 0].equals("[S]")) {
+						if(battlefield[xCord][yCord + 1].isHit() && battlefield[xCord][yCord + 2].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord - 1].equals("[S]")) {
-					if(battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit()){
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord - 1].equals("[S]")) {
+						if(battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord + 1].isHit()){
+							myShip.setDead(true);
+						}
 					}
-				}
-				///Submarine - BEREICH
-				if(battlefield[xCord][yCord + 0].equals("[S]")) {
-					if(battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit()) {
-						myShip.setDead(true);
+					///Submarine - BEREICH
+					if(!battlefield[xCord][yCord + 0].equals("[S]")) {
+						if(battlefield[xCord][yCord - 1].isHit() && battlefield[xCord][yCord - 2].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
-				if(battlefield[xCord][yCord + 1].equals("[S]")) {
-					if(battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord - 1].isHit()) {
-						myShip.setDead(true);
+					if(!battlefield[xCord][yCord + 1].equals("[S]")) {
+						if(battlefield[xCord][yCord - 0].isHit() && battlefield[xCord][yCord - 1].isHit()) {
+							myShip.setDead(true);
+						}
 					}
-				}
+				} catch(Exception a1) {  }
 			}
-			*/
+			//myShip.setDead(true);
 			
 		//}
 	}
@@ -760,25 +857,7 @@ public class Battlefield {
 		return false;
 	}
 	
-	//Ausgabe Battlefield Gegnersicht
-	public void printEnemyBattlefield() {
-		for (int x = 0; x < battlefield.length; x++) {
-			for (int y = 0; y < battlefield[x].length; y++) {
-				
-				
-				battlefield[0][y].setSign("[" + y + "]");
-				battlefield[x][0].setSign("[" + x + "]");
-				battlefield[0][0].setSign("[ ]");
-				
-				if(battlefield[x][y].isHit()) {
-					System.out.print("[H]" + " ");
-				} else {
-					System.out.print("[ ]" + " ");
-				}
-			}
-			System.out.println();
-		}
-	}
+	
 	
 	//Getter und Setter
 	public int getFieldsize() {

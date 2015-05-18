@@ -8,12 +8,13 @@ import java.util.Calendar;
 
 public class Memory {
 
-	public static void control() {
+	public static void control() throws Exception {
 		System.out.println("");
 		System.out.print("Loading Savegame");
 		System.out.print("\n-----------------------\n\n");
 		
 		loadGame("savegame.txt");
+		Main.vorbereitung();
 	}
 	
 	public static void saveGameNew(String filePath, Battlefield[] playersBattlefield, Player[] player, Corvette[][] corvette, 
@@ -121,4 +122,6 @@ public class Memory {
 			e.printStackTrace();
 		}
 	}
+	
+	
 }
