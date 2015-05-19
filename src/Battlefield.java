@@ -19,7 +19,7 @@ public class Battlefield {
 	public void builtBattlefield() {
 		for (int x = 0; x < battlefield.length; x++) {
 			for (int y = 0; y < battlefield[x].length; y++) {
-				battlefield[x][y] = new Field(false, false, true);
+				battlefield[x][y] = new Field(false, false, true, false);
 			}
 		}
 	}
@@ -42,24 +42,24 @@ public class Battlefield {
 	//Ausgabe Battlefield Gegnersicht
 		public void printEnemyBattlefield() {
 			for (int x = 0; x < battlefield.length; x++) {
-				for (int y = 0; y < battlefield[x].length; y++) {
+				for (int y = 0; y < battlefield[x].length; y++) {	
 					
-
 					battlefield[0][y].setSign("[" + y + "]");
 					battlefield[x][0].setSign("[" + x + "]");
 					battlefield[0][0].setSign("[ ]");
 					
-					if(battlefield[x][y].isHit()) {
+					if(battlefield[x][y].isHitShip()) {
 						System.out.print("[H]" + " ");
+					} else if(battlefield[x][y].isHit()) {
+						System.out.print("[X]" + " ");
 					} else {
-						System.out.print("[ ]" + " ");
+						System.out.print("[ ]");
 					}
-					
-					
 				}
-				System.out.println();
 			}
+			System.out.println();
 		}
+		
 		
 	//Ausgabe Active-Fields
 	public void printActive() {
@@ -166,8 +166,10 @@ public class Battlefield {
 				} else {
 					for (int i = 0; i < targetRadius; i++) {
 						if(battlefield[yCord][xCord + i].getSign().equals("[D]") || battlefield[yCord][xCord + i].getSign().equals("[F]") || battlefield[yCord][xCord + i].getSign().equals("[C]")|| battlefield[yCord][xCord + i].getSign().equals("[S]")) {
-							battlefield[yCord][xCord + i].setHit(true);
+							battlefield[yCord][xCord + i].setIsHitShip(true);
 							System.out.println("Hit!");
+						} else {
+							battlefield[yCord][xCord + i].setHit(true);
 						}
 					}
 				}
@@ -177,8 +179,10 @@ public class Battlefield {
 				}
 				for (int i = 0; i < targetRadius; i++) {
 					if(battlefield[yCord][xCord + i].getSign().equals("[D]") || battlefield[yCord][xCord + i].getSign().equals("[F]") || battlefield[yCord][xCord + i].getSign().equals("[C]")|| battlefield[yCord][xCord + i].getSign().equals("[S]")) {
-						battlefield[yCord][xCord + i].setHit(true);
+						battlefield[yCord][xCord + i].setIsHitShip(true);
 						System.out.println("Hit!");
+					} else {
+						battlefield[yCord][xCord + i].setHit(true);
 					}
 				}
 			}
@@ -495,7 +499,6 @@ public class Battlefield {
 	}
 	
 	public void placeShip(Ship ship) throws Exception {
-
 		// Einlesen der Werte für das Setzen
 		boolean isHorizontal = ship.isHorizontal;
 		Scanner scan = new Scanner(System.in);
