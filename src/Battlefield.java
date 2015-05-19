@@ -153,214 +153,36 @@ public class Battlefield {
 	public void shootShip(Ship myShip, int xCord, int yCord) throws Exception {
 		myShip.setReady(false);
 		myShip.setShipRespawn(0);
+		int targetRadius = myShip.getShipTargetRadius();
 		//if(myShip.isReady()) {
 			if(isShipThere(xCord, yCord)) {
 				battlefield[yCord][xCord].setHit(true);
 				//System.out.println("Hit!");
 			}
 			//AB HIER WIRD AUCH DER RADIUS BESCHOSSEN
-			if(myShip.getShipSymbol().equals("D")) { //FÜR DEN RADIUS DES DESTROYER
-				//1. Reihe (v.l.n.r)
-				try {
-					if(battlefield[yCord - 2][xCord + 2].getSign().equals("[D]") || battlefield[yCord - 2][xCord + 2].getSign().equals("[F]") || battlefield[yCord - 2][xCord + 2].getSign().equals("[C]") || battlefield[yCord - 2][xCord + 2].getSign().equals("[S]")) {
-						battlefield[yCord - 2][xCord + 2].setHit(true); System.out.print("Hit! ");
+			try {
+				if(xCord + targetRadius > battlefield.length) {
+					throw new RightSideException();
+				} else {
+					for (int i = 0; i < targetRadius; i++) {
+						if(battlefield[yCord][xCord + i].getSign().equals("[D]") || battlefield[yCord][xCord + i].getSign().equals("[F]") || battlefield[yCord][xCord + i].getSign().equals("[C]")|| battlefield[yCord][xCord + i].getSign().equals("[S]")) {
+							battlefield[yCord][xCord + i].setHit(true);
+							System.out.println("Hit!");
+						}
 					}
-				} catch(Exception a1) { System.out.println("Fail! "); }
-				
-				try {
-					if(battlefield[yCord - 1][xCord + 2].getSign().equals("[D]") || battlefield[yCord - 1][xCord + 2].getSign().equals("[F]") || battlefield[yCord - 1][xCord + 2].getSign().equals("[C]") || battlefield[yCord - 1][xCord + 2].getSign().equals("[S]")) {
-						battlefield[yCord - 1][xCord + 2].setHit(true); System.out.print("Hit! ");
+				}
+			} catch(RightSideException e) {
+				while(xCord + targetRadius > battlefield.length) {
+					targetRadius = targetRadius - 1;
+				}
+				for (int i = 0; i < targetRadius; i++) {
+					if(battlefield[yCord][xCord + i].getSign().equals("[D]") || battlefield[yCord][xCord + i].getSign().equals("[F]") || battlefield[yCord][xCord + i].getSign().equals("[C]")|| battlefield[yCord][xCord + i].getSign().equals("[S]")) {
+						battlefield[yCord][xCord + i].setHit(true);
+						System.out.println("Hit!");
 					}
-				} catch(Exception a1) { System.out.println("Fail! "); }
-					
-				try {	
-					if(battlefield[yCord - 0][xCord + 2].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 2].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 2].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 2].getSign().equals("[S]")) {
-						battlefield[yCord - 0][xCord + 2].setHit(true); System.out.print("Hit! ");
-					}
-				} catch(Exception a1) { System.out.println("Fail! "); }
-				
-				try {
-					if(battlefield[yCord + 1][xCord + 2].getSign().equals("[D]") || battlefield[yCord + 1][xCord + 2].getSign().equals("[F]") || battlefield[yCord + 1][xCord + 2].getSign().equals("[C]") || battlefield[yCord + 1][xCord + 2].getSign().equals("[S]")) {
-						battlefield[yCord + 1][xCord + 2].setHit(true); System.out.print("Hit! ");
-					}
-				} catch(Exception a1) { System.out.println("Fail! "); }
-					
-				try {
-					if(battlefield[yCord + 2][xCord + 2].getSign().equals("[D]") || battlefield[yCord + 2][xCord + 2].getSign().equals("[F]") || battlefield[yCord + 2][xCord + 2].getSign().equals("[C]") || battlefield[yCord + 2][xCord + 2].getSign().equals("[S]")) {
-						battlefield[yCord + 2][xCord + 2].setHit(true); System.out.print("Hit! ");
-					}
-				} catch(Exception a1) { System.out.println("Fail! "); }
-					//2. Reihe (v.l.n.r)
-					try {
-						if(battlefield[yCord - 2][xCord + 1].getSign().equals("[D]") || battlefield[yCord - 2][xCord + 1].getSign().equals("[F]") || battlefield[yCord - 2][xCord + 1].getSign().equals("[C]") || battlefield[yCord - 2][xCord + 1].getSign().equals("[S]")) {
-							battlefield[yCord - 2][xCord + 1].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
-					try {
-						if(battlefield[yCord - 1][xCord + 1].getSign().equals("[D]") || battlefield[yCord - 1][xCord + 1].getSign().equals("[F]") || battlefield[yCord - 1][xCord + 1].getSign().equals("[C]") || battlefield[yCord - 1][xCord + 1].getSign().equals("[S]")) {
-							battlefield[yCord - 1][xCord + 1].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
-					try {
-						if(battlefield[yCord - 0][xCord + 1].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 1].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 1].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 1].getSign().equals("[S]")) {
-							battlefield[yCord - 0][xCord + 1].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
-					try {
-						if(battlefield[yCord + 1][xCord + 1].getSign().equals("[D]") || battlefield[yCord + 1][xCord + 1].getSign().equals("[F]") || battlefield[yCord + 1][xCord + 1].getSign().equals("[C]") || battlefield[yCord + 1][xCord + 1].getSign().equals("[S]")) {
-							battlefield[yCord + 1][xCord + 1].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
-					try {
-						if(battlefield[yCord + 2][xCord + 1].getSign().equals("[D]") || battlefield[yCord + 2][xCord + 1].getSign().equals("[F]") || battlefield[yCord + 2][xCord + 1].getSign().equals("[C]") || battlefield[yCord + 2][xCord + 1].getSign().equals("[S]")) {
-							battlefield[yCord + 2][xCord + 1].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
-					try {
-						//3. Reihe (v.l.n.r)
-						if(battlefield[yCord - 2][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 2][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 2][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 2][xCord + 0].getSign().equals("[S]")) {
-							battlefield[yCord - 2][xCord + 0].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
-					try {
-						if(battlefield[yCord - 1][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 1][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 1][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 1][xCord + 0].getSign().equals("[S]")) {
-							battlefield[yCord - 1][xCord + 0].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
-					try {
-						if(battlefield[yCord - 0][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[S]")) {
-							battlefield[yCord - 0][xCord + 0].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
-					try {
-						if(battlefield[yCord + 1][xCord + 0].getSign().equals("[D]") || battlefield[yCord + 1][xCord + 0].getSign().equals("[F]") || battlefield[yCord + 1][xCord + 0].getSign().equals("[C]") || battlefield[yCord + 1][xCord + 0].getSign().equals("[S]")) {
-							battlefield[yCord + 1][xCord + 0].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
-					try {
-						if(battlefield[yCord + 2][xCord + 0].getSign().equals("[D]") || battlefield[yCord + 2][xCord + 0].getSign().equals("[F]") || battlefield[yCord + 2][xCord + 0].getSign().equals("[C]") || battlefield[yCord + 2][xCord + 0].getSign().equals("[S]")) {
-							battlefield[yCord + 2][xCord + 0].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
-					//4. Reihe (v.l.n.r
-					try {
-						if(battlefield[yCord - 2][xCord - 1].getSign().equals("[D]") || battlefield[yCord - 2][xCord - 1].getSign().equals("[F]") || battlefield[yCord - 2][xCord - 1].getSign().equals("[C]") || battlefield[yCord - 2][xCord - 1].getSign().equals("[S]")) {
-							battlefield[yCord - 2][xCord - 1].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
-					try {
-						if(battlefield[yCord - 1][xCord - 1].getSign().equals("[D]") || battlefield[yCord - 1][xCord - 1].getSign().equals("[F]") || battlefield[yCord - 1][xCord - 1].getSign().equals("[C]") || battlefield[yCord - 1][xCord - 1].getSign().equals("[S]")) {
-							battlefield[yCord - 1][xCord - 1].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
-					try {
-						if(battlefield[yCord - 0][xCord - 1].getSign().equals("[D]") || battlefield[yCord - 0][xCord - 1].getSign().equals("[F]") || battlefield[yCord - 0][xCord - 1].getSign().equals("[C]") || battlefield[yCord - 0][xCord - 1].getSign().equals("[S]")) {
-							battlefield[yCord - 0][xCord - 1].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
-					try {
-						if(battlefield[yCord + 1][xCord - 1].getSign().equals("[D]") || battlefield[yCord + 1][xCord - 1].getSign().equals("[F]") || battlefield[yCord + 1][xCord - 1].getSign().equals("[C]") || battlefield[yCord + 1][xCord - 1].getSign().equals("[S]")) {
-							battlefield[yCord + 1][xCord - 1].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
-					try {
-						if(battlefield[yCord + 2][xCord - 1].getSign().equals("[D]") || battlefield[yCord + 2][xCord - 1].getSign().equals("[F]") || battlefield[yCord + 2][xCord - 1].getSign().equals("[C]") || battlefield[yCord + 2][xCord - 1].getSign().equals("[S]")) {
-							battlefield[yCord + 2][xCord - 1].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
-						//5. Reihe (v.l.n.r)
-					try {
-						if(battlefield[yCord - 2][xCord - 2].getSign().equals("[D]") || battlefield[yCord - 2][xCord - 2].getSign().equals("[F]") || battlefield[yCord - 2][xCord - 2].getSign().equals("[C]") || battlefield[yCord - 2][xCord - 2].getSign().equals("[S]")) {
-							battlefield[yCord - 2][xCord - 2].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
-					try {
-						if(battlefield[yCord - 1][xCord - 2].getSign().equals("[D]") || battlefield[yCord - 1][xCord - 2].getSign().equals("[F]") || battlefield[yCord - 1][xCord - 2].getSign().equals("[C]") || battlefield[yCord - 1][xCord - 2].getSign().equals("[S]")) {
-							battlefield[yCord - 1][xCord - 2].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
-					try {
-						if(battlefield[yCord - 0][xCord - 2].getSign().equals("[D]") || battlefield[yCord - 0][xCord - 2].getSign().equals("[F]") || battlefield[yCord - 0][xCord - 2].getSign().equals("[C]") || battlefield[yCord - 0][xCord - 2].getSign().equals("[S]")) {
-							battlefield[yCord - 0][xCord - 2].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
-					try {
-						if(battlefield[yCord + 1][xCord - 2].getSign().equals("[D]") || battlefield[yCord + 1][xCord - 2].getSign().equals("[F]") || battlefield[yCord + 1][xCord - 2].getSign().equals("[C]") || battlefield[yCord + 1][xCord - 2].getSign().equals("[S]")) {
-							battlefield[yCord + 1][xCord - 2].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
-					try {
-						if(battlefield[yCord + 2][xCord - 2].getSign().equals("[D]") || battlefield[yCord + 2][xCord - 2].getSign().equals("[F]") || battlefield[yCord + 2][xCord - 2].getSign().equals("[C]") || battlefield[yCord + 2][xCord - 2].getSign().equals("[S]")) {
-							battlefield[yCord + 2][xCord - 2].setHit(true); System.out.print("Hit! ");
-						}
-					} catch(Exception a1) { System.out.println("Fail! "); }
+				}
 			}
-			if(myShip.getShipSymbol().equals("F")) { //FÜR DEN RADIUS DER FRIGATE
-				//2. Reihe (v.l.n.r)
-				try {
-					if(battlefield[yCord - 1][xCord + 1].getSign().equals("[D]") || battlefield[yCord - 1][xCord + 1].getSign().equals("[F]") || battlefield[yCord - 1][xCord + 1].getSign().equals("[C]") || battlefield[yCord - 1][xCord + 1].getSign().equals("[S]")) {
-						battlefield[yCord - 1][xCord + 1].setHit(true); System.out.print("Hit! ");
-					}
-				} catch(Exception a1) { System.out.println("Fail! "); }
-				try {
-					if(battlefield[yCord - 0][xCord + 1].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 1].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 1].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 1].getSign().equals("[S]")) {
-						battlefield[yCord - 0][xCord + 1].setHit(true); System.out.print("Hit! ");
-					}
-				} catch(Exception a1) { System.out.println("Fail! "); }
-				try {
-					if(battlefield[yCord + 1][xCord + 1].getSign().equals("[D]") || battlefield[yCord + 1][xCord + 1].getSign().equals("[F]") || battlefield[yCord + 1][xCord + 1].getSign().equals("[C]") || battlefield[yCord + 1][xCord + 1].getSign().equals("[S]")) {
-						battlefield[yCord + 1][xCord + 1].setHit(true); System.out.print("Hit! ");
-					}
-				} catch(Exception a1) { System.out.println("Fail! "); }
-					//3. Reihe (v.l.n.r)
-				try {
-					if(battlefield[yCord - 1][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 1][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 1][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 1][xCord + 0].getSign().equals("[S]")) {
-						battlefield[yCord - 1][xCord + 0].setHit(true); System.out.print("Hit! ");
-					}
-				} catch(Exception a1) { System.out.println("Fail! "); }
-				try {
-					if(battlefield[yCord - 0][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[S]")) {
-						battlefield[yCord - 0][xCord + 0].setHit(true); System.out.print("Hit! ");
-					}
-				} catch(Exception a1) { System.out.println("Fail! "); }
-				try {
-					if(battlefield[yCord + 1][xCord + 0].getSign().equals("[D]") || battlefield[yCord + 1][xCord + 0].getSign().equals("[F]") || battlefield[yCord + 1][xCord + 0].getSign().equals("[C]") || battlefield[yCord + 1][xCord + 0].getSign().equals("[S]")) {
-						battlefield[yCord + 1][xCord + 0].setHit(true); System.out.print("Hit! ");
-					}
-				} catch(Exception a1) { System.out.println("Fail! "); }
-					//4. Reihe (v.l.n.r)
-				try {
-					if(battlefield[yCord - 1][xCord - 1].getSign().equals("[D]") || battlefield[yCord - 1][xCord - 1].getSign().equals("[F]") || battlefield[yCord - 1][xCord - 1].getSign().equals("[C]") || battlefield[yCord - 1][xCord - 1].getSign().equals("[S]")) {
-						battlefield[yCord - 1][xCord - 1].setHit(true); System.out.print("Hit! ");
-					}
-				} catch(Exception a1) { System.out.println("Fail! "); }
-				try {
-					if(battlefield[yCord - 0][xCord - 1].getSign().equals("[D]") || battlefield[yCord - 0][xCord - 1].getSign().equals("[F]") || battlefield[yCord - 0][xCord - 1].getSign().equals("[C]") || battlefield[yCord - 0][xCord - 1].getSign().equals("[S]")) {
-						battlefield[yCord - 0][xCord - 1].setHit(true); System.out.print("Hit! ");
-					}
-				} catch(Exception a1) { System.out.println("Fail! "); }
-				try {
-					if(battlefield[yCord + 1][xCord - 1].getSign().equals("[D]") || battlefield[yCord + 1][xCord - 1].getSign().equals("[F]") || battlefield[yCord + 1][xCord - 1].getSign().equals("[C]") || battlefield[yCord + 1][xCord - 1].getSign().equals("[S]")) {
-						battlefield[yCord + 1][xCord - 1].setHit(true); System.out.print("Hit! ");
-					}
-				} catch(Exception a1) { System.out.println("Fail! "); }
-			}
-			if(myShip.getShipSymbol().equals("C")) { //FÜR DEN RADIUS DER CORVETTE	
-				try {
-					//3. Reihe (v.l.n.r)
-					if(battlefield[yCord - 0][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[S]")) {
-						battlefield[yCord - 0][xCord + 0].setHit(true); System.out.print("Hit! ");
-					}
-				} catch(Exception a1) { System.out.println("Fail! "); }
-			}
-			if(myShip.getShipSymbol().equals("S")) { //FÜR DEN RADIUS DER SUBMARINE
-				//3. Reihe (v.l.n.r)
-				try {
-					if(battlefield[yCord - 0][xCord + 0].getSign().equals("[D]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[F]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[C]") || battlefield[yCord - 0][xCord + 0].getSign().equals("[S]")) {
-						battlefield[yCord - 0][xCord + 0].setHit(true); System.out.print("Hit! ");
-					}
-				} catch(Exception a1) { System.out.println("Fail! "); }
-			}
+			
 			
 			//SCHIFFE STERBEN HIER - RIP
 			
