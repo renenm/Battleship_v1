@@ -40,7 +40,7 @@ public class Main {
 		int num = -1;
 		try {    
 			num = scan.nextInt();
-			if(!(num > 0)) { 
+			if(!(num >= 0)) { 
 				System.out.println("\t\tPlease enter a positive number:" );
 				num = readInt();
 			}	
