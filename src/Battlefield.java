@@ -20,6 +20,9 @@ public class Battlefield {
 		for (int x = 0; x < battlefield.length; x++) {
 			for (int y = 0; y < battlefield[x].length; y++) {
 				battlefield[x][y] = new Field(false, false, true);
+				battlefield[0][y].setSign("[" + y + "]");
+				battlefield[x][0].setSign("[" + x + "]");
+				battlefield[0][0].setSign("[ ]");
 			}
 		}
 	}
@@ -27,12 +30,7 @@ public class Battlefield {
 	//Ausgabe Battlefield
 	public void printBattlefield() {
 		for (int x = 0; x < battlefield.length; x++) {
-			for (int y = 0; y < battlefield[x].length; y++) {
-				
-				battlefield[0][y].setSign("[" + y + "]");
-				battlefield[x][0].setSign("[" + x + "]");
-				battlefield[0][0].setSign("[ ]");
-				
+			for (int y = 0; y < battlefield[x].length; y++) {			
 				System.out.print(battlefield[x][y].getSign() + " ");
 			}
 			System.out.println();
@@ -43,11 +41,6 @@ public class Battlefield {
 		public void printEnemyBattlefield() {
 			for (int x = 0; x < battlefield.length; x++) {
 				for (int y = 0; y < battlefield[x].length; y++) {	
-					
-					battlefield[0][y].setSign("[" + y + "]");
-					battlefield[x][0].setSign("[" + x + "]");
-					battlefield[0][0].setSign("[ ]");
-					
 					if(battlefield[x][y].getSign().equals("[D]") || battlefield[x][y].getSign().equals("[F]") || battlefield[x][y].getSign().equals("[C]") || battlefield[x][y].getSign().equals("[S]")) {
 						System.out.print("[ ]");
 					} else {
@@ -188,7 +181,7 @@ public class Battlefield {
 			
 			//SCHIFFE STERBEN HIER - RIP
 			
-			if(!myShip.isHorizontal) {
+			if(myShip.isHorizontal) {
 				///DESTROYER + BEREICH
 				try {
 					if(!battlefield[xCord - 0][yCord].equals("[D]")) {
