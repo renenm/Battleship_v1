@@ -19,7 +19,7 @@ public class Battlefield {
 	public void builtBattlefield() {
 		for (int x = 0; x < battlefield.length; x++) {
 			for (int y = 0; y < battlefield[x].length; y++) {
-				battlefield[x][y] = new Field(false, false, true, false);
+				battlefield[x][y] = new Field(false, false, true);
 			}
 		}
 	}
@@ -48,16 +48,14 @@ public class Battlefield {
 					battlefield[x][0].setSign("[" + x + "]");
 					battlefield[0][0].setSign("[ ]");
 					
-					if(battlefield[x][y].isHitShip()) {
-						System.out.print("[H]" + " ");
-					} else if(battlefield[x][y].isHit()) {
-						System.out.print("[X]" + " ");
-					} else {
+					if(battlefield[x][y].getSign().equals("[D]") || battlefield[x][y].getSign().equals("[F]") || battlefield[x][y].getSign().equals("[C]") || battlefield[x][y].getSign().equals("[S]")) {
 						System.out.print("[ ]");
+					} else {
+						System.out.print(battlefield[x][y].getSign());
 					}
 				}
+				System.out.println();
 			}
-			System.out.println();
 		}
 		
 		
@@ -154,38 +152,38 @@ public class Battlefield {
 		myShip.setReady(false);
 		myShip.setShipRespawn(0);
 		int targetRadius = myShip.getShipTargetRadius();
-		//if(myShip.isReady()) {
-			if(isShipThere(xCord, yCord)) {
-				battlefield[yCord][xCord].setHit(true);
-				//System.out.println("Hit!");
-			}
-			//AB HIER WIRD AUCH DER RADIUS BESCHOSSEN
-			try {
-				if(xCord + targetRadius > battlefield.length) {
-					throw new RightSideException();
-				} else {
-					for (int i = 0; i < targetRadius; i++) {
-						if(battlefield[yCord][xCord + i].getSign().equals("[D]") || battlefield[yCord][xCord + i].getSign().equals("[F]") || battlefield[yCord][xCord + i].getSign().equals("[C]")|| battlefield[yCord][xCord + i].getSign().equals("[S]")) {
-							battlefield[yCord][xCord + i].setIsHitShip(true);
-							System.out.println("Hit!");
-						} else {
-							battlefield[yCord][xCord + i].setHit(true);
-						}
-					}
-				}
-			} catch(RightSideException e) {
-				while(xCord + targetRadius > battlefield.length) {
-					targetRadius = targetRadius - 1;
-				}
+		
+		//AB HIER WIRD AUCH DER RADIUS BESCHOSSEN
+		try {
+			if(xCord + targetRadius > battlefield.length) {
+				throw new RightSideException();
+			} else {
 				for (int i = 0; i < targetRadius; i++) {
 					if(battlefield[yCord][xCord + i].getSign().equals("[D]") || battlefield[yCord][xCord + i].getSign().equals("[F]") || battlefield[yCord][xCord + i].getSign().equals("[C]")|| battlefield[yCord][xCord + i].getSign().equals("[S]")) {
-						battlefield[yCord][xCord + i].setIsHitShip(true);
+						battlefield[yCord][xCord + i].setHit(true);
+						battlefield[yCord][xCord + i].setSign("[H]");
 						System.out.println("Hit!");
 					} else {
 						battlefield[yCord][xCord + i].setHit(true);
+						battlefield[yCord][xCord + i].setSign("[X]");
 					}
 				}
 			}
+		} catch(RightSideException e) {
+			while(xCord + targetRadius > battlefield.length) {
+				targetRadius = targetRadius - 1;
+			}
+			for (int i = 0; i < targetRadius; i++) {
+				if(battlefield[yCord][xCord + i].getSign().equals("[D]") || battlefield[yCord][xCord + i].getSign().equals("[F]") || battlefield[yCord][xCord + i].getSign().equals("[C]")|| battlefield[yCord][xCord + i].getSign().equals("[S]")) {
+					battlefield[yCord][xCord + i].setHit(true);
+					battlefield[yCord][xCord + i].setSign("[H]");
+					System.out.println("Hit!");
+				} else {
+					battlefield[yCord][xCord + i].setHit(true);
+					battlefield[yCord][xCord + i].setSign("[X]");
+				}
+			}
+		}
 			
 			
 			//SCHIFFE STERBEN HIER - RIP
