@@ -19,7 +19,7 @@ public class Battlefield {
 	public void builtBattlefield() {
 		for (int x = 0; x < battlefield.length; x++) {
 			for (int y = 0; y < battlefield[x].length; y++) {
-				battlefield[x][y] = new Field(false, false, true);
+				battlefield[x][y] = new Field(false, false, true, false);
 				battlefield[0][y].setSign("[" + y + "]");
 				battlefield[x][0].setSign("[" + x + "]");
 				battlefield[0][0].setSign("[ ]");
@@ -81,18 +81,7 @@ public class Battlefield {
 			System.out.println();
 		}
 	}
-	
-	//Ausgabe Raw
-	public void printRaw() {
-		for (int x = 0; x < battlefield.length; x++) {
-			for (int y = 0; y < battlefield[x].length; y++) {
-				System.out.print(battlefield[x][y] + " ");
-			}
-			System.out.println();
-		}
-	}
 
-	
 	public static boolean isHorizontal() {
 		Scanner scan = new Scanner(System.in);
 		boolean isHorizontal;
@@ -153,7 +142,7 @@ public class Battlefield {
 			} else {
 				for (int i = 0; i < targetRadius; i++) {
 					if(battlefield[yCord][xCord + i].getSign().equals("[D]") || battlefield[yCord][xCord + i].getSign().equals("[F]") || battlefield[yCord][xCord + i].getSign().equals("[C]")|| battlefield[yCord][xCord + i].getSign().equals("[S]")) {
-						battlefield[yCord][xCord + i].setHit(true);
+						battlefield[yCord][xCord + i].setHitShip(true);
 						battlefield[yCord][xCord + i].setSign("[H]");
 						System.out.println("Hit!");
 					} else {
@@ -168,7 +157,7 @@ public class Battlefield {
 			}
 			for (int i = 0; i < targetRadius; i++) {
 				if(battlefield[yCord][xCord + i].getSign().equals("[D]") || battlefield[yCord][xCord + i].getSign().equals("[F]") || battlefield[yCord][xCord + i].getSign().equals("[C]")|| battlefield[yCord][xCord + i].getSign().equals("[S]")) {
-					battlefield[yCord][xCord + i].setHit(true);
+					battlefield[yCord][xCord + i].setHitShip(true);
 					battlefield[yCord][xCord + i].setSign("[H]");
 					System.out.println("Hit!");
 				} else {
