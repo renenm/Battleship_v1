@@ -41,7 +41,7 @@ public class Battlefield {
 		public void printEnemyBattlefield() {
 			for (int x = 0; x < battlefield.length; x++) {
 				for (int y = 0; y < battlefield[x].length; y++) {	
-					if(battlefield[x][y].getSign().equals("[D]") || battlefield[x][y].getSign().equals("[F]") || battlefield[x][y].getSign().equals("[C]") || battlefield[x][y].getSign().equals("[S]")) {
+					if(battlefield[x][y].isShip() == true) {
 						System.out.print("[ ]");
 					} else {
 						System.out.print(battlefield[x][y].getSign());
