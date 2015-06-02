@@ -6,15 +6,17 @@ public class Field {
 	private boolean isHit = false;
 	private boolean isWater = true; 
 	private boolean isHitShip = false;
+	private boolean isShip = false;
 
 	public Field() {}
 	
-	public Field(boolean isActive, boolean isHit, boolean isWater, boolean isHitShip) {
+	public Field(boolean isActive, boolean isHit, boolean isWater, boolean isHitShip, boolean isShip) {
 		this.sign = sign;
 		this.isActive = isActive;
 		this.isHit = isHit;
 		this.isWater = isWater;
 		this.isHitShip = isHitShip;
+		this.isShip = isShip;
 	}
 	
 	public String getSign() {
@@ -55,5 +57,13 @@ public class Field {
 
 	public void setHitShip(boolean isHitShip) {
 		this.isHitShip = isHitShip;
+	}
+
+	public boolean isShip() {
+		return isShip;
+	}
+
+	public void setShip(boolean isShip) {
+		this.isShip = isShip;
 	}	
 }

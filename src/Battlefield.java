@@ -19,7 +19,7 @@ public class Battlefield {
 	public void builtBattlefield() {
 		for (int x = 0; x < battlefield.length; x++) {
 			for (int y = 0; y < battlefield[x].length; y++) {
-				battlefield[x][y] = new Field(false, false, true, false);
+				battlefield[x][y] = new Field(false, false, true, false, false);
 				battlefield[0][y].setSign("[" + y + "]");
 				battlefield[x][0].setSign("[" + x + "]");
 				battlefield[0][0].setSign("[ ]");
@@ -141,11 +141,12 @@ public class Battlefield {
 				throw new RightSideException();
 			} else {
 				for (int i = 0; i < targetRadius; i++) {
-					if(battlefield[yCord][xCord + i].getSign().equals("[D]") || battlefield[yCord][xCord + i].getSign().equals("[F]") || battlefield[yCord][xCord + i].getSign().equals("[C]")|| battlefield[yCord][xCord + i].getSign().equals("[S]")) {
+					if(battlefield[yCord][xCord + i].isShip() == true) {
 						battlefield[yCord][xCord + i].setHitShip(true);
 						battlefield[yCord][xCord + i].setSign("[H]");
+						battlefield[yCord][xCord + i].setShip(false);
 						System.out.println("Hit!");
-					} else {
+					} else if(battlefield[yCord][xCord + i].isWater() == true) {
 						battlefield[yCord][xCord + i].setHit(true);
 						battlefield[yCord][xCord + i].setSign("[X]");
 					}
@@ -156,11 +157,12 @@ public class Battlefield {
 				targetRadius = targetRadius - 1;
 			}
 			for (int i = 0; i < targetRadius; i++) {
-				if(battlefield[yCord][xCord + i].getSign().equals("[D]") || battlefield[yCord][xCord + i].getSign().equals("[F]") || battlefield[yCord][xCord + i].getSign().equals("[C]")|| battlefield[yCord][xCord + i].getSign().equals("[S]")) {
+				if(battlefield[yCord][xCord + i].isShip() == true) {
 					battlefield[yCord][xCord + i].setHitShip(true);
 					battlefield[yCord][xCord + i].setSign("[H]");
+					battlefield[yCord][xCord + i].setShip(false);
 					System.out.println("Hit!");
-				} else {
+				} else if(battlefield[yCord][xCord + i].isWater() == true) {
 					battlefield[yCord][xCord + i].setHit(true);
 					battlefield[yCord][xCord + i].setSign("[X]");
 				}
@@ -507,6 +509,7 @@ public class Battlefield {
 						battlefield[y][x + i].setSign("[" + ship.getShipSymbol() + "]");
 						battlefield[y][x + i].setActive(true);
 						battlefield[y][x + i].setWater(false);
+						battlefield[y][x + i].setShip(true);
 					}
 				}
 			} catch (RightLowerCornerException e) {
@@ -517,6 +520,7 @@ public class Battlefield {
 					battlefield[y][x + i].setSign("[" + ship.getShipSymbol() + "]");
 					battlefield[y][x + i].setActive(true);
 					battlefield[y][x + i].setWater(false);
+					battlefield[y][x + i].setShip(true);
 				}
 			} catch(LowerSideException e) {
 				for (int i = 0; i < ship.getShipSize(); i++) {
@@ -528,6 +532,7 @@ public class Battlefield {
 					battlefield[y][x + i].setSign("[" + ship.getShipSymbol() + "]");
 					battlefield[y][x + i].setActive(true);
 					battlefield[y][x + i].setWater(false);
+					battlefield[y][x + i].setShip(true);
 				}
 			} catch (RightSideException e) {
 				for (int i = 0; i < ship.getShipSize(); i++) {
@@ -539,6 +544,7 @@ public class Battlefield {
 					battlefield[y][x + i].setSign("[" + ship.getShipSymbol() + "]");
 					battlefield[y][x + i].setActive(true);
 					battlefield[y][x + i].setWater(false);
+					battlefield[y][x + i].setShip(true);
 				}
 			}
 		} else {
@@ -562,6 +568,7 @@ public class Battlefield {
 							battlefield[y + i][x].setSign("[" + ship.getShipSymbol() + "]");
 							battlefield[y + i][x].setActive(true);
 							battlefield[y + i][x].setWater(false);
+							battlefield[y + i][x].setShip(true);
 						}
 					}
 				} catch (VertRightLowerCornerException e) {
@@ -572,6 +579,7 @@ public class Battlefield {
 						battlefield[y + i][x].setSign("[" + ship.getShipSymbol() + "]");
 						battlefield[y + i][x].setActive(true);
 						battlefield[y + i][x].setWater(false);
+						battlefield[y + i][x].setShip(true);
 					}
 				} catch (VertRightSideException e) {
 					for (int i = 0; i < ship.getShipSize(); i++) {
@@ -583,6 +591,7 @@ public class Battlefield {
 						battlefield[y + i][x].setSign("[" + ship.getShipSymbol() + "]");
 						battlefield[y + i][x].setActive(true);
 						battlefield[y + i][x].setWater(false);
+						battlefield[y + i][x].setShip(true);
 					}
 				} catch (VertLowerSideException e) {
 					for (int i = 0; i < ship.getShipSize(); i++) {
@@ -594,6 +603,7 @@ public class Battlefield {
 						battlefield[y + i][x].setSign("[" + ship.getShipSymbol() + "]");
 						battlefield[y + i][x].setActive(true);
 						battlefield[y + i][x].setWater(false);
+						battlefield[y + i][x].setShip(true);
 					}
 			} 
 		}
