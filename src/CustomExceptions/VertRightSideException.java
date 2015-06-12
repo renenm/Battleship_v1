@@ -1,3 +1,4 @@
+package CustomExceptions;
 
 public class VertRightSideException extends Exception {
 

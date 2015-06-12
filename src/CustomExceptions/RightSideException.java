@@ -1,3 +1,4 @@
+package CustomExceptions;
 
 public class RightSideException extends Exception {
 	

@@ -1,3 +1,4 @@
+package CustomExceptions;
 
 public class RightLowerCornerException extends Exception {
 	

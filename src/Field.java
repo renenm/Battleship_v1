@@ -1,5 +1,7 @@
+import java.io.Serializable;
 
-public class Field {
+
+public class Field implements Serializable{
 	
 	private String sign = "[ ]"; 
 	private boolean isActive = false; 
@@ -7,11 +9,11 @@ public class Field {
 	private boolean isWater = true; 
 	private boolean isHitShip = false;
 	private boolean isShip = false;
+	private int shipId;
 
 	public Field() {}
 	
 	public Field(boolean isActive, boolean isHit, boolean isWater, boolean isHitShip, boolean isShip) {
-		this.sign = sign;
 		this.isActive = isActive;
 		this.isHit = isHit;
 		this.isWater = isWater;
@@ -65,5 +67,13 @@ public class Field {
 
 	public void setShip(boolean isShip) {
 		this.isShip = isShip;
+	}
+
+	public int getShipId() {
+		return shipId;
+	}
+
+	public void setShipId(int shipId) {
+		this.shipId = shipId;
 	}	
 }
