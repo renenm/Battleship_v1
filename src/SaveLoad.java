@@ -133,7 +133,7 @@ public class SaveLoad {
 	
 	public static int[] valuesLoad() {
 		
-		int [] values = new int[6];
+		int [] values = new int[7];
 		
 		try {
 			inputFile = new File("game" + path  + "/saveValues.cnk");

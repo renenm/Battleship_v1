@@ -21,26 +21,31 @@ public class Game {
 			preparation();
 		} else if("no".equals(mode)) {
 			//SaveGame laden
-			int[] values = SaveLoad.valuesLoad();
-			int fieldsize = values[0];
-			int howManyPlayers = values[1];
-			int howManyDestroyer = values[2];
-			int howManyFrigates = values[3];
-			int howManyCorvettes = values[4];
-			int howManySubmarines = values[5];
-			
-			Battlefield[] playersBattlefield = SaveLoad.playersBattlefieldLoad(howManyPlayers);
-			Player[] player = SaveLoad.playerLoad(howManyPlayers);
-			Destroyer[][] destroyer = SaveLoad.destroyerLoad(howManyPlayers, howManyDestroyer);
-			Frigate[][] frigate = SaveLoad.frigateLoad(howManyPlayers, howManyFrigates);
-			Corvette[][] corvette = SaveLoad.corvetteLoad(howManyPlayers, howManyCorvettes);
-			Submarine[][] submarine = SaveLoad.submarineLoad(howManyPlayers, howManySubmarines);
-			
-			game(fieldsize, howManyPlayers, howManyDestroyer, howManyFrigates, howManyCorvettes, howManySubmarines, playersBattlefield, player, destroyer, frigate, corvette, submarine, values);
+			loadGame();
 		} else {
 			System.out.println("\tPlease type in 'yes' or 'no'");
 			gameMode();
 		}
+	}
+	
+	public static void loadGame() throws Exception {
+		int[] values = SaveLoad.valuesLoad();
+		int fieldsize = values[0];
+		int howManyPlayers = values[1];
+		int howManyDestroyer = values[2];
+		int howManyFrigates = values[3];
+		int howManyCorvettes = values[4];
+		int howManySubmarines = values[5];
+		int round = values[6];
+		
+		Battlefield[] playersBattlefield = SaveLoad.playersBattlefieldLoad(howManyPlayers);
+		Player[] player = SaveLoad.playerLoad(howManyPlayers);
+		Destroyer[][] destroyer = SaveLoad.destroyerLoad(howManyPlayers, howManyDestroyer);
+		Frigate[][] frigate = SaveLoad.frigateLoad(howManyPlayers, howManyFrigates);
+		Corvette[][] corvette = SaveLoad.corvetteLoad(howManyPlayers, howManyCorvettes);
+		Submarine[][] submarine = SaveLoad.submarineLoad(howManyPlayers, howManySubmarines);
+		
+		game(round, fieldsize, howManyPlayers, howManyDestroyer, howManyFrigates, howManyCorvettes, howManySubmarines, playersBattlefield, player, destroyer, frigate, corvette, submarine, values);
 	}
 	
 	public static void preparation() throws Exception {
@@ -61,6 +66,7 @@ public class Game {
 		int howManySubmarines;
 		int xCord;
 		int yCord;
+		int round = 0;
 		boolean isHorizontal = false;
 		
 		//Objektarrays erstellen
@@ -234,13 +240,15 @@ public class Game {
 		}
 		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGet ready...\n");
 		
-		int[] values = new int[6];
+		int[] values = new int[7];
 		values[0] = fieldsize;
 		values[1] = howManyPlayers;
 		values[2] = howManyDestroyer;
 		values[3] = howManyFrigates;
 		values[4] = howManyCorvettes;
 		values[5] = howManySubmarines;
+		values[6] = round;
+		
 		SaveLoad.save(playersBattlefield);
 		SaveLoad.savePlayer(player);
 		SaveLoad.saveDestroyer(destroyer);
@@ -250,13 +258,12 @@ public class Game {
 		SaveLoad.saveValues(values);
 		
 		//Hier wird der Spielablauf aufgerufen
-		game(fieldsize, howManyPlayers, howManyDestroyer, howManyFrigates, howManyCorvettes, howManySubmarines, playersBattlefield, player, destroyer, frigate, corvette, submarine, values);
+		game(round, fieldsize, howManyPlayers, howManyDestroyer, howManyFrigates, howManyCorvettes, howManySubmarines, playersBattlefield, player, destroyer, frigate, corvette, submarine, values);
 	}
 	
 	
-	public static void game(int fieldsize, int howManyPlayers, int howManyDestroyer, int howManyFrigates, int howManyCorvettes, int howManySubmarines, Battlefield[] playersBattlefield, Player[] player, Destroyer[][] destroyer, Frigate[][] frigate, Corvette[][] corvette, Submarine[][] submarine, int[] values) throws Exception {
+	public static void game(int round, int fieldsize, int howManyPlayers, int howManyDestroyer, int howManyFrigates, int howManyCorvettes, int howManySubmarines, Battlefield[] playersBattlefield, Player[] player, Destroyer[][] destroyer, Frigate[][] frigate, Corvette[][] corvette, Submarine[][] submarine, int[] values) throws Exception {
 		String possibleWinner = "Nobody"; 
-		int round = 0;
 		
 		while(howManyPlayers > 1) {
 			System.out.println("___ROUND " + (round+1) + "___");
@@ -268,22 +275,22 @@ public class Game {
 				if(player[i].isDead() == false) {
 					possibleWinner = player[i].getName();
 					player[i].round(fieldsize, i, player, playersBattlefield, destroyer, frigate, corvette, submarine);
-					
-					
-					
-					SaveLoad.save(playersBattlefield);
-					SaveLoad.savePlayer(player);
-					SaveLoad.saveDestroyer(destroyer);
-					SaveLoad.saveFrigate(frigate);
-					SaveLoad.saveCorvette(corvette);
-					SaveLoad.saveSubmarine(submarine);
-					SaveLoad.saveValues(values);
 
 				} else {
 					howManyPlayers --;
 					System.out.println(player[i].getName() + " is dead.");
 				}
 			}
+			
+			values[1] = howManyPlayers;
+			values[6] = round;
+			SaveLoad.save(playersBattlefield);
+			SaveLoad.savePlayer(player);
+			SaveLoad.saveDestroyer(destroyer);
+			SaveLoad.saveFrigate(frigate);
+			SaveLoad.saveCorvette(corvette);
+			SaveLoad.saveSubmarine(submarine);
+			SaveLoad.saveValues(values);
 		}
 		System.out.println("Game is Over!");
 		System.out.println("Winner: " + possibleWinner);
