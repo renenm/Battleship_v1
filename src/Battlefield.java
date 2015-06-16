@@ -61,11 +61,11 @@ public class Battlefield implements Serializable{
 
 	public static boolean isHorizontal() {
 		Scanner scan = new Scanner(System.in);
-		System.out.print("\t\tvertical / horizontal? [vert / hori]: ");
+		System.out.print("\t\tvertical / horizontal? [v / h]: ");
 		String orientation = scan.next();
-		if ("vert".equals(orientation)) {
+		if ("v".equals(orientation)) {
 			return false;
-		} else if("hori".equals(orientation)) {
+		} else if("h".equals(orientation)) {
 			return true;
 		} else {
 			isHorizontal();
