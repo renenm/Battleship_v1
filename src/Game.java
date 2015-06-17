@@ -78,11 +78,7 @@ public class Game {
 		
 		//Einlesen der Variablen
 		System.out.print("Battlesize [square]: ");
-		fieldsize = ScannerExceptions.readInt();
-			while(!(fieldsize >= 2)) {
-				System.out.print("Please insert a minimum of 2: ");
-				fieldsize = ScannerExceptions.readInt();
-			}
+		fieldsize = ScannerExceptions.readInt(2,9999);
 		System.out.println("\nHow many...");
 		System.out.print("\tDestroyer(5 fields): ");
 			howManyDestroyer = ScannerExceptions.readInt(1, 5); //1,10 muss da noch als Parameter später rein
@@ -93,13 +89,9 @@ public class Game {
 		System.out.print("\tSubmarines(2 fields): ");
 			howManySubmarines = ScannerExceptions.readInt(1, 5);
 		System.out.print("\nHow many players(2-6)?: ");
-			howManyPlayers = ScannerExceptions.readInt(); 
+			howManyPlayers = ScannerExceptions.readInt(2, 6); 
 		//Nummer der Spieler zwischen 2 und 6
-		while(!(howManyPlayers < 7 && howManyPlayers > 1)) {
-			System.out.print("\tPlease insert a number from 2 to 6: ");
-			howManyPlayers = ScannerExceptions.readInt();
-		}
-		
+				
 		System.out.print("\nDo you want to add an artificial inteligenze? [yes/no] ");
 		isKiThere = s.next();
 		if(isKiThere.equals("yes")) {
@@ -117,7 +109,6 @@ public class Game {
 		//Jeder Spieler bekommt ein Spielfeld zugewiesen
 		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);		
-		
 			for(int i = 0; i < howManyPlayers - howManyAis; i++) {
 				System.out.print("\n\tName of player #" + (i+1) + ": ");
 				player[i] = new Player(scan.next(), i, false);
