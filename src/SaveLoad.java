@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/**
+ * Die Klasse wird benötigt um ein Spiel abzuspeichern oder zu laden, dies erfolgt durch Serialisierung der Objektarrays
+ * @author Max Kück, Rene Neumann, Justus Cöster
+ */
 
 public class SaveLoad {
 	
@@ -22,6 +26,9 @@ public class SaveLoad {
 	static ObjectInputStream objectin;
 	static String path = "One";
 	
+	/**
+	 * Die Methode erstellt, falls nicht vorhanden, einen neuen Ordner, in dem die Saves gespeichert werden
+	 */
 	public static void addFolder() {
 
 		boolean success = (new File(".//game" + path)).mkdir();
@@ -30,6 +37,10 @@ public class SaveLoad {
 		}
 	}
 	
+	/**
+	 * die Methode speichert das Objektarray mit den Spielfeldern ab
+	 * @param playersBattlefield Objektarray, welches die Spielfelder beinhaltet
+	 */
 	public static void save(Battlefield[] playersBattlefield) {
 		try {
 			fileout = new FileOutputStream("game" + path + "/saveBattlefield.cnk");
@@ -43,6 +54,10 @@ public class SaveLoad {
 		}
 	}
 	
+	/**
+	 * Die Methode speichert das Objektarray mit den Spielern ab
+	 * @param Objektarray, welches die Spieler beinhaltet
+	 */
 	public static void savePlayer(Player[] player) {
 		try {
 			fileout = new FileOutputStream("game" + path  + "/savePlayer.cnk");
@@ -56,6 +71,10 @@ public class SaveLoad {
 		}
 	}
 	
+	/**
+	 * Die Methode speichert, das Objektarray mit den Zerstörern ab
+	 * @param destroyer Objektarray, welches die Zerstörer beinhaltet
+	 */
 	public static void saveDestroyer(Destroyer[][] destroyer) {
 		try {
 			fileout = new FileOutputStream("game" + path  + "/saveDestroyer.cnk");
@@ -71,6 +90,10 @@ public class SaveLoad {
 		}
 	}
 	
+	/**
+	 * Die Methode speichert, das Objektarray mit den Frigatten ab
+	 * @param frigate Objektarray, welches die Frigatten beinhaltet
+	 */
 	public static void saveFrigate(Frigate[][] frigate) {
 		try {
 			fileout = new FileOutputStream("game" + path  + "/saveFrigate.cnk");
@@ -86,6 +109,10 @@ public class SaveLoad {
 		}
 	}
 	
+	/**
+	 * Die Methode speichert, das Objektarray mit den Korvetten ab
+	 * @param corvette Objektarray, welches die korvetten beinhaltet
+	 */
 	public static void saveCorvette(Corvette[][] corvette) {
 		try {
 			fileout = new FileOutputStream("game" + path  + "/saveCorvette.cnk");
@@ -101,6 +128,10 @@ public class SaveLoad {
 		}
 	}
 	
+	/**
+	 * Die Methode speichert, das Objektarray mit den U-Booten ab
+	 * @param submarine Objektarray, welches die U-Boote beinhaltet
+	 */
 	public static void saveSubmarine(Submarine[][] submarine) {
 		try {
 			fileout = new FileOutputStream("game" + path  + "/saveSubmarine.cnk");
@@ -115,7 +146,11 @@ public class SaveLoad {
 			e.printStackTrace();
 		}	
 	}
-
+	
+	/**
+	 * Die Methode speichert, das Array mit den wichtigsten int-Werten des Spiels ab
+	 * @param values Array mit den int-Werten
+	 */
 	public static void saveValues(int[] values) {
 	
 		try {
@@ -131,6 +166,10 @@ public class SaveLoad {
 		}
 	}
 	
+	/**
+	 * Die Methode lädt die wichtigen int-Werten in das Spiel
+	 * @return Array mit den int-Werten
+	 */
 	public static int[] valuesLoad() {
 		
 		int [] values = new int[7];
@@ -149,6 +188,11 @@ public class SaveLoad {
 		return values;
 	}
 	
+	/**
+	 * die Methode lädt die Spielfelder in das Spiel
+	 * @param howManyPlayers Anzahl der Spieler um das Objektarray zu erzeugen
+	 * @return Objektarray mit den geladenen Spielfeldern
+	 */
 	public static Battlefield[] playersBattlefieldLoad(int howManyPlayers) {
 		
 		Battlefield[] playersBattlefield = new Battlefield[howManyPlayers];
@@ -166,6 +210,11 @@ public class SaveLoad {
 		return playersBattlefield;
 	}
 	
+	/**
+	 * Die Methode lädt die Spieler in das Spiel
+	 * @param howManyPlayers Anzahl der Spieler um das Objektarray zu erzeugen
+	 * @return Objektarray mit den geladenen Spielern
+	 */
 	public static Player[] playerLoad(int howManyPlayers) {
 		
 		Player[] player = new Player[howManyPlayers];
@@ -183,6 +232,12 @@ public class SaveLoad {
 		return player;
 	}
 	
+	/**
+	 * Die Methode lädt die Zerstörer in das Spiel
+	 * @param howManyPlayers Anzahl der Spieler um das Objektarray zu erzeugen
+	 * @param howManyDestroyer Anzahl der Zerstörer um das Objektarray zu erzeugen
+	 * @return Objektarray mit den geladenen Zerstörern
+	 */
 	public static Destroyer[][] destroyerLoad(int howManyPlayers, int howManyDestroyer) {
 		
 		Destroyer[][] destroyer = new Destroyer[howManyPlayers][howManyDestroyer];
@@ -202,6 +257,12 @@ public class SaveLoad {
 		return destroyer;
 	}
 	
+	/**
+	 * Die Methode lädt die Frigatten in das Spiel
+	 * @param howManyPlayers Anzahl der Spieler um das Objektarray zu erzeugen
+	 * @param howManyDestroyer Anzahl der Frigatten um das Objektarray zu erzeugen
+	 * @return Objektarray mit den geladenen Frigatten
+	 */
 	public static Frigate[][] frigateLoad(int howManyPlayers, int howManyFrigates) {
 		
 		Frigate[][] frigate = new Frigate[howManyPlayers][howManyFrigates];
@@ -221,6 +282,12 @@ public class SaveLoad {
 		return frigate;
 	}
 	
+	/**
+	 * Die Methode lädt die Korvetten in das Spiel
+	 * @param howManyPlayers Anzahl der Spieler um das Objektarray zu erzeugen
+	 * @param howManyDestroyer Anzahl der Korvetten um das Objektarray zu erzeugen
+	 * @return Objektarray mit den geladenen Korvetten
+	 */
 	public static Corvette[][] corvetteLoad(int howManyPlayers, int howManyCorvettes) {
 		
 		Corvette[][] corvette = new Corvette[howManyPlayers][howManyCorvettes];
@@ -240,6 +307,12 @@ public class SaveLoad {
 		return corvette;
 	}
 	
+	/**
+	 * Die Methode lädt die U-Boote in das Spiel
+	 * @param howManyPlayers Anzahl der Spieler um das Objektarray zu erzeugen
+	 * @param howManyDestroyer Anzahl der U-Boote um das Objektarray zu erzeugen
+	 * @return Objektarray mit den geladenen U-Boote
+	 */
 	public static Submarine[][] submarineLoad(int howManyPlayers, int howManySubmarines) {
 		
 		Submarine[][] submarine = new Submarine[howManyPlayers][howManySubmarines];
@@ -257,7 +330,6 @@ public class SaveLoad {
 			e.printStackTrace();
 		}
 		return submarine;
-		
 	}
 }
 

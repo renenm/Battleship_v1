@@ -1,7 +1,13 @@
 import java.io.Serializable;
 
+/**
+ * Die Klasse wird zum erzeugen von Schiffen benötigt und ist die Superklasse der Schifftypen. Zu dem wird hier die relaodzeit überprüft
+ * @author Max Kück, Rene Neumann, Justus Cöster
+ */
 
 public class Ship implements Serializable{
+
+	private static final long serialVersionUID = -1625395140503894621L;
 	protected int shipId;
 	protected int shipBelongsToPlayer;
 	protected int shipSize;
@@ -17,7 +23,6 @@ public class Ship implements Serializable{
 	protected int fieldsize;
 	protected int livePoints;
 	
-	//Konstruktor für ein Shiff
 	public Ship(int shipId, int shipBelongsToPlayer, int shipSize, int shipRespawn, int shipTargetRadius, String shipSymbol, int xCord, int yCord, boolean isHorizontal, boolean isDead, boolean isReady, int fieldsize, int livePoints, int finalRespawn) {
 		this.shipId = shipId;
 		this.shipBelongsToPlayer = shipBelongsToPlayer;
@@ -35,6 +40,14 @@ public class Ship implements Serializable{
 		this.finalRespwan = finalRespawn;
 	}
 	
+	/**
+	 * Die Methode überprüft in jeder Runde die Reloadzeit der Schiffe und setzt diesen gegebenenfalls wieder auf null
+	 * @param destroyer Objektarray, in dem die Zerstörer gespeichert sind
+	 * @param frigate Objektarray, in dem die Frigatten gespeichert sind
+	 * @param corvette Objektarray, in dem die Korvetten gespeichert sind
+	 * @param submarine Objektarray, in dem die U-Boote gespeichert sind
+	 * @param i int-Wert, um den Spieler, der an der rihe ist zu identifizieren
+	 */
 	public static void shipReload(Destroyer[][] destroyer, Frigate[][] frigate, Corvette[][] corvette, Submarine[][] submarine, int i) {
 		
 		for (int j = 0; j < destroyer[i].length; j++) {
@@ -63,31 +76,17 @@ public class Ship implements Serializable{
 		}
 		
 	}
-	
-	//Getter und Setter für die Attribute eines Schiffes
 
 	public int getShipId() {
 		return shipId;
-	}
-
-	public void setShipId(int shipId) {
-		this.shipId = shipId;
 	}
 
 	public int getShipBelongsToPlayer() {
 		return shipBelongsToPlayer;
 	}
 
-	public void setShipBelongsToPlayer(int shipBelongsToPlayer) {
-		this.shipBelongsToPlayer = shipBelongsToPlayer;
-	}
-
 	public int getShipSize() {
 		return shipSize;
-	}
-
-	public void setShipSize(int shipSize) {
-		this.shipSize = shipSize;
 	}
 
 	public int getShipRespawn() {
@@ -102,40 +101,20 @@ public class Ship implements Serializable{
 		return shipTargetRadius;
 	}
 
-	public void setShipTargetRadius(int shipTargetRadius) {
-		this.shipTargetRadius = shipTargetRadius;
-	}
-
 	public String getShipSymbol() {
 		return shipSymbol;
-	}
-
-	public void setShipSymbol(String shipSymbol) {
-		this.shipSymbol = shipSymbol;
 	}
 
 	public int getxCord() {
 		return xCord;
 	}
 
-	public void setxCord(int xCord) {
-		this.xCord = xCord;
-	}
-
 	public int getyCord() {
 		return yCord;
 	}
 
-	public void setyCord(int yCord) {
-		this.yCord = yCord;
-	}
-
 	public boolean isHorizontal() {
 		return isHorizontal;
-	}
-
-	public void setHorizontal(boolean isHorizontal) {
-		this.isHorizontal = isHorizontal;
 	}
 
 	public boolean isDead() {
@@ -158,21 +137,7 @@ public class Ship implements Serializable{
 		return fieldsize;
 	}
 
-	public void setFieldsize(int fieldsize) {
-		this.fieldsize = fieldsize;
-	}
-
 	public int getLivePoints() {
 		return livePoints;
-	}
-
-	public void setLivePoints(int livePoints) {
-		this.livePoints = livePoints;
-	}
-	
-	
-	
-	
-	
-	
+	}	
 }

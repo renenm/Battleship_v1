@@ -5,11 +5,18 @@ import CustomExceptions.ScannerExceptions;
 
 
 public class Player implements Serializable{
+	
+	/**
+	 * Die Klasse Player wird genutzt um einen Player zu erzeugen. Ebenfalls werden hier die Schiffe gesetzt, überprüft ob der Player tot ist und eine Runde durchgegangen.
+	 * @author Max Kück, Rene Neumann, Justus Cöster
+	 */
+	
+	private static final long serialVersionUID = 8801887131747152046L;
 	private String name;
 	private int playerId = 0;
 	private boolean isKi = false;
-	private boolean isDead = false;
-	int deadShips;
+	private boolean isDeadPlayer = false;
+	int deadShips = 0;
 	boolean allDestroyerDead = false;
 	boolean allFrigatesDead = false;
 	boolean allCorvettesDead = false;
@@ -20,67 +27,100 @@ public class Player implements Serializable{
 	public Player(String name, int playerId, boolean isKi) {
 		this.name = name;
 		this.playerId = playerId;
-		this.isDead = false;
+		this.isDeadPlayer = false;
 		this.isKi = isKi;
 	}
 	
-	public void playerDead(Destroyer[][] destroyer, Frigate[][] frigate, Corvette[][] corvette, Submarine[][] submarine, Player[] player) {
-					
-		for (int i = 0; i < player.length; i++) {			
-			for (int j = 0; j < destroyer[i].length; j++) {
-				if(destroyer[i][j].isDead() == true) {
-					deadShips ++;
-				}
-				if(deadShips == destroyer[i].length) {
-					allDestroyerDead = true;
-				}
+	/**
+	 * Die Methode überprüft ob ein Spieler tot ist
+	 * @param i Parameter um den Player im Array zu identifizieren
+	 * @param destroyer ist das Objektrray, in dem die Zerstörer gespeichert wurden
+	 * @param frigate ist das Objektarray, in dem die Frigaten gespeichert wurden
+	 * @param corvette ist das Objektarray, in dem die Korvetten gespeichert wurden
+	 * @param submarine ist das Objektarray, in dem die U-Boote gespeichert wurden
+	 */
+	public void playerDead(int i, Destroyer[][] destroyer, Frigate[][] frigate, Corvette[][] corvette, Submarine[][] submarine) {
+		
+		if(destroyer[i].length == 0) {
+			allDestroyerDead = true;
+		}						
+		for (int j = 0; j < destroyer[i].length; j++) {
+			if(destroyer[i][j].isDead() == true) {
+				deadShips ++;
 			}
-			
-			deadShips = 0;
-			for (int k = 0; k < frigate[i].length; k++) {
-				if(frigate[i][k].isDead() == true) {
-					deadShips++;
-				}
-				if(deadShips == frigate[i].length) {
-					allFrigatesDead = true;
-				}
+			if(deadShips == destroyer[i].length) {
+				allDestroyerDead = true;
 			}
-			
-			deadShips = 0;
-			for (int k = 0; k < corvette[i].length; k++) {
-				if(corvette[i][k].isDead() == true) {
-					deadShips++;
-				}
-				if(deadShips == corvette[i].length) {
-					allCorvettesDead = true;
-				}
+		}
+		
+		deadShips = 0;
+		if(frigate[i].length == 0) {
+			allFrigatesDead = true;
+		}
+		for (int k = 0; k < frigate[i].length; k++) {
+			if(frigate[i][k].isDead() == true) {
+				deadShips++;
 			}
-			
-			deadShips = 0;
-			for (int k = 0; k < submarine[k].length; k++) {
-				if(submarine[i][k].isDead() == true) {
-					deadShips++;
-				}
-				if(deadShips == submarine[i].length) {
-					allSubmarinesDead = true;
-				}
+			if(deadShips == frigate[i].length) {
+				allFrigatesDead = true;
 			}
-			
-			if(allDestroyerDead == true & allFrigatesDead == true & allCorvettesDead == true & allSubmarinesDead == true) {
-				player[i].setDead(true);
+		}
+		
+		deadShips = 0;
+		if(corvette[i].length == 0) {
+			allCorvettesDead = true;
+		}
+		for (int k = 0; k < corvette[i].length; k++) {
+			if(corvette[i][k].isDead() == true) {
+				deadShips++;
 			}
+			if(deadShips == corvette[i].length) {
+				allCorvettesDead = true;
+			}
+		}
+		
+		deadShips = 0;
+		if(submarine[i].length == 0) {
+			allSubmarinesDead = true;
+		}
+		for (int k = 0; k < submarine[i].length; k++) {
+			if(submarine[i][k].isDead() == true) {
+				deadShips++;
+			}
+			if(deadShips == submarine[i].length) {
+				allSubmarinesDead = true;
+			}
+		}
+		
+		if(allDestroyerDead == true & allFrigatesDead == true & allCorvettesDead == true & allSubmarinesDead == true) {
+			setDeadPlayer(true);
 		}
 	}
 	
-	public void placeShips(int i, int fieldsize, int howManyDestroyer, int howManyCorvettes, int howManyFrigates, int howManySubmarines, Destroyer[][] destroyer, Frigate[][] frigate, Corvette[][] corvette, Submarine[][] submarine, Battlefield[] playersBattlefield, Player[] player) throws Exception {
+	/**
+	 * Methode um die Schiffe pro Player im Array zu setzen, im unteren Teil befindet sich der Code für die AI
+	 * @param i Parameter um den Player im Array zu identifizieren
+	 * @param fieldsize is die Größe des Spielfeldes
+	 * @param howManyDestroyer Anzahl der Zerstörer
+	 * @param howManyCorvettes Anzahl der korvetten
+	 * @param howManyFrigates Anzahl der Frigatten
+	 * @param howManySubmarines Anzahl der U-Boote
+	 * @param destroyer mehrdimensionales Array, in dem die Zerstörer gespeichert sind
+	 * @param frigate mehrdimensionales Array, in dem die Frigatten gespeichert sind
+	 * @param corvette mehrdimensionales Array, in dem die Korvetten gespeichert sind
+	 * @param submarine mehrdimensionales Array, in dem die U-Boote gespeichert sind
+	 * @param playersBattlefield Array, in dem die Spielfelder der Player gespeichert sind
+	 */
+	public void playerPlaceShips(int i, int fieldsize, int howManyDestroyer, int howManyCorvettes, int howManyFrigates, int howManySubmarines, Destroyer[][] destroyer, Frigate[][] frigate, Corvette[][] corvette, Submarine[][] submarine, Battlefield[] playersBattlefield) {
 		int orientation;
 		int xCord;
 		int yCord; 
+		int shipId = 1;
 		boolean isHorizontal;
 		
 		///DESTROYER
 		for(int j = 0 ; j < howManyDestroyer ; j++) {
-			if(player[i].isKi() == false) {
+			if(isKi() == false) {
 				System.out.println("\n\tDestroyer #" + (j+1) + "/" + howManyDestroyer);
 				System.out.print("\t\tX: ");
 				xCord = ScannerExceptions.readInt();
@@ -98,8 +138,8 @@ public class Player implements Serializable{
 				xCord = (int) (Math.random() * fieldsize) + 1;
 				yCord = (int) (Math.random() * fieldsize) + 1;
 			}
-			destroyer[i][j] = new Destroyer(i, xCord, yCord, isHorizontal, fieldsize);
-			
+			destroyer[i][j] = new Destroyer(shipId, i, xCord, yCord, isHorizontal, fieldsize);
+			shipId ++;
 			if(playersBattlefield[i].hasPlace(destroyer[i][j]) == true ) {
 				if(playersBattlefield[i].hasNeighbours(destroyer[i][j]) == false) {
 					playersBattlefield[i].placeShip(destroyer[i][j]);
@@ -117,7 +157,7 @@ public class Player implements Serializable{
 		
 		///FRIGATE
 		for(int j = 0 ; j < howManyFrigates ; j++) {
-			if(player[i].isKi() == false) {
+			if(isKi() == false) {
 				System.out.println("\n\tFrigate #" + (j+1) + "/" + howManyFrigates);
 				System.out.print("\t\tX: ");
 				xCord = ScannerExceptions.readInt();
@@ -135,8 +175,8 @@ public class Player implements Serializable{
 				xCord = (int) (Math.random() * fieldsize) + 1;
 				yCord = (int) (Math.random() * fieldsize) + 1;
 			}
-			frigate[i][j] = new Frigate(i, xCord, yCord, isHorizontal, fieldsize);
-
+			frigate[i][j] = new Frigate(shipId, i, xCord, yCord, isHorizontal, fieldsize);
+			shipId ++;
 			if(playersBattlefield[i].hasPlace(frigate[i][j]) == true ) {
 				if(playersBattlefield[i].hasNeighbours(frigate[i][j]) == false) {
 					playersBattlefield[i].placeShip(frigate[i][j]);
@@ -153,7 +193,7 @@ public class Player implements Serializable{
 		
 		///CORVETTE
 		for(int j = 0 ; j < howManyCorvettes ; j++) {
-			if(player[i].isKi() == false) {
+			if(isKi() == false) {
 				System.out.println("\n\tCorvette #" + (j+1) + "/" + howManyCorvettes);
 				System.out.print("\t\tX: ");
 				xCord = ScannerExceptions.readInt();
@@ -171,8 +211,8 @@ public class Player implements Serializable{
 				xCord = (int) (Math.random() * fieldsize) + 1;
 				yCord = (int) (Math.random() * fieldsize) + 1;
 			}
-			corvette[i][j] = new Corvette(i, xCord, yCord, isHorizontal, fieldsize);
-			
+			corvette[i][j] = new Corvette(shipId, i, xCord, yCord, isHorizontal, fieldsize);
+			shipId ++;
 			if(playersBattlefield[i].hasPlace(corvette[i][j]) == true ) {
 				if(playersBattlefield[i].hasNeighbours(corvette[i][j]) == false) {
 					playersBattlefield[i].placeShip(corvette[i][j]);
@@ -189,7 +229,7 @@ public class Player implements Serializable{
 		
 		///SUBMARINE
 		for(int j = 0 ; j < howManySubmarines ; j++) {
-			if(player[i].isKi() == false) {
+			if(isKi() == false) {
 				System.out.println("\n\tSubmarine #" + (j+1) + "/" + howManySubmarines);
 				System.out.print("\t\tX: ");
 				xCord = ScannerExceptions.readInt();
@@ -207,8 +247,8 @@ public class Player implements Serializable{
 				xCord = (int) (Math.random() * fieldsize) + 1;
 				yCord = (int) (Math.random() * fieldsize) + 1;
 			}
-			submarine[i][j] = new Submarine(i, xCord, yCord, isHorizontal, fieldsize);
-
+			submarine[i][j] = new Submarine(shipId, i, xCord, yCord, isHorizontal, fieldsize);
+			shipId ++; 
 			if(playersBattlefield[i].hasPlace(submarine[i][j]) == true ) {
 				if(playersBattlefield[i].hasNeighbours(submarine[i][j]) == false) {
 					playersBattlefield[i].placeShip(submarine[i][j]);
@@ -224,7 +264,20 @@ public class Player implements Serializable{
 		}
 	}
 	
-	public void round(int fieldsize, int i, int howManyPlayers, Player[] player, Battlefield[] playersBattlefield, Destroyer[][] destroyer, Frigate[][] frigate, Corvette[][] corvette, Submarine[][] submarine) throws Exception {
+	/**
+	 * Methoden um den aktuellen Player im Array eine Runde spielen zu lassen. Im unteren Teil befindet sich der Code für die AI
+	 * @param fieldsize Spielfeldgröße der Spielfelder
+	 * @param i Parameter um den aktuellen Player zu identifizieren
+	 * @param howManyPlayers wieviele Spieler es ingesamt gibt
+	 * @param player Array, in dem alle Spieler gespeichert sind
+	 * @param playersBattlefield Array, in dem die jeweiligen Spielfelder gespeichert sind
+	 * @param destroyer Array, in dem die Zerstörer gespeichert sind
+	 * @param frigate Array, in dem die Frigatten gespeichert sind
+	 * @param corvette Array, in dem die Korvetten gespeichert sind
+	 * @param submarine Array, in dem die U-Boote gespeichert sind
+	 */
+	@SuppressWarnings("resource")
+	public void round(int fieldsize, int i, int howManyPlayers, Player[] player, Battlefield[] playersBattlefield, Destroyer[][] destroyer, Frigate[][] frigate, Corvette[][] corvette, Submarine[][] submarine) {
 		int selection;
 		int j;
 		int whichTypeToAttack = 0;
@@ -235,13 +288,12 @@ public class Player implements Serializable{
 		boolean playerDead = true;
 		boolean shipIsChoosen = false;
 		boolean readyForNextRound = false;
-		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		String skip;
 		
-		if(player[i].isKi() == false) {
+		if(isKi() == false) {
 			while(!readyForNextRound) {
-				System.out.println("\n\n---" + player[i].getName() + "---");
+				System.out.println("\n\n---" + getName() + "---");
 				System.out.println("Please choose one of the following options:");
 				System.out.println("[1] - View battlefields from the enemys (or the own)");
 				System.out.println("[2] - View own ships");
@@ -271,6 +323,7 @@ public class Player implements Serializable{
 				        		System.out.println("\t\tShip ready?: " + destroyer[i][j].isReady());
 				        		System.out.println("\t\tSize: " + destroyer[i][j].getShipSize());
 				        		System.out.println("\t\tTarget radius: " + destroyer[i][j].getShipTargetRadius());
+				        		System.out.println("\t\tShipId: " + destroyer[i][j].getShipId());
 				        		System.out.println("");
 				        	} else {
 				        		System.out.println("The ship is dead!");
@@ -284,6 +337,7 @@ public class Player implements Serializable{
 				        		System.out.println("\t\tShip ready?: " + frigate[i][j].isReady());
 				        		System.out.println("\t\tSize: " + frigate[i][j].getShipSize());
 				        		System.out.println("\t\tTarget radius: " + frigate[i][j].getShipTargetRadius());
+				        		System.out.println("\t\tShipId: " + frigate[i][j].getShipId());
 				        		System.out.println("");
 			        		} else {
 			        			System.out.println("The ship is dead!");
@@ -297,6 +351,7 @@ public class Player implements Serializable{
 				        		System.out.println("\t\tShip ready?: " + corvette[i][j].isReady());
 				        		System.out.println("\t\tSize: " + corvette[i][j].getShipSize());
 				        		System.out.println("\t\tTarget radius: " + corvette[i][j].getShipTargetRadius());
+				        		System.out.println("\t\tShipId: " + corvette[i][j].getShipId());
 				        		System.out.println("");
 			        		} else {
 			        			System.out.println("The ship is dead!");
@@ -310,6 +365,7 @@ public class Player implements Serializable{
 				        		System.out.println("\t\tShip ready?: " + submarine[i][j].isReady());
 				        		System.out.println("\t\tSize: " + submarine[i][j].getShipSize());
 				        		System.out.println("\t\tTarget radius: " + submarine[i][j].getShipTargetRadius());
+				        		System.out.println("\t\tShipId: " + submarine[i][j].getShipId());
 				        		System.out.println("");
 			        		} else {
 			        			System.out.println("The ship is dead!");
@@ -320,14 +376,14 @@ public class Player implements Serializable{
 						while(playerDead) {
 							System.out.println("Which player do you want to attack?");
 							for (j = 0; j < player.length; j++) {
-								System.out.println("\t[" + (j+1) + "] - Player " + player[j].getName()+ " | dead: " + player[j].isDead());
+								System.out.println("\t[" + (j+1) + "] - Player " + player[j].getName()+ " | dead: " + player[j].isDeadPlayer());
 							}
 							System.out.print("Please choose: ");
 							whichPlayerToAttack = ScannerExceptions.readInt(1, player.length) - 1;
-							if(whichPlayerToAttack == player[i].getPlayerId()) {
+							if(whichPlayerToAttack == getPlayerId()) {
 								System.out.println("\nYou cannot attack yourself.\n");
 							} else {
-								if(player[whichPlayerToAttack].isDead == true) {
+								if(player[whichPlayerToAttack].isDeadPlayer == true) {
 									System.out.println("\tThe player has lost the game. Choose another player.");
 									playerDead = true;
 								} else {
@@ -347,6 +403,10 @@ public class Player implements Serializable{
 				        	
 				        	switch(selection) {
 				        	case 0: 
+				        		if(destroyer[i].length == 0) {
+				        			System.out.println("There are no ships of this type selected for this game.");
+				        			break;
+				        		}
 				        		for(j = 0 ; j < destroyer[i].length ; j++) {
 					            	System.out.println("[" + (j+1) + "] - Destroyer " + (j+1) + "/" + destroyer[i].length);
 					            }
@@ -372,6 +432,10 @@ public class Player implements Serializable{
 					            }
 					        break;
 				        	case 1:
+				        		if(frigate [i].length == 0) {
+				        			System.out.println("There are no ships of this type selected for this game.");
+				        			break;
+				        		}
 				        		for(j = 0 ; j < frigate[i].length ; j++) {
 					        		System.out.println("[" + (j+1) + "] - Frigate " + (j+1) + "/" + frigate[i].length);
 					            } 
@@ -397,6 +461,10 @@ public class Player implements Serializable{
 					            }
 					        break;
 				        	case 2:
+				        		if(corvette[i].length == 0) {
+				        			System.out.println("There are no ships of this type selected for this game.");
+				        			break;
+				        		}
 					        	for(j = 0 ; j < corvette[i].length ; j++) {
 					        		System.out.println("[" + (j+1) + "] - Corvette " + (j+1) + "/" + corvette[i].length);
 					            }
@@ -422,6 +490,10 @@ public class Player implements Serializable{
 					            }
 					        break;
 				        	case 3:
+				        		if(submarine[i].length == 0) {
+				        			System.out.println("There are no ships of this type selected for this game.");
+				        			break;
+				        		}
 				        		for(j = 0 ; j < submarine[i].length ; j++) {
 					        		System.out.println("[" + (j+1) + "] - Submarine " + (j+1) + "/" + submarine[i].length);
 					            } 
@@ -455,74 +527,115 @@ public class Player implements Serializable{
 				}
 			}
 		} else {
-			System.out.println("\n" + player[i].getName() + " is now playing.");
+			System.out.println("\n" + getName() + " is now playing.");
 			while(playerDead) {
 				whichPlayerToAttack = (int) (Math.random() * howManyPlayers);
-				if(!(whichPlayerToAttack == player[i].getPlayerId())) {
-					if(player[whichPlayerToAttack].isDead() == true) {
+				if(!(whichPlayerToAttack == getPlayerId())) {
+					if(player[whichPlayerToAttack].isDeadPlayer() == true) {
 						playerDead = true;
 					} else {
 						playerDead = false;
 					}
 				}
 			}
-			
 			while(!shipIsChoosen) {
 				whichTypeToAttack = (int) (Math.random() * 4);
-				if(whichTypeToAttack == 0) {
-					whichShipToAttack = (int) (Math.random() * destroyer[i].length);
-					xCord = (int) (Math.random() * fieldsize) + 1;
-					yCord = (int) (Math.random() * fieldsize) + 1;
-					if(destroyer[i][whichShipToAttack].isDead == false && destroyer[i][whichShipToAttack].isReady == true) {
-						playersBattlefield[whichPlayerToAttack].shootShip(destroyer[i][whichShipToAttack], xCord, yCord, destroyer, frigate, corvette, submarine, whichPlayerToAttack);
-						shipIsChoosen = true;
-						readyForNextRound = true;
-					} else {
-						shipIsChoosen = true;
-						readyForNextRound = true;
-					}
+				switch(whichTypeToAttack) {
+					case 0: 
+						if(destroyer[i].length == 0) {
+							break;
+						}
+						whichShipToAttack = (int) (Math.random() * destroyer[i].length);
+						xCord = (int) (Math.random() * fieldsize) + 1;
+						yCord = (int) (Math.random() * fieldsize) + 1;
+						if(destroyer[i][whichShipToAttack].isDead == false && destroyer[i][whichShipToAttack].isReady == true) {
+							playersBattlefield[whichPlayerToAttack].shootShip(destroyer[i][whichShipToAttack], xCord, yCord, destroyer, frigate, corvette, submarine, whichPlayerToAttack);
+							System.out.println(getName() + " attacks " + player[whichPlayerToAttack].getName());
+							playersBattlefield[whichPlayerToAttack].printEnemyBattlefield();
+							try {
+								Thread.sleep(2000);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							shipIsChoosen = true;
+							readyForNextRound = true;
+						} else {
+							shipIsChoosen = true;
+							readyForNextRound = true;
+						}
+					break;
+					case 1:
+						if(frigate[i].length == 0) {
+							break;
+						}
+						whichShipToAttack = (int) (Math.random() * frigate[i].length);
+						xCord = (int) (Math.random() * fieldsize) + 1;
+						yCord = (int) (Math.random() * fieldsize) + 1;
+						if(frigate[i][whichShipToAttack].isDead == false && frigate[i][whichShipToAttack].isReady == true) {
+							playersBattlefield[whichPlayerToAttack].shootShip(frigate[i][whichShipToAttack], xCord, yCord, destroyer, frigate, corvette, submarine, whichPlayerToAttack);
+							System.out.println(getName() + " attacks " + player[whichPlayerToAttack].getName());
+							playersBattlefield[whichPlayerToAttack].printEnemyBattlefield();
+							try {
+								Thread.sleep(2000);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							shipIsChoosen = true;
+							readyForNextRound = true;
+						} else {
+							shipIsChoosen = true;
+							readyForNextRound = true;
+						}
+					break;
+					case 2:
+						if(corvette[i].length == 0) {
+							break;
+						}
+						whichShipToAttack = (int) (Math.random() * corvette[i].length);
+						xCord = (int) (Math.random() * fieldsize) + 1;
+						yCord = (int) (Math.random() * fieldsize) + 1;
+						if(corvette[i][whichShipToAttack].isDead == false && corvette[i][whichShipToAttack].isReady == true) {
+							playersBattlefield[whichPlayerToAttack].shootShip(corvette[i][whichShipToAttack], xCord, yCord, destroyer, frigate, corvette, submarine, whichPlayerToAttack);
+							System.out.println(getName() + " attacks " + player[whichPlayerToAttack].getName());
+							playersBattlefield[whichPlayerToAttack].printEnemyBattlefield();
+							try {
+								Thread.sleep(2000);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							shipIsChoosen = true;
+							readyForNextRound = true;
+						} else {
+							shipIsChoosen = true;
+							readyForNextRound = true;
+						}
+					break;
+					case 3:
+						if(submarine[i].length == 0) {
+							break;
+						}
+						whichShipToAttack = (int) (Math.random() * submarine[i].length);
+						xCord = (int) (Math.random() * fieldsize) + 1;
+						yCord = (int) (Math.random() * fieldsize) + 1;
+						if(submarine[i][whichShipToAttack].isDead == false && submarine[i][whichShipToAttack].isReady == true) {
+							playersBattlefield[whichPlayerToAttack].shootShip(submarine[i][whichShipToAttack], xCord, yCord, destroyer, frigate, corvette, submarine, whichPlayerToAttack);
+							System.out.println(getName() + " attacks " + player[whichPlayerToAttack].getName());
+							playersBattlefield[whichPlayerToAttack].printEnemyBattlefield();
+							try {
+								Thread.sleep(2000);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							shipIsChoosen = true;
+							readyForNextRound = true;
+						} else {
+							shipIsChoosen = true;
+							readyForNextRound = true;
+						}
+					break;
 				}
-				if(whichTypeToAttack == 1) {
-					whichShipToAttack = (int) (Math.random() * frigate[i].length);
-					xCord = (int) (Math.random() * fieldsize) + 1;
-					yCord = (int) (Math.random() * fieldsize) + 1;
-					if(frigate[i][whichShipToAttack].isDead == false && frigate[i][whichShipToAttack].isReady == true) {
-						playersBattlefield[whichPlayerToAttack].shootShip(frigate[i][whichShipToAttack], xCord, yCord, destroyer, frigate, corvette, submarine, whichPlayerToAttack);
-						shipIsChoosen = true;
-						readyForNextRound = true;
-					} else {
-						shipIsChoosen = true;
-						readyForNextRound = true;
-					}
-				}
-				if(whichTypeToAttack == 2) {
-					whichShipToAttack = (int) (Math.random() * corvette[i].length);
-					xCord = (int) (Math.random() * fieldsize) + 1;
-					yCord = (int) (Math.random() * fieldsize) + 1;
-					if(corvette[i][whichShipToAttack].isDead == false && corvette[i][whichShipToAttack].isReady == true) {
-						playersBattlefield[whichPlayerToAttack].shootShip(corvette[i][whichShipToAttack], xCord, yCord, destroyer, frigate, corvette, submarine, whichPlayerToAttack);
-						shipIsChoosen = true;
-						readyForNextRound = true;
-					} else {
-						shipIsChoosen = true;
-						readyForNextRound = true;
-					}
-				}
-				if(whichTypeToAttack == 3) {
-					whichShipToAttack = (int) (Math.random() * submarine[i].length);
-					xCord = (int) (Math.random() * fieldsize) + 1;
-					yCord = (int) (Math.random() * fieldsize) + 1;
-					if(submarine[i][whichShipToAttack].isDead == false && submarine[i][whichShipToAttack].isReady == true) {
-						playersBattlefield[whichPlayerToAttack].shootShip(submarine[i][whichShipToAttack], xCord, yCord, destroyer, frigate, corvette, submarine, whichPlayerToAttack);
-						shipIsChoosen = true;
-						readyForNextRound = true;
-					} else {
-						shipIsChoosen = true;
-						readyForNextRound = true;
-					}
-				}			
 			}
-			System.out.println(player[i].getName() + " has finished her round.");
+			System.out.println(getName() + " has finished its round.\n");
 		}
 		for (int k = 0; k < playersBattlefield.length; k++) {
 			playersBattlefield[k].check(destroyer);
@@ -536,56 +649,19 @@ public class Player implements Serializable{
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public int getPlayerId() {
 		return playerId;
 	}
-
-	public void setPlayerId(int playerId) {
-		this.playerId = playerId;
+	
+	public boolean isDeadPlayer() {
+		return isDeadPlayer;
 	}
 
-	public boolean isDead() {
-		return isDead;
-	}
-
-	public void setDead(boolean isDead) {
-		this.isDead = isDead;
-	}
-
-	public int getDeadShips() {
-		return deadShips;
-	}
-
-	public void setDeadShips(int deadShips) {
-		this.deadShips = deadShips;
-	}
-
-	public boolean isAllDestroyerDead() {
-		return allDestroyerDead;
-	}
-
-	public boolean isAllFrigatesDead() {
-		return allFrigatesDead;
+	public void setDeadPlayer(boolean isDeadPlayer) {
+		this.isDeadPlayer = isDeadPlayer;
 	}
 	
-	public boolean isAllCorvettesDead() {
-		return allCorvettesDead;
-	}
-
-	public boolean isAllSubmarinesDead() {
-		return allSubmarinesDead;
-	}
-
 	public boolean isKi() {
 		return isKi;
 	}
-
-	public void setKi(boolean isKi) {
-		this.isKi = isKi;
-	}
-	
 }

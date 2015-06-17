@@ -1,8 +1,13 @@
 import java.io.Serializable;
 
+/**
+ * Klasse die ein Feld auf dem Spielfeld verwaltet
+ * @author Max Kück, Rene Neumann, Justus Cöster
+ */
 
 public class Field implements Serializable{
 	
+	private static final long serialVersionUID = 2601581867209360826L;
 	private String sign = "[ ]"; 
 	private boolean isActive = false; 
 	private boolean isHit = false;

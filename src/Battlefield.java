@@ -8,9 +8,14 @@ import CustomExceptions.VertLowerSideException;
 import CustomExceptions.VertRightLowerCornerException;
 import CustomExceptions.VertRightSideException;
 
+/**
+ * Klasse um ein Spielfeld zu erzeugen, mit den entsprechenden Methoden
+ * @author Max Kück, Rene Neumann, Justus Cöster
+ */
 
 public class Battlefield implements Serializable{
 	
+	private static final long serialVersionUID = 6047056531801853002L;
 	private int fieldsize;
 	private int belongsToPlayer;
 	private Field[][] battlefield;
@@ -24,6 +29,9 @@ public class Battlefield implements Serializable{
 		this.builtBattlefield();
 	}
 	
+	/**
+	 * Methode um auf jedes Feld des Spielfeldes ein Objekt vom Typ "Field" zu legen, gleichzeitig wird hier schon der Index am Rand des Spielfeldes festgelegt
+	 */
 	public void builtBattlefield() {
 		for (int x = 0; x < battlefield.length; x++) {
 			for (int y = 0; y < battlefield[x].length; y++) {
@@ -35,7 +43,9 @@ public class Battlefield implements Serializable{
 		}
 	}
 	
-	//Ausgabe Battlefield
+	/**
+	 * Methode um ein Spielfeld mit allen Schiffen und Treffern auszugeben
+	 */
 	public void printBattlefield() {
 		for (int x = 0; x < battlefield.length; x++) {
 			for (int y = 0; y < battlefield[x].length; y++) {			
@@ -45,20 +55,27 @@ public class Battlefield implements Serializable{
 		}
 	}
 
-	//Ausgabe Battlefield Gegnersicht
-		public void printEnemyBattlefield() {
-			for (int x = 0; x < battlefield.length; x++) {
-				for (int y = 0; y < battlefield[x].length; y++) {	
-					if(battlefield[x][y].isShip() == true) {
-						System.out.print("[ ]");
-					} else {
-						System.out.print(battlefield[x][y].getSign());
-					}
+	/**
+	 * Methode um ein Spielfeld ohne die Schiffe sichtbarzu machen, auszugeben
+	 */
+	public void printEnemyBattlefield() {
+		for (int x = 0; x < battlefield.length; x++) {
+			for (int y = 0; y < battlefield[x].length; y++) {	
+				if(battlefield[x][y].isShip() == true) {
+					System.out.print("[ ]");
+				} else {
+					System.out.print(battlefield[x][y].getSign());
 				}
-				System.out.println();
 			}
+			System.out.println();
 		}
-
+	}
+		
+	/**
+	 * Methode die abfragt ob ein Shiff horizontal oder vertikal gelegt werden soll
+	 * @return false wenn vertikal, true wenn horizontal
+	 */
+	@SuppressWarnings("resource")
 	public static boolean isHorizontal() {
 		Scanner scan = new Scanner(System.in);
 		System.out.print("\t\tvertical / horizontal? [v / h]: ");
@@ -73,7 +90,18 @@ public class Battlefield implements Serializable{
 		return true;
 	}
 	
-	public void shootShip(Ship myShip, int xCord, int yCord, Destroyer[][] destroyer, Frigate[][] frigate, Corvette[][] corvette, Submarine[][] submarine, int whichPlayerToAttack) throws Exception {
+	/**
+	 * Methode die auf dem entsprechenden Feld vom Spielfeld die Attribute ändert. Wird von Player - round aufgerufen
+	 * @param myShip Schiff mit dem geschossen werden soll
+	 * @param xCord	x Koordinate des Schußes
+	 * @param yCord y Koordinate des Schußes
+	 * @param destroyer Array in dem die Zerstörer gespeichert sind
+	 * @param frigate Array in dem die Frigatten gespeichert sind
+	 * @param corvette Array in dem die Korvetten gespeichert sind
+	 * @param submarine Array in dem die U-Boote gespeichert sind
+	 * @param whichPlayerToAttack int-Wert welcher PLayer im Array angegriffen werden soll
+	 */
+	public void shootShip(Ship myShip, int xCord, int yCord, Destroyer[][] destroyer, Frigate[][] frigate, Corvette[][] corvette, Submarine[][] submarine, int whichPlayerToAttack) {
 		myShip.setReady(false);
 		myShip.setShipRespawn(0);
 		int targetRadius = myShip.getShipTargetRadius();
@@ -151,7 +179,11 @@ public class Battlefield implements Serializable{
 			}
 		}
 	}
-
+	
+	/**
+	 * Methode die überprüft ob ein Schiff tot ist
+	 * @param ship merhdimensionales Array der zu überprüfenden Schiffart
+	 */
 	public void check(Ship[][] ship) {
 		for (int i = 0; i < ship.length; i++) {
 			for (int j = 0; j < ship[i].length; j++) {
@@ -162,10 +194,12 @@ public class Battlefield implements Serializable{
 		}
 	}
 	
-	public void placeShip(Ship ship) throws Exception {
-		// Einlesen der Werte fÃ¼r das Setzen
+	/**
+	 * Methode um Schiffe auf dem Spielfeld zu platzieren, wird von Player - playerPlaceShip aufgerufen
+	 * @param ship Schiff welches platziert werden soll
+	 */
+	public void placeShip(Ship ship) {
 		boolean isHorizontal = ship.isHorizontal;
-		Scanner scan = new Scanner(System.in);
 		int x = ship.getxCord();
 		int y = ship.getyCord();
 
@@ -298,7 +332,11 @@ public class Battlefield implements Serializable{
 		}
 	}
 	
-	// Abfrage ob das Schiff innerhalb des Spielfeldes gesetzt werden soll, fÃ¼r setShip
+	/**
+	 * Abfrage ob das zu platzierende Schiff innerhlab des Spielfeldes gesetzt werden soll
+	 * @param ship Schiff, dass gesetzt werden soll
+	 * @return false wenn außerhalb des Psielfeldes, true wenn innerhal des Spielfeldes
+	 */
 	public boolean hasPlace(Ship ship) {
 		int x = ship.getxCord();
 		int y = ship.getyCord();
@@ -321,7 +359,11 @@ public class Battlefield implements Serializable{
 		return hasPlace;
 	}
 		
-	//Abfrage ob ein Feld platz zwischen den Schiffen ist
+	/**
+	 * Abfrage ob mindestens ein Feld zwischen den Schiffen frei ist
+	 * @param ship Schiff, dass gesetzt werden soll
+	 * @return false, wenn kein Feld dazwischen frei ist, true wenn mindestens ein Feld dazwischen frei ist
+	 */
 	public boolean hasNeighbours(Ship ship) {
 		int x = ship.getxCord();
 		int y = ship.getyCord();
@@ -343,46 +385,5 @@ public class Battlefield implements Serializable{
 			}
 		}	
 		return hasNeighbours;
-	}
-	
-	///Wichtig fuer shoot
-	public boolean isShipThere(int x, int y) {
-		String sign = battlefield[y][x].getSign();
-		if(sign.equals("[C]") | sign.equals("[D]") | sign.equals("[F]") | sign.equals("[S]")) {
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean isShipDead(Ship ship) {
-		if(ship.isDead()) {
-			return true;
-		}
-		return false;
-	}
-
-	//Getter und Setter
-	public int getFieldsize() {
-		return fieldsize;
-	}
-
-	public void setFieldsize(int fieldsize) {
-		this.fieldsize = fieldsize;
-	}
-
-	public Field[][] getBattlefield() {
-		return battlefield;
-	}
-
-	public void setBattlefield(Field[][] battlefield) {
-		this.battlefield = battlefield;
-	}
-
-	public int getBelongsToPlayer() {
-		return belongsToPlayer;
-	}
-
-	public void setBelongsToPlayer(int belongsToPlayer) {
-		this.belongsToPlayer = belongsToPlayer;
 	}
 }

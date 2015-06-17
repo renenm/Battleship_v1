@@ -2,10 +2,17 @@ package CustomExceptions;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-
+/**
+ * Die Klasse fängt falsch eingegeben int-Werte ab 
+ * @author Max Kück, Rene Neumann, Justus Cöster
+ *
+ */
 public class ScannerExceptions {
 	
-	//Abfangen aller nicht positiven Int's beim Scanner
+	/**
+	 * Die Methode fängt alle negativen int-Werte ab
+	 * @return 
+	 */
 	public static int readInt() {
 		@SuppressWarnings("resource")
 		Scanner scan = new Scanner( System.in);
@@ -23,6 +30,12 @@ public class ScannerExceptions {
 		return num;
 	}
 	
+	/**
+	 * Die Methode fängt alle int_Werte ab, die ncht in dem angegeben Bereich liegen
+	 * @param min untere grenzen der Wert
+	 * @param max obere Grenzen der Werte
+	 * @return s
+	 */
 	public static int readInt(int min, int max) {
 		@SuppressWarnings("resource")
 		Scanner scan = new Scanner( System.in);
