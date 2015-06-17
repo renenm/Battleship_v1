@@ -14,7 +14,7 @@ public class Game {
 	 */
 	@SuppressWarnings("resource")
 	public static void gameMode() {
-		System.out.print("/// BATTLESHIP v0.3test \\\\\\");
+		System.out.print("/// BATTLESHIP v0.4Final \\\\\\");
 		System.out.print("\n-----------------------\n");
 		System.out.print("New Game? [yes / no]: ");
 		Scanner scan = new Scanner(System.in);

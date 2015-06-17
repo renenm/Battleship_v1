@@ -278,6 +278,7 @@ public class Player implements Serializable{
 	 */
 	@SuppressWarnings("resource")
 	public void round(int fieldsize, int i, int howManyPlayers, Player[] player, Battlefield[] playersBattlefield, Destroyer[][] destroyer, Frigate[][] frigate, Corvette[][] corvette, Submarine[][] submarine) {
+		final int howManyPlayersFinal = howManyPlayers;
 		int selection;
 		int j;
 		int whichTypeToAttack = 0;
@@ -529,7 +530,7 @@ public class Player implements Serializable{
 		} else {
 			System.out.println("\n" + getName() + " is now playing.");
 			while(playerDead) {
-				whichPlayerToAttack = (int) (Math.random() * howManyPlayers);
+				whichPlayerToAttack = (int) (Math.random() * howManyPlayersFinal);
 				if(!(whichPlayerToAttack == getPlayerId())) {
 					if(player[whichPlayerToAttack].isDeadPlayer() == true) {
 						playerDead = true;
@@ -552,12 +553,12 @@ public class Player implements Serializable{
 							playersBattlefield[whichPlayerToAttack].shootShip(destroyer[i][whichShipToAttack], xCord, yCord, destroyer, frigate, corvette, submarine, whichPlayerToAttack);
 							System.out.println(getName() + " attacks " + player[whichPlayerToAttack].getName());
 							playersBattlefield[whichPlayerToAttack].printEnemyBattlefield();
-							try {
+		/*					try {
 								Thread.sleep(2000);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
-							shipIsChoosen = true;
+		*/					shipIsChoosen = true;
 							readyForNextRound = true;
 						} else {
 							shipIsChoosen = true;
@@ -575,12 +576,12 @@ public class Player implements Serializable{
 							playersBattlefield[whichPlayerToAttack].shootShip(frigate[i][whichShipToAttack], xCord, yCord, destroyer, frigate, corvette, submarine, whichPlayerToAttack);
 							System.out.println(getName() + " attacks " + player[whichPlayerToAttack].getName());
 							playersBattlefield[whichPlayerToAttack].printEnemyBattlefield();
-							try {
+	/*						try {
 								Thread.sleep(2000);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
-							shipIsChoosen = true;
+		*/					shipIsChoosen = true;
 							readyForNextRound = true;
 						} else {
 							shipIsChoosen = true;
@@ -598,12 +599,12 @@ public class Player implements Serializable{
 							playersBattlefield[whichPlayerToAttack].shootShip(corvette[i][whichShipToAttack], xCord, yCord, destroyer, frigate, corvette, submarine, whichPlayerToAttack);
 							System.out.println(getName() + " attacks " + player[whichPlayerToAttack].getName());
 							playersBattlefield[whichPlayerToAttack].printEnemyBattlefield();
-							try {
+	/*						try {
 								Thread.sleep(2000);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
-							shipIsChoosen = true;
+		*/					shipIsChoosen = true;
 							readyForNextRound = true;
 						} else {
 							shipIsChoosen = true;
@@ -621,12 +622,12 @@ public class Player implements Serializable{
 							playersBattlefield[whichPlayerToAttack].shootShip(submarine[i][whichShipToAttack], xCord, yCord, destroyer, frigate, corvette, submarine, whichPlayerToAttack);
 							System.out.println(getName() + " attacks " + player[whichPlayerToAttack].getName());
 							playersBattlefield[whichPlayerToAttack].printEnemyBattlefield();
-							try {
+/*							try {
 								Thread.sleep(2000);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
-							shipIsChoosen = true;
+				*/			shipIsChoosen = true;
 							readyForNextRound = true;
 						} else {
 							shipIsChoosen = true;
