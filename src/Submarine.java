@@ -9,7 +9,7 @@ public class Submarine extends Ship implements Serializable{
 
 	private static final long serialVersionUID = 4247451515760488489L;
 
-	public Submarine(int shipId, int shipBelongsToPlayer, int xCord, int yCord, boolean isHorizontal, int fieldsize) {
-		super(shipId, shipBelongsToPlayer, 2, 1, 1, "S", xCord, yCord, isHorizontal, false, true, fieldsize, 2, 1);
+	public Submarine(int shipId, int shipBelongsToPlayer, int xCord, int yCord, boolean isHorizontal) {
+		super(shipId, shipBelongsToPlayer, 2, 1, 1, "S", xCord, yCord, isHorizontal, false, true, 2, 1);
 	}
 }

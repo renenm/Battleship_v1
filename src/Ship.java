@@ -18,12 +18,11 @@ public class Ship implements Serializable{
 	protected int xCord;
 	protected int yCord;
 	protected boolean isHorizontal;
-	protected boolean isDead;
+	protected boolean isShipDead;
 	protected boolean isReady;
-	protected int fieldsize;
 	protected int livePoints;
 	
-	public Ship(int shipId, int shipBelongsToPlayer, int shipSize, int shipRespawn, int shipTargetRadius, String shipSymbol, int xCord, int yCord, boolean isHorizontal, boolean isDead, boolean isReady, int fieldsize, int livePoints, int finalRespawn) {
+	public Ship(int shipId, int shipBelongsToPlayer, int shipSize, int shipRespawn, int shipTargetRadius, String shipSymbol, int xCord, int yCord, boolean isHorizontal, boolean isShipDead, boolean isReady, int livePoints, int finalRespawn) {
 		this.shipId = shipId;
 		this.shipBelongsToPlayer = shipBelongsToPlayer;
 		this.shipSize = shipSize;
@@ -33,9 +32,8 @@ public class Ship implements Serializable{
 		this.xCord = xCord;
 		this.yCord = yCord;
 		this.isHorizontal = isHorizontal;
-		this.isDead = isDead;
+		this.isShipDead = isShipDead;
 		this.isReady = isReady;
-		this.fieldsize = fieldsize;
 		this.livePoints = livePoints;
 		this.finalRespwan = finalRespawn;
 	}
@@ -48,30 +46,38 @@ public class Ship implements Serializable{
 	 * @param submarine Objektarray, in dem die U-Boote gespeichert sind
 	 * @param i int-Wert, um den Spieler, der an der rihe ist zu identifizieren
 	 */
-	public static void shipReload(Destroyer[][] destroyer, Frigate[][] frigate, Corvette[][] corvette, Submarine[][] submarine, int i) {
+	public static void shipReload(Destroyer[][] destroyer, Frigate[][] frigate, Corvette[][] corvette, Submarine[][] submarine) {
 		
-		for (int j = 0; j < destroyer[i].length; j++) {
-			destroyer[i][j].shipRespawn ++;
-			if(destroyer[i][j].getShipRespawn() >= destroyer[i][j].finalRespwan) {
-				destroyer[i][j].setReady(true);
+		for (int i = 0; i < destroyer.length; i++) {
+			for (int j = 0; j < destroyer[i].length; j++) {
+				destroyer[i][j].shipRespawn ++;
+				if(destroyer[i][j].getShipRespawn() >= destroyer[i][j].finalRespwan) {
+					destroyer[i][j].setReady(true);
+				}
 			}
 		}
-		for (int j = 0; j < frigate[i].length; j++) {
-			frigate[i][j].shipRespawn ++;
-			if(frigate[i][j].getShipRespawn() >= frigate[i][j].finalRespwan) {
-				frigate[i][j].setReady(true);
+		for (int i = 0; i < frigate.length; i++) {
+			for (int j = 0; j < frigate[i].length; j++) {
+				frigate[i][j].shipRespawn ++;
+				if(frigate[i][j].getShipRespawn() >= frigate[i][j].finalRespwan) {
+					frigate[i][j].setReady(true);
+				}
 			}
 		}
-		for (int j = 0; j < corvette[i].length; j++) {
-			corvette[i][j].shipRespawn ++;
-			if(corvette[i][j].getShipRespawn() >= corvette[i][j].finalRespwan) {
-				corvette[i][j].setReady(true);
+		for (int i = 0; i < corvette.length; i++) {
+			for (int j = 0; j < corvette[i].length; j++) {
+				corvette[i][j].shipRespawn ++;
+				if(corvette[i][j].getShipRespawn() >= corvette[i][j].finalRespwan) {
+					corvette[i][j].setReady(true);
+				}
 			}
 		}
-		for (int j = 0; j < submarine[i].length; j++) {
-			submarine[i][j].shipRespawn ++;
-			if(submarine[i][j].getShipRespawn() >= submarine[i][j].finalRespwan) {
-				submarine[i][j].setReady(true);
+		for (int i = 0; i < submarine.length; i++) {
+			for (int j = 0; j < submarine[i].length; j++) {
+				submarine[i][j].shipRespawn ++;
+				if(submarine[i][j].getShipRespawn() >= submarine[i][j].finalRespwan) {
+					submarine[i][j].setReady(true);
+				}
 			}
 		}
 		
@@ -117,12 +123,12 @@ public class Ship implements Serializable{
 		return isHorizontal;
 	}
 
-	public boolean isDead() {
-		return isDead;
+	public boolean isShipDead() {
+		return isShipDead;
 	}
 
-	public void setDead(boolean isDead) {
-		this.isDead = isDead;
+	public void setShipDead(boolean isShipDead) {
+		this.isShipDead = isShipDead;
 	}
 
 	public boolean isReady() {
@@ -131,10 +137,6 @@ public class Ship implements Serializable{
 
 	public void setReady(boolean isReady) {
 		this.isReady = isReady;
-	}
-
-	public int getFieldsize() {
-		return fieldsize;
 	}
 
 	public int getLivePoints() {

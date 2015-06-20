@@ -85,7 +85,7 @@ public class Game {
 		
 		//Einlesen der Variablen
 		System.out.print("Battlesize [square]: ");
-		fieldsize = ScannerExceptions.readInt(2,9999);
+		fieldsize = ScannerExceptions.readInt(5,9999);
 		System.out.println("\nHow many...");
 		System.out.print("\tDestroyer(5 fields): ");
 			howManyDestroyer = ScannerExceptions.readInt(0, 5);
@@ -188,23 +188,21 @@ public class Game {
 	 * @param values Array, in dem die wichtigen Spielwerte gespeichert werden, um diese nach dem Laden zu reproduzieren
 	 */
 	public static void game(int round, int fieldsize, int howManyPlayers, int howManyDestroyer, int howManyFrigates, int howManyCorvettes, int howManySubmarines, Battlefield[] playersBattlefield, Player[] player, Destroyer[][] destroyer, Frigate[][] frigate, Corvette[][] corvette, Submarine[][] submarine, int[] values) {
-		String possibleWinner = "Nobody"; 
-		
+		String possibleWinner = "Nobody";
+	
 		while(howManyPlayers > 1) {
 			System.out.println("___ROUND " + (round+1) + "___");
 			round ++;
-			for(int i = 0; i < howManyPlayers; i++) {
-				player[i].playerDead(i, destroyer, frigate, corvette, submarine);
-				Ship.shipReload(destroyer, frigate, corvette, submarine, i);
-				
-				if(player[i].isDeadPlayer() == false) {
-					possibleWinner = player[i].getName();
-					player[i].round(fieldsize, i, howManyPlayers, player, playersBattlefield, destroyer, frigate, corvette, submarine);
+			
+			for(int i = 0; i < player.length; i++) {
+				if(player[i].isPlayerDead()) {
+					
 				} else {
-					howManyPlayers --;
-					System.out.println(player[i].getName() + " is dead.");
+					possibleWinner = player[i].getName();
+					howManyPlayers = player[i].round(fieldsize, i, howManyPlayers, player, playersBattlefield, destroyer, frigate, corvette, submarine);					
 				}
 			}
+			Ship.shipReload(destroyer, frigate, corvette, submarine);
 			values[1] = howManyPlayers;
 			values[6] = round;
 			SaveLoad.save(playersBattlefield);

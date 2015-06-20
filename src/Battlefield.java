@@ -61,7 +61,7 @@ public class Battlefield implements Serializable{
 	public void printEnemyBattlefield() {
 		for (int x = 0; x < battlefield.length; x++) {
 			for (int y = 0; y < battlefield[x].length; y++) {	
-				if(battlefield[x][y].isShip() == true) {
+				if(battlefield[x][y].isShip()) {
 					System.out.print("[ ]");
 				} else {
 					System.out.print(battlefield[x][y].getSign());
@@ -69,25 +69,6 @@ public class Battlefield implements Serializable{
 			}
 			System.out.println();
 		}
-	}
-		
-	/**
-	 * Methode die abfragt ob ein Shiff horizontal oder vertikal gelegt werden soll
-	 * @return false wenn vertikal, true wenn horizontal
-	 */
-	@SuppressWarnings("resource")
-	public static boolean isHorizontal() {
-		Scanner scan = new Scanner(System.in);
-		System.out.print("\t\tvertical / horizontal? [v / h]: ");
-		String orientation = scan.next();
-		if ("v".equals(orientation)) {
-			return false;
-		} else if("h".equals(orientation)) {
-			return true;
-		} else {
-			isHorizontal();
-		}
-		return true;
 	}
 	
 	/**
@@ -111,7 +92,7 @@ public class Battlefield implements Serializable{
 				throw new RightSideException();
 			} else {
 				for (int i = 0; i < targetRadius; i++) {
-					if(battlefield[yCord][xCord + i].isShip() == true) {
+					if(battlefield[yCord][xCord + i].isShip()) {
 						battlefield[yCord][xCord + i].setHitShip(true);
 						battlefield[yCord][xCord + i].setSign("[H]");
 						battlefield[yCord][xCord + i].setShip(false);
@@ -147,7 +128,7 @@ public class Battlefield implements Serializable{
 				targetRadius = targetRadius - 1;
 			}
 			for (int i = 0; i < targetRadius; i++) {
-				if(battlefield[yCord][xCord + i].isShip() == true) {
+				if(battlefield[yCord][xCord + i].isShip()) {
 					battlefield[yCord][xCord + i].setHitShip(true);
 					battlefield[yCord][xCord + i].setSign("[H]");
 					battlefield[yCord][xCord + i].setShip(false);
@@ -172,7 +153,7 @@ public class Battlefield implements Serializable{
 							submarine[whichPlayerToAttack][j].livePoints --;
 						}
 					}
-				} else if(battlefield[yCord][xCord + i].isWater() == true){
+				} else if(battlefield[yCord][xCord + i].isWater()){
 					battlefield[yCord][xCord + i].setHit(true);
 					battlefield[yCord][xCord + i].setSign("[X]");
 				}
@@ -187,8 +168,8 @@ public class Battlefield implements Serializable{
 	public void check(Ship[][] ship) {
 		for (int i = 0; i < ship.length; i++) {
 			for (int j = 0; j < ship[i].length; j++) {
-				if(ship[i][j].livePoints == 0) {
-					ship[i][j].setDead(true);
+				if(ship[i][j].getLivePoints() == 0) {
+					ship[i][j].setShipDead(true);
 				}
 			}
 		}
@@ -199,11 +180,10 @@ public class Battlefield implements Serializable{
 	 * @param ship Schiff welches platziert werden soll
 	 */
 	public void placeShip(Ship ship) {
-		boolean isHorizontal = ship.isHorizontal;
 		int x = ship.getxCord();
 		int y = ship.getyCord();
 
-		if (isHorizontal == true) {
+		if (ship.isHorizontal()) {
 			try {
 				 if(x == battlefield.length - ship.getShipSize() & y == battlefield.length - 1) {
 					throw new RightLowerCornerException();
@@ -340,25 +320,39 @@ public class Battlefield implements Serializable{
 	public boolean hasPlace(Ship ship) {
 		int x = ship.getxCord();
 		int y = ship.getyCord();
-		boolean isHorizontal = ship.isHorizontal;
-		boolean hasPlace = true;
 		if(ship.getxCord() > 0 & ship.getyCord() > 0) {
-			if(isHorizontal == true) {
+			if(ship.isHorizontal()) {
 				if (x + ship.getShipSize() > battlefield.length | y > battlefield.length -1) {
-					hasPlace = false;
-					return hasPlace;
+					return false;
 				}
 			} else if(y + ship.getShipSize() > battlefield.length | x > battlefield.length -1) {
-				hasPlace = false;
-				return hasPlace;
+				return false;
 			}
 		} else {
-			hasPlace = false;
-			return hasPlace;
+			return false;
 		}
-		return hasPlace;
+		return true;
 	}
-		
+	
+	/**
+	 * Methode die abfragt ob ein Shiff horizontal oder vertikal gelegt werden soll
+	 * @return false wenn vertikal, true wenn horizontal
+	 */
+	@SuppressWarnings("resource")
+	public static boolean isHorizontal() {
+		Scanner scan = new Scanner(System.in);
+		System.out.print("\t\tvertical / horizontal? [v / h]: ");
+		String orientation = scan.next();
+		if ("v".equals(orientation)) {
+			return false;
+		} else if("h".equals(orientation)) {
+			return true;
+		} else {
+			isHorizontal();
+		}
+		return true;
+	}
+	
 	/**
 	 * Abfrage ob mindestens ein Feld zwischen den Schiffen frei ist
 	 * @param ship Schiff, dass gesetzt werden soll
@@ -367,23 +361,19 @@ public class Battlefield implements Serializable{
 	public boolean hasNeighbours(Ship ship) {
 		int x = ship.getxCord();
 		int y = ship.getyCord();
-		boolean isHorizontal = ship.isHorizontal;
-		boolean hasNeighbours = false;
-		if(isHorizontal == true) {
+		if(ship.isHorizontal()) {
 			for(int i = 0; i < ship.getShipSize(); i++) {
-				if(battlefield[y][x + i].isActive() == true) {
-					hasNeighbours = true;
-					return hasNeighbours;
+				if(battlefield[y][x + i].isActive()) {
+					return true;
 				}
 			}
 		} else {
 			for(int i = 0; i < ship.getShipSize(); i++) {
-				if(battlefield[y + i][x].isActive() == true) {
-					hasNeighbours = true;
-					return hasNeighbours;
+				if(battlefield[y + i][x].isActive()) {
+					return true;
 				}
 			}
 		}	
-		return hasNeighbours;
+		return false;
 	}
 }
