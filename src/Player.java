@@ -471,13 +471,13 @@ public class Player implements Serializable{
 			while(playerDead) {
 				whichPlayerToAttack = (int) (Math.random() * player.length);
 				if(whichPlayerToAttack == getPlayerId()) {
+					playerDead = true;
+				} else {
 					if(player[whichPlayerToAttack].isPlayerDead()) {
 						playerDead = true;
 					} else {
 						playerDead = false;
 					}
-				} else {
-					playerDead = false;
 				}
 			}
 			while(!shipIsChoosen) {
