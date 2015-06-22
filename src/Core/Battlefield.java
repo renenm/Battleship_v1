@@ -1,3 +1,4 @@
+package Core;
 import java.io.Serializable;
 import java.util.Scanner;
 
@@ -9,7 +10,7 @@ import CustomExceptions.VertRightLowerCornerException;
 import CustomExceptions.VertRightSideException;
 
 /**
- * Klasse um ein Spielfeld zu erzeugen, mit den entsprechenden Methoden
+ * Klasse um ein Spielfeld zu erzeugen
  * @author Max Kück, Rene Neumann, Justus Cöster
  */
 
@@ -56,7 +57,7 @@ public class Battlefield implements Serializable{
 	}
 
 	/**
-	 * Methode um ein Spielfeld ohne die Schiffe sichtbarzu machen, auszugeben
+	 * Methode um ein Spielfeld ohne die Schiffe sichtbar zu machen, auszugeben
 	 */
 	public void printEnemyBattlefield() {
 		for (int x = 0; x < battlefield.length; x++) {
@@ -73,6 +74,7 @@ public class Battlefield implements Serializable{
 	
 	/**
 	 * Methode die auf dem entsprechenden Feld vom Spielfeld die Attribute ändert. Wird von Player - round aufgerufen
+	 * Gleichzeitg wird überprüft, wenn ein Schiff getroffen ob dieses tot ist
 	 * @param myShip Schiff mit dem geschossen werden soll
 	 * @param xCord	x Koordinate des Schußes
 	 * @param yCord y Koordinate des Schußes
@@ -82,7 +84,7 @@ public class Battlefield implements Serializable{
 	 * @param submarine Array in dem die U-Boote gespeichert sind
 	 * @param whichPlayerToAttack int-Wert welcher PLayer im Array angegriffen werden soll
 	 */
-	public void shootShip(Ship myShip, int xCord, int yCord, Destroyer[][] destroyer, Frigate[][] frigate, Corvette[][] corvette, Submarine[][] submarine, int whichPlayerToAttack) {
+	public void shootShip(Ship myShip, int xCord, int yCord, Ship[][][] ship, int whichPlayerToAttack) {
 		myShip.setReady(false);
 		myShip.setShipRespawn(0);
 		int targetRadius = myShip.getShipTargetRadius();
@@ -97,24 +99,11 @@ public class Battlefield implements Serializable{
 						battlefield[yCord][xCord + i].setSign("[H]");
 						battlefield[yCord][xCord + i].setShip(false);
 						System.out.println("Hit!");
-						for (int j = 0; j < destroyer[whichPlayerToAttack].length; j++) {
-							if(battlefield[yCord][xCord + i].getShipId() == destroyer[whichPlayerToAttack][j].getShipId()) {
-								destroyer[whichPlayerToAttack][j].livePoints --;
-							}
-						}
-						for (int j = 0; j < frigate[whichPlayerToAttack].length; j++) {
-							if(battlefield[yCord][xCord + i].getShipId() == frigate[whichPlayerToAttack][j].getShipId()) {
-								frigate[whichPlayerToAttack][j].livePoints --;
-							}
-						}
-						for (int j = 0; j < corvette[whichPlayerToAttack].length; j++) {
-							if(battlefield[yCord][xCord + i].getShipId() == corvette[whichPlayerToAttack][j].getShipId()) {
-								corvette[whichPlayerToAttack][j].livePoints --;
-							}
-						}
-						for (int j = 0; j < submarine[whichPlayerToAttack].length; j++) {
-							if(battlefield[yCord][xCord + i].getShipId() == submarine[whichPlayerToAttack][j].getShipId()) {
-								submarine[whichPlayerToAttack][j].livePoints --;
+						for (int j = 0; j < ship.length; j++) {
+							for (int h = 0; h < ship[j][whichPlayerToAttack].length; h++) {
+								if(battlefield[yCord][xCord + i].getShipId() == ship[j][whichPlayerToAttack][h].getShipId()) {
+									ship[j][whichPlayerToAttack][h].livePoints --;
+								}
 							}
 						}
 					} else if(battlefield[yCord][xCord + i].isWater() == true){
@@ -133,26 +122,13 @@ public class Battlefield implements Serializable{
 					battlefield[yCord][xCord + i].setSign("[H]");
 					battlefield[yCord][xCord + i].setShip(false);
 					System.out.println("Hit!");
-					for (int j = 0; j < destroyer[whichPlayerToAttack].length; j++) {
-						if(battlefield[yCord][xCord + i].getShipId() == destroyer[whichPlayerToAttack][j].getShipId()) {
-							destroyer[whichPlayerToAttack][j].livePoints --;
+					for (int j = 0; j < ship.length; j++) {
+						for (int h = 0; h < ship[j][whichPlayerToAttack].length; h++) {
+							if(battlefield[yCord][xCord + i].getShipId() == ship[j][whichPlayerToAttack][h].getShipId()) {
+								ship[j][whichPlayerToAttack][h].livePoints --;
+							}
 						}
-					}
-					for (int j = 0; j < frigate[whichPlayerToAttack].length; j++) {
-						if(battlefield[yCord][xCord + i].getShipId() == frigate[whichPlayerToAttack][j].getShipId()) {
-							frigate[whichPlayerToAttack][j].livePoints --;
-						}
-					}
-					for (int j = 0; j < corvette[whichPlayerToAttack].length; j++) {
-						if(battlefield[yCord][xCord + i].getShipId() == corvette[whichPlayerToAttack][j].getShipId()) {
-							corvette[whichPlayerToAttack][j].livePoints --;
-						}
-					}
-					for (int j = 0; j < submarine[whichPlayerToAttack].length; j++) {
-						if(battlefield[yCord][xCord + i].getShipId() == submarine[whichPlayerToAttack][j].getShipId()) {
-							submarine[whichPlayerToAttack][j].livePoints --;
-						}
-					}
+					}				
 				} else if(battlefield[yCord][xCord + i].isWater()){
 					battlefield[yCord][xCord + i].setHit(true);
 					battlefield[yCord][xCord + i].setSign("[X]");
@@ -165,11 +141,11 @@ public class Battlefield implements Serializable{
 	 * Methode die überprüft ob ein Schiff tot ist
 	 * @param ship merhdimensionales Array der zu überprüfenden Schiffart
 	 */
-	public void check(Ship[][] ship) {
+	public void check(Ship[][][] ship, int whichPlayerToAttack) {
 		for (int i = 0; i < ship.length; i++) {
-			for (int j = 0; j < ship[i].length; j++) {
-				if(ship[i][j].getLivePoints() == 0) {
-					ship[i][j].setShipDead(true);
+			for (int j = 0; j < ship[i][whichPlayerToAttack].length; j++) {
+				if(ship[i][whichPlayerToAttack][j].getLivePoints() == 0) {
+					ship[i][whichPlayerToAttack][j].setShipDead(true);
 				}
 			}
 		}
@@ -177,6 +153,7 @@ public class Battlefield implements Serializable{
 	
 	/**
 	 * Methode um Schiffe auf dem Spielfeld zu platzieren, wird von Player - playerPlaceShip aufgerufen
+	 * wirft Exceptions wenn das Schiff am äußeren rechten und unteren Rand gesetzt werden soll
 	 * @param ship Schiff welches platziert werden soll
 	 */
 	public void placeShip(Ship ship) {
@@ -354,7 +331,7 @@ public class Battlefield implements Serializable{
 	}
 	
 	/**
-	 * Abfrage ob mindestens ein Feld zwischen den Schiffen frei ist
+	 * Abfrage ob mindestens ein Feld zwischen den Schiffen und dem Schiff frei ist, welches gesetzt werden soll
 	 * @param ship Schiff, dass gesetzt werden soll
 	 * @return false, wenn kein Feld dazwischen frei ist, true wenn mindestens ein Feld dazwischen frei ist
 	 */

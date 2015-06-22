@@ -1,3 +1,4 @@
+package Core;
 import java.io.Serializable;
 
 /**
@@ -46,41 +47,17 @@ public class Ship implements Serializable{
 	 * @param submarine Objektarray, in dem die U-Boote gespeichert sind
 	 * @param i int-Wert, um den Spieler, der an der rihe ist zu identifizieren
 	 */
-	public static void shipReload(Destroyer[][] destroyer, Frigate[][] frigate, Corvette[][] corvette, Submarine[][] submarine) {
-		
-		for (int i = 0; i < destroyer.length; i++) {
-			for (int j = 0; j < destroyer[i].length; j++) {
-				destroyer[i][j].shipRespawn ++;
-				if(destroyer[i][j].getShipRespawn() >= destroyer[i][j].finalRespwan) {
-					destroyer[i][j].setReady(true);
+	public static void shipReload(Ship[][][] ship) {
+		for (int i = 0; i < ship.length; i++) {
+			for (int j = 0; j < ship[i].length; j++) {
+				for (int h = 0; h < ship[i][j].length; h++) {
+					ship[i][j][h].shipRespawn ++;
+					if(ship[i][j][h].getShipRespawn() >= ship[i][j][h].finalRespwan) {
+						ship[i][j][h].setReady(true);
+					}
 				}
 			}
-		}
-		for (int i = 0; i < frigate.length; i++) {
-			for (int j = 0; j < frigate[i].length; j++) {
-				frigate[i][j].shipRespawn ++;
-				if(frigate[i][j].getShipRespawn() >= frigate[i][j].finalRespwan) {
-					frigate[i][j].setReady(true);
-				}
-			}
-		}
-		for (int i = 0; i < corvette.length; i++) {
-			for (int j = 0; j < corvette[i].length; j++) {
-				corvette[i][j].shipRespawn ++;
-				if(corvette[i][j].getShipRespawn() >= corvette[i][j].finalRespwan) {
-					corvette[i][j].setReady(true);
-				}
-			}
-		}
-		for (int i = 0; i < submarine.length; i++) {
-			for (int j = 0; j < submarine[i].length; j++) {
-				submarine[i][j].shipRespawn ++;
-				if(submarine[i][j].getShipRespawn() >= submarine[i][j].finalRespwan) {
-					submarine[i][j].setReady(true);
-				}
-			}
-		}
-		
+		}	
 	}
 
 	public int getShipId() {

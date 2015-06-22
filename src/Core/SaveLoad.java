@@ -1,3 +1,4 @@
+package Core;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -75,76 +76,20 @@ public class SaveLoad {
 	 * Die Methode speichert, das Objektarray mit den Zerstörern ab
 	 * @param destroyer Objektarray, welches die Zerstörer beinhaltet
 	 */
-	public static void saveDestroyer(Destroyer[][] destroyer) {
+	public static void saveShips(Ship[][][] ship) {
 		try {
-			fileout = new FileOutputStream("game" + path  + "/saveDestroyer.cnk");
+			fileout = new FileOutputStream("game" + path  + "/saveShips.cnk");
 			objectout = new ObjectOutputStream(fileout);
-		
-				for (int i = 0; i < destroyer.length; i++) {
-					for (int j = 0; j < destroyer[i].length; j++) {
-						objectout.writeObject(destroyer[i][j]);
+			for (int i = 0; i < ship.length; i++) {
+				for (int j = 0; j < ship[i].length; j++) {
+					for (int h = 0; h < ship[i][j].length; h++) {
+						objectout.writeObject(ship[i][j][h]);
 					}
 				}
+			}
 		} catch (IOException e) {
 		e.printStackTrace();
 		}
-	}
-	
-	/**
-	 * Die Methode speichert, das Objektarray mit den Frigatten ab
-	 * @param frigate Objektarray, welches die Frigatten beinhaltet
-	 */
-	public static void saveFrigate(Frigate[][] frigate) {
-		try {
-			fileout = new FileOutputStream("game" + path  + "/saveFrigate.cnk");
-			objectout = new ObjectOutputStream(fileout);
-		
-			for (int i = 0; i < frigate.length; i++) {
-				for (int j = 0; j < frigate[i].length; j++) {
-					objectout.writeObject(frigate[i][j]);
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * Die Methode speichert, das Objektarray mit den Korvetten ab
-	 * @param corvette Objektarray, welches die korvetten beinhaltet
-	 */
-	public static void saveCorvette(Corvette[][] corvette) {
-		try {
-			fileout = new FileOutputStream("game" + path  + "/saveCorvette.cnk");
-			objectout = new ObjectOutputStream(fileout);
-		
-			for (int i = 0; i < corvette.length; i++) {
-				for (int j = 0; j < corvette[i].length; j++) {
-					objectout.writeObject(corvette[i][j]);
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * Die Methode speichert, das Objektarray mit den U-Booten ab
-	 * @param submarine Objektarray, welches die U-Boote beinhaltet
-	 */
-	public static void saveSubmarine(Submarine[][] submarine) {
-		try {
-			fileout = new FileOutputStream("game" + path  + "/saveSubmarine.cnk");
-			objectout = new ObjectOutputStream(fileout);
-			
-			for (int i = 0; i < submarine.length; i++) {
-				for (int j = 0; j < submarine[i].length; j++) {
-					objectout.writeObject(submarine[i][j]);
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
 	}
 	
 	/**
@@ -238,98 +183,41 @@ public class SaveLoad {
 	 * @param howManyDestroyer Anzahl der Zerstörer um das Objektarray zu erzeugen
 	 * @return Objektarray mit den geladenen Zerstörern
 	 */
-	public static Destroyer[][] destroyerLoad(int howManyPlayers, int howManyDestroyer) {
+	public static Ship[][][] shipsLoad(int howManyPlayers, int howManyDestroyer, int howManyFrigates, int howManyCorvettes, int howManySubmarines ) {
 		
-		Destroyer[][] destroyer = new Destroyer[howManyPlayers][howManyDestroyer];
+		Ship[][][] ship = new Ship[4][howManyPlayers][];
 		try {
-			filein = new FileInputStream("game" + path  + "/saveDestroyer.cnk");
+			filein = new FileInputStream("game" + path  + "/saveShips.cnk");
 			objectin = new ObjectInputStream(filein);
 
-			for (int i = 0; i < destroyer.length; i++) {
-				for (int j = 0; j < destroyer[i].length; j++) {
-					destroyer[i][j] = (Destroyer) objectin.readObject();	
+			for (int i = 0; i < howManyPlayers; i++) {
+				for (int j = 0; j < howManyDestroyer; j++) {
+					ship[0][i][j] = (Destroyer) objectin.readObject();	
 				}
 			}
-			return destroyer;
+			
+			for (int i = 0; i < howManyPlayers; i++) {
+				for (int j = 0; j < howManyFrigates; j++) {
+					ship[1][i][j] = (Frigate) objectin.readObject();	
+				}
+			}
+			
+			for (int i = 0; i < howManyPlayers; i++) {
+				for (int j = 0; j < howManyCorvettes; j++) {
+					ship[2][i][j] = (Corvette) objectin.readObject();	
+				}
+			}
+			
+			for (int i = 0; i < howManyPlayers; i++) {
+				for (int j = 0; j < howManySubmarines; j++) {
+					ship[3][i][j] = (Submarine) objectin.readObject();	
+				}
+			}
+			return ship;
 		} catch (Exception e) {	
 			e.printStackTrace();
 		}
-		return destroyer;
-	}
-	
-	/**
-	 * Die Methode lädt die Frigatten in das Spiel
-	 * @param howManyPlayers Anzahl der Spieler um das Objektarray zu erzeugen
-	 * @param howManyDestroyer Anzahl der Frigatten um das Objektarray zu erzeugen
-	 * @return Objektarray mit den geladenen Frigatten
-	 */
-	public static Frigate[][] frigateLoad(int howManyPlayers, int howManyFrigates) {
-		
-		Frigate[][] frigate = new Frigate[howManyPlayers][howManyFrigates];
-		try {
-			filein = new FileInputStream("game" + path  + "/saveFrigate.cnk");
-			objectin = new ObjectInputStream(filein);
-
-			for (int i = 0; i < frigate.length; i++) {
-				for (int j = 0; j < frigate[i].length; j++) {
-					frigate[i][j] = (Frigate) objectin.readObject();	
-				}
-			}
-			return frigate;
-		} catch (Exception e) {	
-			e.printStackTrace();
-		}
-		return frigate;
-	}
-	
-	/**
-	 * Die Methode lädt die Korvetten in das Spiel
-	 * @param howManyPlayers Anzahl der Spieler um das Objektarray zu erzeugen
-	 * @param howManyDestroyer Anzahl der Korvetten um das Objektarray zu erzeugen
-	 * @return Objektarray mit den geladenen Korvetten
-	 */
-	public static Corvette[][] corvetteLoad(int howManyPlayers, int howManyCorvettes) {
-		
-		Corvette[][] corvette = new Corvette[howManyPlayers][howManyCorvettes];
-		try {
-			filein = new FileInputStream("game" + path  + "/saveCorvette.cnk");
-			objectin = new ObjectInputStream(filein);
-
-			for (int i = 0; i < corvette.length; i++) {
-				for (int j = 0; j < corvette[i].length; j++) {
-					corvette[i][j] = (Corvette) objectin.readObject();
-				}
-			}
-			return corvette;
-		} catch (Exception e) {	
-			e.printStackTrace();
-		}
-		return corvette;
-	}
-	
-	/**
-	 * Die Methode lädt die U-Boote in das Spiel
-	 * @param howManyPlayers Anzahl der Spieler um das Objektarray zu erzeugen
-	 * @param howManyDestroyer Anzahl der U-Boote um das Objektarray zu erzeugen
-	 * @return Objektarray mit den geladenen U-Boote
-	 */
-	public static Submarine[][] submarineLoad(int howManyPlayers, int howManySubmarines) {
-		
-		Submarine[][] submarine = new Submarine[howManyPlayers][howManySubmarines];
-		try {
-			filein = new FileInputStream("game" + path  + "/saveSubmarine.cnk");
-			objectin = new ObjectInputStream(filein);
-
-			for (int i = 0; i < submarine.length; i++) {
-				for (int j = 0; j < submarine[i].length; j++) {
-					submarine[i][j] = (Submarine) objectin.readObject();
-				}
-			}
-			return submarine;
-		} catch (Exception e) {	
-			e.printStackTrace();
-		}
-		return submarine;
+		return ship;
 	}
 }
 

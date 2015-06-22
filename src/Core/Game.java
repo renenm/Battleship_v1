@@ -1,3 +1,4 @@
+package Core;
 import java.util.Scanner;
 
 import CustomExceptions.ScannerExceptions;
@@ -14,7 +15,7 @@ public class Game {
 	 */
 	@SuppressWarnings("resource")
 	public static void gameMode() {
-		System.out.print("/// BATTLESHIP v0.4Final \\\\\\");
+		System.out.print("/// BATTLESHIP Final \\\\\\");
 		System.out.print("\n-----------------------\n");
 		System.out.print("New Game? [yes / no]: ");
 		Scanner scan = new Scanner(System.in);
@@ -46,12 +47,9 @@ public class Game {
 		
 		Battlefield[] playersBattlefield = SaveLoad.playersBattlefieldLoad(howManyPlayers);
 		Player[] player = SaveLoad.playerLoad(howManyPlayers);
-		Destroyer[][] destroyer = SaveLoad.destroyerLoad(howManyPlayers, howManyDestroyer);
-		Frigate[][] frigate = SaveLoad.frigateLoad(howManyPlayers, howManyFrigates);
-		Corvette[][] corvette = SaveLoad.corvetteLoad(howManyPlayers, howManyCorvettes);
-		Submarine[][] submarine = SaveLoad.submarineLoad(howManyPlayers, howManySubmarines);
-		
-		game(round, fieldsize, howManyPlayers, howManyDestroyer, howManyFrigates, howManyCorvettes, howManySubmarines, playersBattlefield, player, destroyer, frigate, corvette, submarine, values);
+		Ship[][][] ship = SaveLoad.shipsLoad(howManyPlayers, howManyDestroyer, howManyFrigates, howManyCorvettes, howManySubmarines);
+				
+		game(round, fieldsize, howManyPlayers, howManyDestroyer, howManyFrigates, howManyCorvettes, howManySubmarines, playersBattlefield, player, ship, values);
 	}
 	
 	/**
@@ -78,10 +76,7 @@ public class Game {
 		//Objektarrays erstellen
 		Battlefield[] playersBattlefield;
 		Player[] player;
-		Corvette[][] corvette;
-		Destroyer[][] destroyer;
-		Frigate[][] frigate;
-		Submarine[][] submarine;
+		Ship[][][] ship = new Ship[4][][];
 		
 		//Einlesen der Variablen
 		System.out.print("Battlesize [square]: ");
@@ -111,12 +106,12 @@ public class Game {
 			}
 			//Arrays den Speicher zuweisen
 			player = new Player[howManyPlayers];
-			playersBattlefield = new Battlefield[howManyPlayers];
-			destroyer = new Destroyer[howManyPlayers][howManyDestroyer];
-			frigate = new Frigate[howManyPlayers][howManyFrigates];
-			corvette = new Corvette[howManyPlayers][howManyCorvettes];
-			submarine = new Submarine[howManyPlayers][howManySubmarines];
-					
+			playersBattlefield = new Battlefield[howManyPlayers];	
+			ship[0] = new Destroyer[howManyPlayers][howManyDestroyer];
+			ship[1] = new Frigate[howManyPlayers][howManyFrigates];
+			ship[2] = new Corvette[howManyPlayers][howManyCorvettes];
+			ship[3] = new Submarine[howManyPlayers][howManySubmarines];
+			
 			//Jeder Spieler bekommt ein Spielfeld zugewiesen		
 			for(int i = 0; i < howManyPlayers - howManyAis; i++) {
 				System.out.print("\n\tName of player #" + (i+1) + ": ");
@@ -142,7 +137,7 @@ public class Game {
 				playersBattlefield[i].printBattlefield();
 				System.out.println("");
 				System.out.print(player[i].getName() + ", please enter the coordinates of your ships:");
-				player[i].playerPlaceShips(i, fieldsize, howManyDestroyer, howManyCorvettes, howManyFrigates, howManySubmarines, destroyer, frigate, corvette, submarine, playersBattlefield);
+				player[i].playerPlaceShips(i, fieldsize, howManyDestroyer, howManyCorvettes, howManyFrigates, howManySubmarines, ship, playersBattlefield);
 				System.out.println("\n----------------------- NEXT PLAYER\n");
 			}
 			
@@ -159,14 +154,11 @@ public class Game {
 	
 			SaveLoad.save(playersBattlefield);
 			SaveLoad.savePlayer(player);
-			SaveLoad.saveDestroyer(destroyer);
-			SaveLoad.saveFrigate(frigate);
-			SaveLoad.saveCorvette(corvette);
-			SaveLoad.saveSubmarine(submarine);
+			SaveLoad.saveShips(ship);
 			SaveLoad.saveValues(values);
 			
 			//Hier wird der Spielablauf aufgerufen
-			game(round, fieldsize, howManyPlayers, howManyDestroyer, howManyFrigates, howManyCorvettes, howManySubmarines, playersBattlefield, player, destroyer, frigate, corvette, submarine, values);
+			game(round, fieldsize, howManyPlayers, howManyDestroyer, howManyFrigates, howManyCorvettes, howManySubmarines, playersBattlefield, player, ship, values);
 		}
 	}
 	
@@ -181,13 +173,10 @@ public class Game {
 	 * @param howManySubmarines Anzahl der U-Boote
 	 * @param playersBattlefield Array, in dem die Spielfelder der Player gespeichert sind
 	 * @param player Array, in dem die Player gespeichert sind
-	 * @param destroyer Array, in dem die Zerstörer gespeichert sind
-	 * @param frigate Array, in dem die Frigatten gespeichert sind
-	 * @param corvette Array, in dem die Korvetten gespeichert sind
-	 * @param submarine Array, in dem die U-Boote gespeichert sind
+	 * @param ship dreidimensionales Array, in dem die Schffe gspeichert sind
 	 * @param values Array, in dem die wichtigen Spielwerte gespeichert werden, um diese nach dem Laden zu reproduzieren
 	 */
-	public static void game(int round, int fieldsize, int howManyPlayers, int howManyDestroyer, int howManyFrigates, int howManyCorvettes, int howManySubmarines, Battlefield[] playersBattlefield, Player[] player, Destroyer[][] destroyer, Frigate[][] frigate, Corvette[][] corvette, Submarine[][] submarine, int[] values) {
+	public static void game(int round, int fieldsize, int howManyPlayers, int howManyDestroyer, int howManyFrigates, int howManyCorvettes, int howManySubmarines, Battlefield[] playersBattlefield, Player[] player, Ship[][][] ship , int[] values) {
 		String possibleWinner = "Nobody";
 	
 		while(howManyPlayers > 1) {
@@ -199,18 +188,15 @@ public class Game {
 					
 				} else {
 					possibleWinner = player[i].getName();
-					howManyPlayers = player[i].round(fieldsize, i, howManyPlayers, player, playersBattlefield, destroyer, frigate, corvette, submarine);					
+					howManyPlayers = player[i].round(fieldsize, i, howManyPlayers, player, playersBattlefield, ship);					
 				}
 			}
-			Ship.shipReload(destroyer, frigate, corvette, submarine);
+			Ship.shipReload(ship);
 			values[1] = howManyPlayers;
 			values[6] = round;
 			SaveLoad.save(playersBattlefield);
 			SaveLoad.savePlayer(player);
-			SaveLoad.saveDestroyer(destroyer);
-			SaveLoad.saveFrigate(frigate);
-			SaveLoad.saveCorvette(corvette);
-			SaveLoad.saveSubmarine(submarine);
+			SaveLoad.saveShips(ship);
 			SaveLoad.saveValues(values);
 		}
 		System.out.println("Game is Over!");
