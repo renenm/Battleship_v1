@@ -35,6 +35,7 @@ public class menu extends JFrame {
 					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					frame.setVisible(true);
 					frame.setResizable(false);
+					frame.setTitle("Battleship");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -181,7 +182,7 @@ public class menu extends JFrame {
 		checkBox_5.setEnabled(false);
 		
 		SpinnerNumberModel playerSelect = new SpinnerNumberModel(2, 2, 6, 1);  
-		SpinnerNumberModel valueSelect = new SpinnerNumberModel(0, 0, 50, 1);  
+		SpinnerNumberModel valueSelect = new SpinnerNumberModel(0, 0, 30, 1);  
 		SpinnerNumberModel valueSelect2 = new SpinnerNumberModel(0, 0, 50, 1);  
 		SpinnerNumberModel valueSelect3 = new SpinnerNumberModel(0, 0, 50, 1);  
 		SpinnerNumberModel valueSelect4 = new SpinnerNumberModel(0, 0, 50, 1);  
@@ -353,6 +354,22 @@ public class menu extends JFrame {
 		JButton btnStartGame = new JButton("Start Game");
 		btnStartGame.setBounds(944, 561, 300, 100);
 		preparation.add(btnStartGame);
+		
+		JPanel place = new JPanel();
+		contentPane.add(place, "name_25534575642964");
+		place.setLayout(null);
+		
+		JLabel lblplayername = new JLabel("playername");
+		lblplayername.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblplayername.setHorizontalAlignment(SwingConstants.CENTER);
+		lblplayername.setBounds(21, 11, 262, 38);
+		place.add(lblplayername);
+		
+		
+		
+		JLabel lblShipsToBe = new JLabel("Ships to be placed");
+		lblShipsToBe.setBounds(1061, 41, 93, 14);
+		place.add(lblShipsToBe);
 		btnStartGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int round = 0;
@@ -431,9 +448,9 @@ public class menu extends JFrame {
 					playersBattlefield[i].printBattlefield();
 					System.out.println("");
 					System.out.print(player[i].getName() + ", please enter the coordinates of your ships:");
-					player[i].playerPlaceShips(i, fieldsize, howManyDestroyer, howManyCorvettes, howManyFrigates, howManySubmarines, ship, playersBattlefield);
+					player[i].playerPlaceShips(i, fieldsize, ship, playersBattlefield);
 					System.out.println("\n----------------------- NEXT PLAYER\n");
-				}					
+				}						
 				int[] values = new int[7];
 				values[0] = fieldsize;
 				values[1] = howManyPlayers;
@@ -442,13 +459,15 @@ public class menu extends JFrame {
 				values[4] = howManyCorvettes;
 				values[5] = howManySubmarines;
 				values[6] = round;
-				SaveLoad.save(playersBattlefield);
+				SaveLoad.saveBattlefield(playersBattlefield);
 				SaveLoad.savePlayer(player);
 				SaveLoad.saveShips(ship);
 				SaveLoad.saveValues(values);
 				Core.Game.game(round, fieldsize, howManyPlayers, howManyDestroyer, howManyFrigates, howManyCorvettes, howManySubmarines, playersBattlefield, player, ship, values);
 			}
 		});
+		
+		
 	}
 	
 	private static void addPopup(Component component, final JPopupMenu popup) {

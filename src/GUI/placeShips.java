@@ -1,81 +1,86 @@
 package GUI;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.*;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
-import java.awt.Font;
+import java.awt.event.*;
 
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.event.*;
 
-public class placeShips extends JFrame {
+class placeShips {
+    public static void main(String[] args) {
+        battlefield_gui myFrame = new battlefield_gui();
+        myFrame.getContentPane();
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //myFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    }
+}
 
-	private JPanel contentPane;
-	private JTable table;
+class battlefield_gui extends JFrame implements ActionListener {
+	int index = 14;
+	int fieldsize = index+1;
+	
+    JButton[][] buttons = new JButton[fieldsize][fieldsize];
+    JPanel mPanel = new JPanel();
+    JPanel bPanel = new JPanel();
+    JPanel cPanel = new JPanel();
+    //JTextArea scoreKeeper = new JTextArea();
+    Container c = getContentPane();
+    int[][] intArray = new int[fieldsize][fieldsize];
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					placeShips frame = new placeShips();
-					frame.setVisible(true);
-					//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	/**
-	 * Create the frame.
-	 */
-	public placeShips() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		String player1 = "Max";
-		
-		JLabel lblPlaceShips = new JLabel(player1);
-		lblPlaceShips.setBounds(29, 11, 226, 27);
-		lblPlaceShips.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		lblPlaceShips.setHorizontalAlignment(SwingConstants.CENTER);
-		contentPane.add(lblPlaceShips);
-		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-				"New column", "New column", "New column", "New column", "New column", "New column"
-			}
-		));
-		table.setBounds(59, 65, 498, 472);
-		contentPane.add(table);
-	}
+    public battlefield_gui() {
+        butGen();
+        score2();
+        //cPanel.add(scoreKeeper);
+        bPanel.setLayout(new GridLayout(fieldsize,fieldsize));
+        mPanel.setLayout(new BorderLayout());
+        mPanel.add(bPanel, BorderLayout.CENTER);
+        mPanel.add(cPanel, BorderLayout.SOUTH);
+        c.add(mPanel);
+
+        setTitle("Battlefield GUI");
+        setSize(700,700);
+        setResizable(false);
+        setVisible(true);
+    }
+
+    private void butGen() {
+        for(int i=0;i<fieldsize;i++)
+            for(int j=0;j<fieldsize;j++) {
+                buttons[i][j] = new JButton(String.valueOf(i)+"x"+String.valueOf(j));
+                buttons[i][j].setActionCommand("button" +i +"_" +j);
+                buttons[i][j].addActionListener(this);
+                bPanel.add(buttons[i][j]);
+                
+                
+                //Index
+                buttons[0][j].setEnabled(false);
+                buttons[i][0].setEnabled(false);        
+                
+                buttons[0][j].setText(String.valueOf(j));
+                buttons[i][0].setText(String.valueOf(i));             
+            } 
+    }
+    
+   
+    
+    private void score2() {
+        for(int i=1;i<fieldsize;i++)
+            for(int j=1;j<fieldsize;j++)
+                buttons[i][j].setText(String.valueOf(intArray[i][j]));
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if(e.getActionCommand().contains("button")) {
+            //int i = Integer.parseInt(Character.toString(e.getActionCommand().replaceAll("button","").replaceAll("_", "").charAt(0)));
+            //int j = Integer.parseInt(Character.toString(e.getActionCommand().replaceAll("button","").replaceAll("_", "").charAt(1)));
+            //intArray[i][j]++;
+            //System.out.println(e.getActionCommand() +"  " +i +"  " +j);
+            
+            
+            
+        }
+        score2();
+    }
 }
