@@ -7,45 +7,64 @@ import java.io.Serializable;
  */
 
 public class Ship implements Serializable{
-
+	
+	/**VersionsID für speichern/laden*/
 	private static final long serialVersionUID = -1625395140503894621L;
+	/**SchiffID*/
 	protected int shipId;
+	/**Zu welchem Spieler dieses Schiff gehört*/
 	protected int shipBelongsToPlayer;
+	/**Größe des Schiffes*/
 	protected int shipSize;
+	/**dynamische NachladeZeit*/
 	protected int shipRespawn;
+	/**Nachladezeit des Schiffes*/
 	protected final int finalRespwan;
+	/**Trefferradius des Schiffes*/
 	protected int shipTargetRadius;
+	/**Symbol des Schiffes zur Anzeige auf dem Spielfeld Bsp: Zerstörer = "D"*/
 	protected String shipSymbol;
+	/**Name des Schiffes*/
+	protected String name;
+	/**X-Koordinate des Schiffes*/
 	protected int xCord;
+	/**Y-Koordinate des Schiffes*/
 	protected int yCord;
 	protected boolean isHorizontal;
 	protected boolean isShipDead;
 	protected boolean isReady;
+	/**Lebenspunkt des Schiffes*/
 	protected int livePoints;
 	
-	public Ship(int shipId, int shipBelongsToPlayer, int shipSize, int shipRespawn, int shipTargetRadius, String shipSymbol, int xCord, int yCord, boolean isHorizontal, boolean isShipDead, boolean isReady, int livePoints, int finalRespawn) {
+	/**
+	 * Konstruktor für ein Schiff
+	 * @param shipId ShiffID
+	 * @param shipSize Größe des Schiffes
+	 * @param shipRespawn dynamische Nachladezeit des Schiffes
+	 * @param shipTargetRadius Trefferradius des Schiffes
+	 * @param shipSymbol Symbol des Schiffes zur Anzege auf dem SPielfeld
+	 * @param isShipDead
+	 * @param isReady
+	 * @param livePoints
+	 * @param finalRespawn festgelegte Nachladezeit
+	 * @param name Name des Schiffes
+	 */
+	public Ship(int shipId, int shipSize, int shipRespawn, int shipTargetRadius, String shipSymbol, boolean isShipDead, boolean isReady, int livePoints, int finalRespawn, String name) {
 		this.shipId = shipId;
-		this.shipBelongsToPlayer = shipBelongsToPlayer;
 		this.shipSize = shipSize;
 		this.shipRespawn = shipRespawn;
 		this.shipTargetRadius = shipTargetRadius;
 		this.shipSymbol = shipSymbol;
-		this.xCord = xCord;
-		this.yCord = yCord;
-		this.isHorizontal = isHorizontal;
 		this.isShipDead = isShipDead;
 		this.isReady = isReady;
 		this.livePoints = livePoints;
 		this.finalRespwan = finalRespawn;
+		this.name = name;
 	}
 	
 	/**
 	 * Die Methode überprüft in jeder Runde die Reloadzeit der Schiffe und setzt diesen gegebenenfalls wieder auf null
-	 * @param destroyer Objektarray, in dem die Zerstörer gespeichert sind
-	 * @param frigate Objektarray, in dem die Frigatten gespeichert sind
-	 * @param corvette Objektarray, in dem die Korvetten gespeichert sind
-	 * @param submarine Objektarray, in dem die U-Boote gespeichert sind
-	 * @param i int-Wert, um den Spieler, der an der rihe ist zu identifizieren
+	 * @param ship Array mit allen Schiffen des Spiels
 	 */
 	public static void shipReload(Ship[][][] ship) {
 		for (int i = 0; i < ship.length; i++) {
@@ -59,9 +78,14 @@ public class Ship implements Serializable{
 			}
 		}	
 	}
-
+	
+	//Getter und Setter für die Attribute eines Schiffes
 	public int getShipId() {
 		return shipId;
+	}
+	
+	public void setShipBelongsToPlayer(int shipBelongsToPLayer) {
+		this.shipBelongsToPlayer = shipBelongsToPLayer;
 	}
 
 	public int getShipBelongsToPlayer() {
@@ -87,13 +111,25 @@ public class Ship implements Serializable{
 	public String getShipSymbol() {
 		return shipSymbol;
 	}
+	
+	public void setXCord(int xCord) {
+		this.xCord = xCord;
+	}
 
 	public int getxCord() {
 		return xCord;
 	}
-
+	
+	public void setYCord(int yCord) {
+		this.yCord = yCord;
+	}
+	
 	public int getyCord() {
 		return yCord;
+	}
+	
+	public void setHorizontal(boolean isHorizontal) {
+		this.isHorizontal = isHorizontal;
 	}
 
 	public boolean isHorizontal() {
@@ -118,5 +154,13 @@ public class Ship implements Serializable{
 
 	public int getLivePoints() {
 		return livePoints;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}	
 }

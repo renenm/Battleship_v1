@@ -16,13 +16,16 @@ import CustomExceptions.VertRightSideException;
 
 public class Battlefield implements Serializable{
 	
+	/** VersionsID für speichern/laden*/
 	private static final long serialVersionUID = 6047056531801853002L;
+	/** Größe des Spielfeldes*/
 	private int fieldsize;
+	/** Zahl des Spielers zu dem das Spielfeld gehört*/
 	private int belongsToPlayer;
+	/** Array der einzelnen Felder des Spielfeldes*/
 	private Field[][] battlefield;
 	
-	public Battlefield() {}
-	
+	/** Konstruktor füe ein Spielfeld*/
 	public Battlefield(int fieldsize, int belongsToPlayer) {
 		this.fieldsize = fieldsize;
 		this.belongsToPlayer = belongsToPlayer;
@@ -31,7 +34,8 @@ public class Battlefield implements Serializable{
 	}
 	
 	/**
-	 * Methode um auf jedes Feld des Spielfeldes ein Objekt vom Typ "Field" zu legen, gleichzeitig wird hier schon der Index am Rand des Spielfeldes festgelegt
+	 * Methode um auf jedes Feld des Spielfeldes ein Objekt vom Typ "Field" zu legen, 
+	 * gleichzeitig wird hier schon der Index am Rand des Spielfeldes festgelegt
 	 */
 	public void builtBattlefield() {
 		for (int x = 0; x < battlefield.length; x++) {
@@ -40,6 +44,8 @@ public class Battlefield implements Serializable{
 				battlefield[0][y].setSign("[" + y + "]");
 				battlefield[x][0].setSign("[" + x + "]");
 				battlefield[0][0].setSign("[ ]");
+				battlefield[0][y].setActive(true);
+				battlefield[x][0].setActive(true);
 			}
 		}
 	}
@@ -57,7 +63,7 @@ public class Battlefield implements Serializable{
 	}
 
 	/**
-	 * Methode um ein Spielfeld ohne die Schiffe sichtbar zu machen, auszugeben
+	 * Methode um ein Spielfeld, ohne die Schiffe sichtbar zu machen, auszugeben
 	 */
 	public void printEnemyBattlefield() {
 		for (int x = 0; x < battlefield.length; x++) {
@@ -73,18 +79,16 @@ public class Battlefield implements Serializable{
 	}
 	
 	/**
-	 * Methode die auf dem entsprechenden Feld vom Spielfeld die Attribute ändert. Wird von Player - round aufgerufen
-	 * Gleichzeitg wird überprüft, wenn ein Schiff getroffen ob dieses tot ist
+	 * Methode die auf dem entsprechenden Feld vom Spielfeld die Attribute ändert.
+	 * Gleichzeitg wird überprüft, wenn ein Schiff getroffen wurde, ob dieses tot ist.
 	 * @param myShip Schiff mit dem geschossen werden soll
 	 * @param xCord	x Koordinate des Schußes
 	 * @param yCord y Koordinate des Schußes
-	 * @param destroyer Array in dem die Zerstörer gespeichert sind
-	 * @param frigate Array in dem die Frigatten gespeichert sind
-	 * @param corvette Array in dem die Korvetten gespeichert sind
-	 * @param submarine Array in dem die U-Boote gespeichert sind
-	 * @param whichPlayerToAttack int-Wert welcher PLayer im Array angegriffen werden soll
+	 * @param Ship[][][] Liste aller Schiffe
+	 * @param whichPlayerToAttack welcher Spieler angegriffen werden soll
+	 * @see Player.round
 	 */
-	public void shootShip(Ship myShip, int xCord, int yCord, Ship[][][] ship, int whichPlayerToAttack) {
+	public boolean shootShip(Ship myShip, int xCord, int yCord, Ship[][][] ship, int whichPlayerToAttack) {
 		myShip.setReady(false);
 		myShip.setShipRespawn(0);
 		int targetRadius = myShip.getShipTargetRadius();
@@ -106,6 +110,7 @@ public class Battlefield implements Serializable{
 								}
 							}
 						}
+						return true;
 					} else if(battlefield[yCord][xCord + i].isWater() == true){
 						battlefield[yCord][xCord + i].setHit(true);
 						battlefield[yCord][xCord + i].setSign("[X]");
@@ -128,18 +133,20 @@ public class Battlefield implements Serializable{
 								ship[j][whichPlayerToAttack][h].livePoints --;
 							}
 						}
-					}				
+					}
+					return true;
 				} else if(battlefield[yCord][xCord + i].isWater()){
 					battlefield[yCord][xCord + i].setHit(true);
 					battlefield[yCord][xCord + i].setSign("[X]");
 				}
 			}
 		}
+		return false;
 	}
 	
 	/**
 	 * Methode die überprüft ob ein Schiff tot ist
-	 * @param ship merhdimensionales Array der zu überprüfenden Schiffart
+	 * @param Ship[][][] Liste aller Schiffe
 	 */
 	public void check(Ship[][][] ship, int whichPlayerToAttack) {
 		for (int i = 0; i < ship.length; i++) {
@@ -152,9 +159,10 @@ public class Battlefield implements Serializable{
 	}
 	
 	/**
-	 * Methode um Schiffe auf dem Spielfeld zu platzieren, wird von Player - playerPlaceShip aufgerufen
-	 * wirft Exceptions wenn das Schiff am äußeren rechten und unteren Rand gesetzt werden soll
+	 * Methode um Schiffe auf dem Spielfeld zu platzieren
 	 * @param ship Schiff welches platziert werden soll
+	 * @throws Exceptions wenn das Schiff am äußeren rechten und unteren Rand platziert werden soll
+	 * @see Player.playerPlaceShips
 	 */
 	public void placeShip(Ship ship) {
 		int x = ship.getxCord();
@@ -290,9 +298,11 @@ public class Battlefield implements Serializable{
 	}
 	
 	/**
-	 * Abfrage ob das zu platzierende Schiff innerhlab des Spielfeldes gesetzt werden soll
+	 * Hilfsmethode für placeShip
+	 * Abfrage, ob das zu platzierende Schiff innerhlab des Spielfeldes gesetzt werden soll
 	 * @param ship Schiff, dass gesetzt werden soll
-	 * @return false wenn außerhalb des Psielfeldes, true wenn innerhal des Spielfeldes
+	 * @return false wenn das Schiff außerhalb des Spielfeldes platziert werden soll, 
+	 * 		true wenn das Schiff innerhalb des Spielfeldes platziert werden soll.
 	 */
 	public boolean hasPlace(Ship ship) {
 		int x = ship.getxCord();
@@ -312,7 +322,8 @@ public class Battlefield implements Serializable{
 	}
 	
 	/**
-	 * Methode die abfragt ob ein Shiff horizontal oder vertikal gelegt werden soll
+	 * Hilfsmethode für placeShip
+	 * Abfrage, ob ein Schiff horizontal oder vertikal platziert werden soll.
 	 * @return false wenn vertikal, true wenn horizontal
 	 */
 	@SuppressWarnings("resource")
@@ -331,8 +342,8 @@ public class Battlefield implements Serializable{
 	}
 	
 	/**
-	 * Abfrage ob mindestens ein Feld zwischen den Schiffen und dem Schiff frei ist, welches gesetzt werden soll
-	 * @param ship Schiff, dass gesetzt werden soll
+	 * Abfrage, ob mindestens ein Feld zwischen den Schiffen und dem Schiff, welches platziert werden soll, frei ist.
+	 * @param ship zu platzierendes Schiff
 	 * @return false, wenn kein Feld dazwischen frei ist, true wenn mindestens ein Feld dazwischen frei ist
 	 */
 	public boolean hasNeighbours(Ship ship) {
@@ -353,4 +364,20 @@ public class Battlefield implements Serializable{
 		}	
 		return false;
 	}
+	
+	/**
+	 * Hilfsmethode für Player.round
+	 * Abfrage für die AI, ob das Feld, welches ausgewählt wurde schon beschossen wurde.
+	 * @param x X-Koordinate des Schußes
+	 * @param y y-Koordinate des Schußes
+	 * @see Player.round
+	 * @return true, wenn das Feld schon beschoßen wurde, false wenn nicht
+	 */
+	public boolean checkForHit(int x, int y) {
+		if(battlefield[y][x].isHit() == true || battlefield[y][x].isHitShip() == true) {
+			return true;
+		}
+		return false;
+	}
+	
 }

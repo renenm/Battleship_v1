@@ -7,10 +7,15 @@ import java.io.Serializable;
  */
 
 public class Frigate extends Ship implements Serializable{
-
+	
+	/**VersionsID für speichern/laden*/
 	private static final long serialVersionUID = 2923767458181572026L;
-
-	public Frigate(int shipId, int shipBelongsToPlayer, int xCord, int yCord, boolean isHorizontal) {
-		super(shipId, shipBelongsToPlayer, 4, 2, 2, "F", xCord, yCord, isHorizontal, false, true, 4, 2);
+	
+	/**
+	 * Konstruktor für eine Frigatte
+	 * @param shipId zur eindeutigen Identifikation dieser Frigatte
+	 */
+	public Frigate(int shipId) {
+		super(shipId, 4, 2, 2, "F", false, true, 4, 2, "Frigate");
 	}
 }

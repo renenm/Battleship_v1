@@ -42,7 +42,7 @@ public class SaveLoad {
 	 * die Methode speichert das Objektarray mit den Spielfeldern ab
 	 * @param playersBattlefield Objektarray, welches die Spielfelder beinhaltet
 	 */
-	public static void save(Battlefield[] playersBattlefield) {
+	public static void saveBattlefield(Battlefield[] playersBattlefield) {
 		try {
 			fileout = new FileOutputStream("game" + path + "/saveBattlefield.cnk");
 			objectout = new ObjectOutputStream(fileout);
@@ -185,35 +185,30 @@ public class SaveLoad {
 	 */
 	public static Ship[][][] shipsLoad(int howManyPlayers, int howManyDestroyer, int howManyFrigates, int howManyCorvettes, int howManySubmarines ) {
 		
-		Ship[][][] ship = new Ship[4][][];
-		ship[0] = new Destroyer[howManyPlayers][howManyDestroyer];
-		ship[1] = new Frigate[howManyPlayers][howManyFrigates];
-		ship[2] = new Corvette[howManyPlayers][howManyCorvettes];
-		ship[3] = new Submarine[howManyPlayers][howManySubmarines];
-		
+		Ship[][][] ship = new Ship[4][howManyPlayers][];
 		try {
 			filein = new FileInputStream("game" + path  + "/saveShips.cnk");
 			objectin = new ObjectInputStream(filein);
 
-			for (int i = 0; i < ship[0].length; i++) {
+			for (int i = 0; i < howManyPlayers; i++) {
 				for (int j = 0; j < howManyDestroyer; j++) {
 					ship[0][i][j] = (Destroyer) objectin.readObject();	
 				}
 			}
 			
-			for (int i = 0; i < ship[1].length; i++) {
+			for (int i = 0; i < howManyPlayers; i++) {
 				for (int j = 0; j < howManyFrigates; j++) {
 					ship[1][i][j] = (Frigate) objectin.readObject();	
 				}
 			}
 			
-			for (int i = 0; i < ship[2].length; i++) {
+			for (int i = 0; i < howManyPlayers; i++) {
 				for (int j = 0; j < howManyCorvettes; j++) {
 					ship[2][i][j] = (Corvette) objectin.readObject();	
 				}
 			}
 			
-			for (int i = 0; i < ship[3].length; i++) {
+			for (int i = 0; i < howManyPlayers; i++) {
 				for (int j = 0; j < howManySubmarines; j++) {
 					ship[3][i][j] = (Submarine) objectin.readObject();	
 				}

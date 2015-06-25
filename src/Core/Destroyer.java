@@ -7,10 +7,15 @@ import java.io.Serializable;
  */
 
 public class Destroyer extends Ship implements Serializable{
-
+	
+	/** VersionsID für speichern/laden*/
 	private static final long serialVersionUID = -7251467127327278602L;
-
-	public Destroyer(int shipId, int shipBelongsToPlayer, int xCord, int yCord, boolean isHorizontal) {
-		super(shipId, shipBelongsToPlayer, 5, 3, 3, "D", xCord, yCord, isHorizontal, false, true, 5, 3);
+	
+	/**
+	 * Konstruktor für einen Zerstörer
+	 * @param shipId zur eindeutigen Identifikation dieses Zerstörers
+	 */
+	public Destroyer(int shipId) {
+		super(shipId, 5, 3, 3, "D", false, true, 5, 3, "Destroyer");
 	}
 }

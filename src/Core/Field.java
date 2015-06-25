@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 public class Field implements Serializable{
 	
+	/**VersionsID für speichern/laden*/
 	private static final long serialVersionUID = 2601581867209360826L;
 	private String sign = "[ ]"; 
 	private boolean isActive = false; 
@@ -16,9 +17,15 @@ public class Field implements Serializable{
 	private boolean isHitShip = false;
 	private boolean isShip = false;
 	private int shipId;
-
-	public Field() {}
 	
+	/**
+	 * Konstruktor für ein Feld des Spielfeldes
+	 * @param isActive ist aktiv?
+	 * @param isHit wurde getroffen?
+	 * @param isWater ist Wasser?
+	 * @param isHitShip wurde das Schiff auf dem Feld getroffen?
+	 * @param isShip liegt ein Schiff auf dm Feld?
+	 */
 	public Field(boolean isActive, boolean isHit, boolean isWater, boolean isHitShip, boolean isShip) {
 		this.isActive = isActive;
 		this.isHit = isHit;
@@ -27,6 +34,7 @@ public class Field implements Serializable{
 		this.isShip = isShip;
 	}
 	
+	//Getter und Setter für die Attribute eines Feldes
 	public String getSign() {
 		return sign;
 	}
