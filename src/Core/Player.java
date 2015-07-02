@@ -373,11 +373,13 @@ public class Player implements Serializable{
 				}
 			}
 			System.out.println(getName() + " has finished its round.\n");
+			/*
 			try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 		e.printStackTrace();
 		}
+		*/
 		}
 		return howManyPlayers;
 	}

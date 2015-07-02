@@ -32,7 +32,7 @@ public class menu extends JFrame {
 			public void run() {
 				try {
 					menu frame = new menu();
-					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+					//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					frame.setVisible(true);
 					frame.setResizable(false);
 					frame.setTitle("Battleship");
@@ -355,21 +355,7 @@ public class menu extends JFrame {
 		btnStartGame.setBounds(944, 561, 300, 100);
 		preparation.add(btnStartGame);
 		
-		JPanel place = new JPanel();
-		contentPane.add(place, "name_25534575642964");
-		place.setLayout(null);
 		
-		JLabel lblplayername = new JLabel("playername");
-		lblplayername.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblplayername.setHorizontalAlignment(SwingConstants.CENTER);
-		lblplayername.setBounds(21, 11, 262, 38);
-		place.add(lblplayername);
-		
-		
-		
-		JLabel lblShipsToBe = new JLabel("Ships to be placed");
-		lblShipsToBe.setBounds(1061, 41, 93, 14);
-		place.add(lblShipsToBe);
 		btnStartGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int round = 0;
@@ -466,8 +452,6 @@ public class menu extends JFrame {
 				Core.Game.game(round, fieldsize, howManyPlayers, howManyDestroyer, howManyFrigates, howManyCorvettes, howManySubmarines, playersBattlefield, player, ship, values);
 			}
 		});
-		
-		
 	}
 	
 	private static void addPopup(Component component, final JPopupMenu popup) {
