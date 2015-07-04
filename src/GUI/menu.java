@@ -4,6 +4,7 @@ import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -15,6 +16,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import Core.*;
+import GUI.BattlefieldGui.CustomListener;
 
 public class menu extends JFrame {
 	
@@ -64,6 +66,11 @@ public class menu extends JFrame {
 		contentPane.add(preparation, "name_17012035418956");
 		preparation.setLayout(null);
 		
+		JPanel placing = new JPanel();
+		contentPane.add(placing, "name_17012035418956");
+		placing.setBounds(0, 0, 10, 10);
+		
+		
 		JButton btnNewGame = new JButton("New Game");
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -94,7 +101,9 @@ public class menu extends JFrame {
 		btnInstructions.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				main_menu.setVisible(false);
-				instructions.setVisible(true);
+				//instructions.setVisible(true);
+				placing.setVisible(true);
+				
 			}
 		});
 		btnInstructions.setBounds(479, 464, 300, 100);
@@ -355,7 +364,6 @@ public class menu extends JFrame {
 		btnStartGame.setBounds(944, 561, 300, 100);
 		preparation.add(btnStartGame);
 		
-		
 		btnStartGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int round = 0;
@@ -452,7 +460,93 @@ public class menu extends JFrame {
 				Core.Game.game(round, fieldsize, howManyPlayers, howManyDestroyer, howManyFrigates, howManyCorvettes, howManySubmarines, playersBattlefield, player, ship, values);
 			}
 		});
+		placing.setLayout(null);
+		
+		
+		JLabel lblNewLabel = new JLabel("this.player[0].getName()" + "'s Turn");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		placing.add(lblNewLabel);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(20, 21, 323, 33);
+		
+		JTextArea textArea = new JTextArea(
+                "Aktuelles zu setzendes Schiff: Destroyer \n\n" + 
+                "\n" +
+                "Noch zu setzende Schiffe: \n\n" +
+                "Destroyer 1/3 \n" + 
+                "Frigates 2/2 \n" +
+                "Corvettes 2/2 \n" +
+                "Submarines 3/3 \n"   
+        );
+        textArea.setLineWrap(true);
+        textArea.setVisible(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setBounds(978, 160, 248, 286);
+        placing.add(textArea);
+        
+		JLabel lblNewLabel_1 = new JLabel("Ships to be placed");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setBounds(978, 116, 245, 33);
+		placing.add(lblNewLabel_1);
+		
+		
 	}
+		private int index = 15;
+		private int fieldsize = index + 1;
+		private JButton[][] battlefield;
+		
+		public void BattlefieldGui(int fieldsize) {
+			this.fieldsize = fieldsize;
+			this.battlefield = new JButton[fieldsize][fieldsize];
+			this.builtBattlefieldGui();
+		}
+
+		public void builtBattlefieldGui() {
+			
+			JPanel field = new JPanel();
+			field.setLayout(new GridLayout(fieldsize, fieldsize));
+			
+	        for (int i = 0; i < battlefield.length; i++) {
+	        	for (int j = 0; j < battlefield[i].length; j++) {
+					field.add(battlefield[i][j] = new JButton("W"));
+					battlefield[i][j].addActionListener(new CustomListener());
+					battlefield[i][j].setActionCommand(String.valueOf(i) + " " + String.valueOf(j));
+	                battlefield[0][j].setText(String.valueOf(j));
+	                battlefield[i][0].setText(String.valueOf(i));
+	                battlefield[0][j].setEnabled(false);
+	                battlefield[i][0].setEnabled(false);
+	        	}
+			}
+		}    
+		
+		public class CustomListener implements ActionListener{
+			
+			Destroyer destroyer = new Destroyer(0);
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String[] segs = e.getActionCommand().split(" ");
+				int x = Integer.parseInt(segs[0]);
+				int y = Integer.parseInt(segs[1]);
+				//horizontal
+				for (int i = 0; i < 5; i++) {
+					battlefield[x][y + i].setText("E");
+					System.out.println(battlefield[x][y].isSelected());
+					destroyer.setXCord(x);
+					destroyer.setYCord(y);
+				}
+				//vertikal
+				//battlefield[x + i][y].setText("E");
+			}
+		}
+		
+		public int getFieldsize() {
+			return fieldsize;
+		}
+
+		public void setFieldsize(int fieldsize) {
+			this.fieldsize = fieldsize;
+		}
 	
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {

@@ -1,5 +1,7 @@
 package GUI;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import Core.Destroyer;
 
@@ -24,13 +27,12 @@ public class BattlefieldGui {
 	}
 
 	public void builtBattlefieldGui() {
-		
 		JFrame frame = new JFrame("BattlefielGui");
 		frame.setSize(700,700);
-		
+
 		JPanel field = new JPanel();
 		field.setLayout(new GridLayout(fieldsize, fieldsize));
-        
+		
         for (int i = 0; i < battlefield.length; i++) {
         	for (int j = 0; j < battlefield[i].length; j++) {
 				field.add(battlefield[i][j] = new JButton("W"));
@@ -47,7 +49,7 @@ public class BattlefieldGui {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	private class CustomListener implements ActionListener{
+	public class CustomListener implements ActionListener{
 		
 		Destroyer destroyer = new Destroyer(0);
 		
