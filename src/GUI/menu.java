@@ -1,7 +1,9 @@
 package GUI;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -18,6 +20,8 @@ import javax.swing.event.ChangeListener;
 import Core.*;
 
 public class menu extends JFrame {
+	
+
 	
 	private JPanel contentPane;
 	private JTextField textField;
@@ -438,10 +442,20 @@ public class menu extends JFrame {
 			}
 		});
 		
+		//Scrollpane initialized
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 10, 900, 660);
+		placing.add(scrollPane);
+		
 		JPanel field = new JPanel();
-		field.setBounds(10, 10, 900, 660);
-		JButton[][] buttons = new JButton[10][10];
-		field.setLayout(new GridLayout(10, 10));
+		
+		//Scrollpane implement
+			scrollPane.setViewportView(field);
+		field.setLayout(new GridLayout(31, 31));
+		field.setVisible(true);
+		
+		JButton[][] buttons = new JButton[31][31];
+		
 		for (int i = 0; i < buttons.length; i++) {
 	        for (int j = 0; j < buttons[i].length; j++) {
 				field.add(buttons[i][j] = new JButton("W"));
@@ -465,8 +479,18 @@ public class menu extends JFrame {
 				buttons[i][0].setText(String.valueOf(i));
 				buttons[0][j].setEnabled(false);
 				buttons[i][0].setEnabled(false);
+				
+			
+		      
 	        }
+	       
 		}
+		
+		 
+		
+	     
+	     
+	     
 		JLabel lblNewLabel = new JLabel("ITS MAS TURN");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		placing.add(lblNewLabel);
@@ -493,10 +517,14 @@ public class menu extends JFrame {
 		lblNewLabel_1.setBounds(978, 116, 245, 33);
 		placing.add(lblNewLabel_1);
 		
-		placing.add(field);
-		field.setVisible(true);
+		
+		
+		
+		
+	
+		
 	}	
-					
+	
 					
 				
 //				//Muss Noch GUI-fiziert werden
