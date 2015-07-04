@@ -16,7 +16,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import Core.*;
-import GUI.BattlefieldGui.CustomListener;
 
 public class menu extends JFrame {
 	
@@ -68,8 +67,7 @@ public class menu extends JFrame {
 		
 		JPanel placing = new JPanel();
 		contentPane.add(placing, "name_17012035418956");
-		placing.setBounds(0, 0, 10, 10);
-		
+		placing.setLayout(null);
 		
 		JButton btnNewGame = new JButton("New Game");
 		btnNewGame.addActionListener(new ActionListener() {
@@ -101,9 +99,7 @@ public class menu extends JFrame {
 		btnInstructions.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				main_menu.setVisible(false);
-				//instructions.setVisible(true);
-				placing.setVisible(true);
-				
+				instructions.setVisible(true);
 			}
 		});
 		btnInstructions.setBounds(479, 464, 300, 100);
@@ -437,37 +433,45 @@ public class menu extends JFrame {
 					playersBattlefield[i] = new Battlefield(fieldsize, i);
 				}
 				
-				//Muss Noch GUI-fiziert werden
-				for(int i = 0 ; i < howManyPlayers ; i++) { //i = SpielderID, J = SchiffID
-					playersBattlefield[i].printBattlefield();
-					System.out.println("");
-					System.out.print(player[i].getName() + ", please enter the coordinates of your ships:");
-					player[i].playerPlaceShips(i, fieldsize, ship, playersBattlefield);
-					System.out.println("\n----------------------- NEXT PLAYER\n");
-				}						
-				int[] values = new int[7];
-				values[0] = fieldsize;
-				values[1] = howManyPlayers;
-				values[2] = howManyDestroyer;
-				values[3] = howManyFrigates;
-				values[4] = howManyCorvettes;
-				values[5] = howManySubmarines;
-				values[6] = round;
-				SaveLoad.saveBattlefield(playersBattlefield);
-				SaveLoad.savePlayer(player);
-				SaveLoad.saveShips(ship);
-				SaveLoad.saveValues(values);
-				Core.Game.game(round, fieldsize, howManyPlayers, howManyDestroyer, howManyFrigates, howManyCorvettes, howManySubmarines, playersBattlefield, player, ship, values);
+				preparation.setVisible(false);
+				placing.setVisible(true);
 			}
 		});
-		placing.setLayout(null);
 		
-		
-		JLabel lblNewLabel = new JLabel("this.player[0].getName()" + "'s Turn");
+		JPanel field = new JPanel();
+		field.setBounds(10, 10, 900, 660);
+		JButton[][] buttons = new JButton[10][10];
+		field.setLayout(new GridLayout(10, 10));
+		for (int i = 0; i < buttons.length; i++) {
+	        for (int j = 0; j < buttons[i].length; j++) {
+				field.add(buttons[i][j] = new JButton("W"));
+				buttons[i][j].addActionListener(new ActionListener() {
+						
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String[] segs = e.getActionCommand().split(" ");
+						int x = Integer.parseInt(segs[0]);
+						int y = Integer.parseInt(segs[1]);
+						//horizontal
+						for (int i = 0; i < 5; i++) {
+							buttons[x][y + i].setText("E");
+						}
+						//vertikal
+						//battlefield[x + i][y].setText("E");
+					}
+				});
+				buttons[i][j].setActionCommand(String.valueOf(i) + " " + String.valueOf(j));
+				buttons[0][j].setText(String.valueOf(j));
+				buttons[i][0].setText(String.valueOf(i));
+				buttons[0][j].setEnabled(false);
+				buttons[i][0].setEnabled(false);
+	        }
+		}
+		JLabel lblNewLabel = new JLabel("ITS MAS TURN");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		placing.add(lblNewLabel);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(20, 21, 323, 33);
+		lblNewLabel.setBounds(940, 50, 323, 33);
 		
 		JTextArea textArea = new JTextArea(
                 "Aktuelles zu setzendes Schiff: Destroyer \n\n" + 
@@ -489,64 +493,34 @@ public class menu extends JFrame {
 		lblNewLabel_1.setBounds(978, 116, 245, 33);
 		placing.add(lblNewLabel_1);
 		
-		
-	}
-		private int index = 15;
-		private int fieldsize = index + 1;
-		private JButton[][] battlefield;
-		
-		public void BattlefieldGui(int fieldsize) {
-			this.fieldsize = fieldsize;
-			this.battlefield = new JButton[fieldsize][fieldsize];
-			this.builtBattlefieldGui();
-		}
-
-		public void builtBattlefieldGui() {
-			
-			JPanel field = new JPanel();
-			field.setLayout(new GridLayout(fieldsize, fieldsize));
-			
-	        for (int i = 0; i < battlefield.length; i++) {
-	        	for (int j = 0; j < battlefield[i].length; j++) {
-					field.add(battlefield[i][j] = new JButton("W"));
-					battlefield[i][j].addActionListener(new CustomListener());
-					battlefield[i][j].setActionCommand(String.valueOf(i) + " " + String.valueOf(j));
-	                battlefield[0][j].setText(String.valueOf(j));
-	                battlefield[i][0].setText(String.valueOf(i));
-	                battlefield[0][j].setEnabled(false);
-	                battlefield[i][0].setEnabled(false);
-	        	}
-			}
-		}    
-		
-		public class CustomListener implements ActionListener{
-			
-			Destroyer destroyer = new Destroyer(0);
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String[] segs = e.getActionCommand().split(" ");
-				int x = Integer.parseInt(segs[0]);
-				int y = Integer.parseInt(segs[1]);
-				//horizontal
-				for (int i = 0; i < 5; i++) {
-					battlefield[x][y + i].setText("E");
-					System.out.println(battlefield[x][y].isSelected());
-					destroyer.setXCord(x);
-					destroyer.setYCord(y);
-				}
-				//vertikal
-				//battlefield[x + i][y].setText("E");
-			}
-		}
-		
-		public int getFieldsize() {
-			return fieldsize;
-		}
-
-		public void setFieldsize(int fieldsize) {
-			this.fieldsize = fieldsize;
-		}
+		placing.add(field);
+		field.setVisible(true);
+	}	
+					
+					
+				
+//				//Muss Noch GUI-fiziert werden
+//				for(int i = 0 ; i < howManyPlayers ; i++) { //i = SpielderID, J = SchiffID
+//					playersBattlefield[i].printBattlefield();
+//					System.out.println("");
+//					System.out.print(player[i].getName() + ", please enter the coordinates of your ships:");
+//					player[i].playerPlaceShips(i, fieldsize, ship, playersBattlefield);
+//					System.out.println("\n----------------------- NEXT PLAYER\n");
+//				}						
+//				int[] values = new int[7];
+//				values[0] = fieldsize;
+//				values[1] = howManyPlayers;
+//				values[2] = howManyDestroyer;
+//				values[3] = howManyFrigates;
+//				values[4] = howManyCorvettes;
+//				values[5] = howManySubmarines;
+//				values[6] = round;
+//				SaveLoad.saveBattlefield(playersBattlefield);
+//				SaveLoad.savePlayer(player);
+//				SaveLoad.saveShips(ship);
+//				SaveLoad.saveValues(values);
+//				Core.Game.game(round, fieldsize, howManyPlayers, howManyDestroyer, howManyFrigates, howManyCorvettes, howManySubmarines, playersBattlefield, player, ship, values);
+	
 	
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
