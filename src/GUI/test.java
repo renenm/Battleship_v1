@@ -12,17 +12,19 @@ private boolean klicks[][];
 private Point klick = null;
 
 public MyCanvas () {
-
-
 	int fieldsize = 14;
 	
 	klicks = new boolean [fieldsize+1][fieldsize+1];
 	for (int i = 0; i < klicks.length; i++)
+		
+		
+		
 		for (int j = 0; j < klicks[i].length; j++)
 			klicks[i][j] = false;
-		
-
-		addMouseListener (new MyMouseListener ());
+	
+			
+	
+	addMouseListener (new MyMouseListener ());
 }
 
 
@@ -71,7 +73,10 @@ public void paint (Graphics g) {
  // Waagrechte Linien
 
  for (int i = 0; i < klicks.length; i++) {
-   g.drawLine (0, (int)(y*i), b, (int)(y*i));
+   
+	 g.drawLine (0, (int)(y*i), b, (int)(y*i));
+   
+   
  }
  
  // Senkrechte Linien
@@ -109,7 +114,7 @@ class MyMouseListener extends java.awt.event.MouseAdapter {
 public class test extends Frame {
 public test (String Title) {
  super (Title);
- setSize (300, 300);
+ setSize (600, 600);
  add (new MyCanvas (), BorderLayout.CENTER);
  addWindowListener(new WindowAdapter() {
      public void windowClosing(WindowEvent event) {
