@@ -504,16 +504,14 @@ public class menu extends JFrame {
 			JScrollPane scrollPane = new JScrollPane();
 			scrollPane.setBounds(10, 10, 900, 660);
 			placing.add(scrollPane);
-			JPanel field = new JPanel();
+			BattlefieldGui field = new BattlefieldGui(fieldsize);
 			field.setBounds(10, 10, 900, 660);
-			JButton[][] buttons = new JButton[fieldsize +1][fieldsize +1];
+			placing.add(field);
 			scrollPane.setViewportView(field);
-			field.setLayout(new GridLayout(fieldsize+1, fieldsize+1));
 			
-			for (int i = 0; i < buttons.length; i++) {
-		        for (int j = 0; j < buttons[i].length; j++) {
-					field.add(buttons[i][j] = new JButton(" "));
-					buttons[i][j].addActionListener(new ActionListener() {
+			for (int i = 0; i < field.getButtons().length; i++) {
+		        for (int j = 0; j < field.getButtons()[i].length; j++) {
+		        	field.getButtons()[i][j].addActionListener(new ActionListener() {
 						
 						@Override
 						public void actionPerformed(ActionEvent e) {
@@ -527,23 +525,18 @@ public class menu extends JFrame {
 							if("horizontal".equals(orientation)) {
 								if(player[0].placeShipsForGui(ship[1][0][0], orientation, fieldsize, 0, playersBattlefield, segs, e)); {
 									for (int i = 0; i < ship[1][0][0].getShipSize(); i++) {
-										buttons[x][y + i].setText(ship[1][0][0].getShipSymbol());
+										field.getButtons()[x][y + i].setText(ship[1][0][0].getShipSymbol());
 									}
 								}
 							} else {
 								if(player[0].placeShipsForGui(ship[1][0][0], orientation, fieldsize, 0, playersBattlefield, segs, e)); {
 									for (int i = 0; i < ship[1][0][0].getShipSize(); i++) {
-										buttons[x + i][y].setText(ship[1][0][0].getShipSymbol());
+										field.getButtons()[x + i][y].setText(ship[1][0][0].getShipSymbol());
 									}
 								} 
 							}
 						}
 					});
-					buttons[i][j].setActionCommand(String.valueOf(i) + " " + String.valueOf(j));
-					buttons[0][j].setText(String.valueOf(j));
-					buttons[i][0].setText(String.valueOf(i));
-					buttons[0][j].setEnabled(false);
-					buttons[i][0].setEnabled(false);
 		        }
 			}
 			field.setVisible(true);
