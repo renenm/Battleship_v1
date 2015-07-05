@@ -136,15 +136,15 @@ public class Player implements Serializable{
 		}
 	}
 	
-	public boolean placeShipsForGui(Ship ship, String horiVert, int fieldsize, int a, Battlefield[] playersBattlefield, String[] segs, ActionEvent e) {
+	public boolean placeShipsForGui(Ship ship, int orientation, int fieldsize, int a, Battlefield[] playersBattlefield, String[] segs, ActionEvent e) {
 		
 		segs = e.getActionCommand().split(" ");
 		int xCord;
 		int yCord;
-		int orientation;
+		
 		boolean isHorizontal;
 		
-		if("horizontal".equals(horiVert)) {
+		if(orientation == 0) {
 			isHorizontal = true;
 		} else {
 			isHorizontal = false;

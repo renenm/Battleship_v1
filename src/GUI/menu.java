@@ -515,20 +515,27 @@ public class menu extends JFrame {
 						
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							String orientation = JOptionPane.showInputDialog(placing,
-			                        "Do you want to place your ship horizontal or vertical?", null);
+							String[] possibleValues = {"horizontal", "vertical"};
+							String selectedValue = (String) JOptionPane.showInputDialog(null,
+							"Please choose", "Orientation",
+							JOptionPane.INFORMATION_MESSAGE, null,
+							possibleValues, possibleValues[0]);
 							
 							String[] segs = e.getActionCommand().split(" ");
 							int x = Integer.parseInt(segs[0]);
 							int y = Integer.parseInt(segs[1]);
 							
-							if("horizontal".equals(orientation)) {
+							int orientation;
+
+							if("horizontal".equals(selectedValue)) {
+								orientation = 0;
 								if(player[0].placeShipsForGui(ship[1][0][0], orientation, fieldsize, 0, playersBattlefield, segs, e)); {
 									for (int i = 0; i < ship[1][0][0].getShipSize(); i++) {
 										field.getButtons()[x][y + i].setText(ship[1][0][0].getShipSymbol());
 									}
 								}
-							} else {
+							} else if ("vertical".equals(selectedValue)){
+								orientation = 1;
 								if(player[0].placeShipsForGui(ship[1][0][0], orientation, fieldsize, 0, playersBattlefield, segs, e)); {
 									for (int i = 0; i < ship[1][0][0].getShipSize(); i++) {
 										field.getButtons()[x + i][y].setText(ship[1][0][0].getShipSymbol());
