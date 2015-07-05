@@ -1,4 +1,5 @@
 package Core;
+import java.awt.event.ActionEvent;
 import java.io.Serializable;
 import java.util.Scanner;
 
@@ -132,6 +133,54 @@ public class Player implements Serializable{
 					playersBattlefield[i].printBattlefield();
 				}
 			}
+		}
+	}
+	
+	public boolean placeShipsForGui(Ship ship, String horiVert, int fieldsize, int a, Battlefield[] playersBattlefield, String[] segs, ActionEvent e) {
+		
+		segs = e.getActionCommand().split(" ");
+		int xCord;
+		int yCord;
+		int orientation;
+		boolean isHorizontal;
+		
+		if("horizontal".equals(horiVert)) {
+			isHorizontal = true;
+		} else {
+			isHorizontal = false;
+		}
+		
+		if(!(isKi())) {
+			xCord = Integer.parseInt(segs[1]);
+			yCord = Integer.parseInt(segs[1]);
+		} else {
+			orientation = (int) (Math.random() * 2);
+			if(orientation == 0) {
+				isHorizontal = true;
+			} else {
+				isHorizontal = false;
+			}
+			xCord = (int) (Math.random() * fieldsize) + 1;
+			yCord = (int) (Math.random() * fieldsize) + 1;
+		}
+		
+		ship.setHorizontal(isHorizontal);
+		ship.setXCord(xCord);
+		ship.setYCord(yCord);
+		ship.setShipBelongsToPlayer(a);
+		
+		if(playersBattlefield[a].hasPlace(ship) == true ) {
+			if(playersBattlefield[a].hasNeighbours(ship) == false) {
+				playersBattlefield[a].placeShip(ship);
+				playersBattlefield[a].printBattlefield();
+				return true;
+			} else {
+				System.out.println("\t\tThe ships must have at least one field between them.");
+				return false;
+			}
+		} else {
+			System.out.println("\t\tChoose coordinates inside the battlefield.");
+			return false;
 		}
 	}
 	

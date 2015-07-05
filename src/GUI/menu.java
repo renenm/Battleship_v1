@@ -1,9 +1,7 @@
 package GUI;
 
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -21,8 +19,6 @@ import Core.*;
 
 public class menu extends JFrame {
 	
-
-	
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -37,7 +33,7 @@ public class menu extends JFrame {
 			public void run() {
 				try {
 					menu frame = new menu();
-					//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+					frame.display();
 					frame.setVisible(true);
 					frame.setResizable(false);
 					frame.setTitle("Battleship");
@@ -50,6 +46,9 @@ public class menu extends JFrame {
 
 	//Frame
 	public menu() {
+	}
+	
+	public void display() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1280, 720);
 		contentPane = new JPanel();
@@ -77,6 +76,7 @@ public class menu extends JFrame {
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				main_menu.setVisible(false);
+				preparation(preparation, placing);
 				preparation.setVisible(true);
 			}
 		});
@@ -140,7 +140,8 @@ public class menu extends JFrame {
 				preparation.setVisible(false);
 			}
 		});
-		
+	}
+	public void preparation(JPanel preparation, JPanel placing) {
 		JPanel player = new JPanel();
 		player.setBounds(81, 206, 468, 201);
 		preparation.add(player);
@@ -401,6 +402,32 @@ public class menu extends JFrame {
 				ship[2] = new Corvette[howManyPlayers][howManyCorvettes];
 				ship[3] = new Submarine[howManyPlayers][howManySubmarines];
 				
+				int shipId = 1;
+				for (int k = 0; k < ship.length; k++) {	
+					for (int i = 0; i < ship[k].length; i++) {
+						for (int h = 0; h < ship[k][i].length; h++) {					
+							switch(k) {
+							case 0: 
+								ship[k][i][h] = new Destroyer(shipId);
+								shipId ++;
+								break;
+							case 1:
+								ship[k][i][h] = new Frigate(shipId);
+								shipId ++;
+								break;
+							case 2: 
+								ship[k][i][h] = new Corvette(shipId);
+								shipId ++;
+								break;
+							case 3:
+								ship[k][i][h] = new Submarine(shipId);
+								shipId ++;
+								break;
+							}
+						}
+					}
+				}
+				
 				switch (howManyPlayers) {
 					case 2: 
 						player[0] = new Player(player1, 0, ki1);
@@ -438,93 +465,91 @@ public class menu extends JFrame {
 				}
 				
 				preparation.setVisible(false);
+				placeShips(placing, player, ship, fieldsize, playersBattlefield);
 				placing.setVisible(true);
 			}
 		});
+	}
+	
+	public void placeShips(JPanel placing, Player[] player, Ship[][][] ship, int fieldsize, Battlefield[] playersBattlefield) {
 		
-		//Scrollpane initialized
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 10, 900, 660);
-		placing.add(scrollPane);
-		
-		JPanel field = new JPanel();
-		
-		//Scrollpane implement
-			scrollPane.setViewportView(field);
-		field.setLayout(new GridLayout(31, 31));
-		field.setVisible(true);
-		
-		JButton[][] buttons = new JButton[31][31];
-		
-		for (int i = 0; i < buttons.length; i++) {
-	        for (int j = 0; j < buttons[i].length; j++) {
-				field.add(buttons[i][j] = new JButton("W"));
-				buttons[i][j].addActionListener(new ActionListener() {
-						
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						String[] segs = e.getActionCommand().split(" ");
-						int x = Integer.parseInt(segs[0]);
-						int y = Integer.parseInt(segs[1]);
-						//horizontal
-						for (int i = 0; i < 5; i++) {
-							buttons[x][y + i].setText("E");
-						}
-						//vertikal
-						//battlefield[x + i][y].setText("E");
-					}
-				});
-				buttons[i][j].setActionCommand(String.valueOf(i) + " " + String.valueOf(j));
-				buttons[0][j].setText(String.valueOf(j));
-				buttons[i][0].setText(String.valueOf(i));
-				buttons[0][j].setEnabled(false);
-				buttons[i][0].setEnabled(false);
-				
+		for (int a = 0; a < player.length; a++) {
+			JLabel lblNewLabel = new JLabel(player[0].getName());
+			lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+			placing.add(lblNewLabel);
+			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			lblNewLabel.setBounds(940, 50, 323, 33);
 			
-		      
-	        }
-	       
+			JTextArea textArea = new JTextArea(
+	                "Aktuelles zu setzendes Schiff: Destroyer \n\n" + 
+	                "\n" +
+	                "Noch zu setzende Schiffe: \n\n" +
+	                "Destroyer " + ship[0][a].length + "\n" +
+	                "Frigates " + ship[1][a].length + "\n" +
+	                "Corvettes " + ship[2][a].length + "\n" +
+	                "Submarines " +  + ship[3][a].length);
+			
+	        textArea.setLineWrap(true);
+	        textArea.setVisible(true);
+	        textArea.setWrapStyleWord(true);
+	        textArea.setBounds(978, 160, 248, 286);
+	        placing.add(textArea);
+	        
+			JLabel lblNewLabel_1 = new JLabel("Ships to be placed");
+			lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+			lblNewLabel_1.setBounds(978, 116, 245, 33);
+			placing.add(lblNewLabel_1);
+			
+			//Scrollpane initialized
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(10, 10, 900, 660);
+			placing.add(scrollPane);
+			JPanel field = new JPanel();
+			field.setBounds(10, 10, 900, 660);
+			JButton[][] buttons = new JButton[fieldsize +1][fieldsize +1];
+			scrollPane.setViewportView(field);
+			field.setLayout(new GridLayout(fieldsize+1, fieldsize+1));
+			
+			for (int i = 0; i < buttons.length; i++) {
+		        for (int j = 0; j < buttons[i].length; j++) {
+					field.add(buttons[i][j] = new JButton(" "));
+					buttons[i][j].addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							String orientation = JOptionPane.showInputDialog(placing,
+			                        "Do you want to place your ship horizontal or vertical?", null);
+							
+							String[] segs = e.getActionCommand().split(" ");
+							int x = Integer.parseInt(segs[0]);
+							int y = Integer.parseInt(segs[1]);
+							
+							if("horizontal".equals(orientation)) {
+								if(player[0].placeShipsForGui(ship[1][0][0], orientation, fieldsize, 0, playersBattlefield, segs, e)); {
+									for (int i = 0; i < ship[1][0][0].getShipSize(); i++) {
+										buttons[x][y + i].setText(ship[1][0][0].getShipSymbol());
+									}
+								}
+							} else {
+								if(player[0].placeShipsForGui(ship[1][0][0], orientation, fieldsize, 0, playersBattlefield, segs, e)); {
+									for (int i = 0; i < ship[1][0][0].getShipSize(); i++) {
+										buttons[x + i][y].setText(ship[1][0][0].getShipSymbol());
+									}
+								} 
+							}
+						}
+					});
+					buttons[i][j].setActionCommand(String.valueOf(i) + " " + String.valueOf(j));
+					buttons[0][j].setText(String.valueOf(j));
+					buttons[i][0].setText(String.valueOf(i));
+					buttons[0][j].setEnabled(false);
+					buttons[i][0].setEnabled(false);
+		        }
+			}
+			field.setVisible(true);
 		}
-		
-		 
-		
-	     
-	     
-	     
-		JLabel lblNewLabel = new JLabel("ITS MAS TURN");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		placing.add(lblNewLabel);
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(940, 50, 323, 33);
-		
-		JTextArea textArea = new JTextArea(
-                "Aktuelles zu setzendes Schiff: Destroyer \n\n" + 
-                "\n" +
-                "Noch zu setzende Schiffe: \n\n" +
-                "Destroyer 1/3 \n" + 
-                "Frigates 2/2 \n" +
-                "Corvettes 2/2 \n" +
-                "Submarines 3/3 \n"   
-        );
-        textArea.setLineWrap(true);
-        textArea.setVisible(true);
-        textArea.setWrapStyleWord(true);
-        textArea.setBounds(978, 160, 248, 286);
-        placing.add(textArea);
-        
-		JLabel lblNewLabel_1 = new JLabel("Ships to be placed");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(978, 116, 245, 33);
-		placing.add(lblNewLabel_1);
-		
-		
-		
-		
-		
-	
-		
 	}	
-	
+				
 					
 				
 //				//Muss Noch GUI-fiziert werden
